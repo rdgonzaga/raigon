@@ -104,6 +104,7 @@ export function ConsoleDrawer() {
   const [historyIndex, setHistoryIndex] = useState<number | null>(null);
   const [pulse, setPulse] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const dockButtonRef = useRef<HTMLButtonElement>(null);
@@ -119,15 +120,19 @@ export function ConsoleDrawer() {
 
   // Idle nudge: pulse the dock after 5s of no interaction; show a
   // dismissible callout too, but only if this visitor hasn't seen it before.
+  // Cancelled entirely once the visitor opens the console at all (hasInteracted),
+  // so it can't resurrect after they close a console they've already used —
+  // and localStorage is read fresh inside the timeout, not captured at mount,
+  // so a markSeen() that happens while the timer is pending is respected.
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const seen = window.localStorage.getItem("raigon-console-seen");
+    if (typeof window === "undefined" || hasInteracted) return;
     const timer = setTimeout(() => {
       setPulse(true);
+      const seen = window.localStorage.getItem("raigon-console-seen");
       if (!seen) setShowNudge(true);
     }, 5000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [hasInteracted]);
 
   const close = () => {
     setOpen(false);
@@ -214,9 +219,9 @@ export function ConsoleDrawer() {
       <AnimatePresence>
         {showNudge && !open && (
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
+            initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
             className="fixed bottom-20 right-6 z-50 flex items-center gap-2 rounded-md border border-line-strong bg-panel px-3 py-2 font-mono text-xs text-ash shadow-lg shadow-black/40"
           >
             try <span className="text-signal">~/console</span>
@@ -238,6 +243,7 @@ export function ConsoleDrawer() {
             onClick={() => {
               setOpen(true);
               setPulse(false);
+              setHasInteracted(true);
               markSeen();
             }}
             initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
