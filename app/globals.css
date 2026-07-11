@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/*
+  Palette — "phosphor amber" over three-tier near-black.
+  Deliberately not pure #000/#fff: warmer, more considered than a flat
+  hacker-cliché black. Signal (amber) stands in for the neon-green default;
+  Trace (cyan) exists as a real second data-class, not decoration.
+*/
+:root {
+  --color-void: #0a0a0d;
+  --color-panel: #131419;
+  --color-inset: #1b1d24;
+  --color-line: #262932;
+  --color-line-strong: #383c47;
+
+  --color-paper: #edeef2;
+  --color-ash: #8b8f99;
+  --color-ash-dim: #55585f;
+
+  --color-signal: #ffb454;
+  --color-signal-dim: #6b5330;
+  --color-trace: #7dd3c0;
+
+  --color-live: #5fd98a;
+  --color-alert: #e5675f;
+}
+
+@theme inline {
+  --color-void: var(--color-void);
+  --color-panel: var(--color-panel);
+  --color-inset: var(--color-inset);
+  --color-line: var(--color-line);
+  --color-line-strong: var(--color-line-strong);
+
+  --color-paper: var(--color-paper);
+  --color-ash: var(--color-ash);
+  --color-ash-dim: var(--color-ash-dim);
+
+  --color-signal: var(--color-signal);
+  --color-signal-dim: var(--color-signal-dim);
+  --color-trace: var(--color-trace);
+
+  --color-live: var(--color-live);
+  --color-alert: var(--color-alert);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo,
+    monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-signal: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-void);
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-signal);
+  outline-offset: 3px;
+}
+
+/* thin, dark scrollbar — keeps chrome consistent with the rest of the UI */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 999px;
+  border: 2px solid var(--color-void);
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/*
+  Spotlight border: a pointer-tracked ring of light along a card's edge.
+  Consumers set --spot-x / --spot-y (0-100%) via pointermove and toggle
+  --spot-o (opacity) on enter/leave. Pure CSS + custom properties so the
+  cursor-following motion never touches React state.
+*/
+.spotlight-border {
+  --spot-x: 50%;
+  --spot-y: 50%;
+  --spot-o: 0;
+  position: relative;
+}
+.spotlight-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    280px circle at var(--spot-x) var(--spot-y),
+    var(--color-signal) 0%,
+    color-mix(in srgb, var(--color-trace) 70%, transparent) 45%,
+    transparent 75%
+  );
+  opacity: var(--spot-o);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 0.35s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+/* blinking terminal cursor, shared by hero + console */
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.caret-blink {
+  animation: caret-blink 1s step-end infinite;
+}
