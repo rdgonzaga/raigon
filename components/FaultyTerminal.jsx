@@ -373,12 +373,18 @@ export default function FaultyTerminal({
     rafRef.current = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
 
-    if (mouseReact) ctn.addEventListener('mousemove', handleMouseMove);
+    // Listen on `window`, not `ctn` — this container sits at a negative
+    // z-index behind every full-width page section, so a listener on the
+    // container itself would only ever fire in the sliver of viewport no
+    // foreground element happens to cover. `handleMouseMove` already
+    // derives position via `ctn.getBoundingClientRect()`, so it works the
+    // same regardless of which element the event originated on.
+    if (mouseReact) window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(rafRef.current);
       resizeObserver.disconnect();
-      if (mouseReact) ctn.removeEventListener('mousemove', handleMouseMove);
+      if (mouseReact) window.removeEventListener('mousemove', handleMouseMove);
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
       loadAnimationStartRef.current = 0;
