@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 /*
-  Palette — "phosphor amber" over three-tier near-black.
-  Deliberately not pure #000/#fff: warmer, more considered than a flat
-  hacker-cliché black. Signal (amber) stands in for the neon-green default;
-  Trace (cyan) exists as a real second data-class, not decoration.
+  Palette — "phosphor green" over three-tier near-black. Signal leans into
+  the neon-green hacker-terminal cliché on purpose; Trace (cyan) exists as
+  a real second data-class, not decoration.
 */
 :root {
   --color-void: #0a0a0d;
@@ -17,8 +16,8 @@
   --color-ash: #8b8f99;
   --color-ash-dim: #55585f;
 
-  --color-signal: #ffb454;
-  --color-signal-dim: #6b5330;
+  --color-signal: #39ff6a;
+  --color-signal-dim: #1f5c37;
   --color-trace: #7dd3c0;
 
   --color-live: #5fd98a;
@@ -132,6 +131,11 @@ body {
   mask-composite: exclude;
   transition: opacity 0.35s var(--ease-out-expo);
   pointer-events: none;
+}
+
+/* phosphor-green glow for the console's terminal output */
+.console-glow {
+  text-shadow: 0 0 3px color-mix(in srgb, var(--color-live) 35%, transparent);
 }
 
 /* blinking terminal cursor, shared by hero + console */

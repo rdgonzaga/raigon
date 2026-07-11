@@ -72,7 +72,7 @@ const BANNER: HistoryEntry[] = [
 function HistoryLine({ entry }: { entry: HistoryEntry }) {
   if (entry.type === "input") {
     return (
-      <div className="text-paper">
+      <div className="console-glow text-live">
         <span className="text-live">└─$</span> {entry.content}
       </div>
     );
@@ -82,15 +82,15 @@ function HistoryLine({ entry }: { entry: HistoryEntry }) {
   }
   const content = entry.content;
   if (typeof content === "string") {
-    return <div className="whitespace-pre-wrap text-paper">{content}</div>;
+    return <div className="console-glow whitespace-pre-wrap text-live">{content}</div>;
   }
   if ("heading" in content) {
-    return <div className="mt-1 text-trace">{content.heading}:</div>;
+    return <div className="console-glow mt-1 text-live/80">{content.heading}:</div>;
   }
   return (
-    <div className="flex gap-2">
-      <span className="w-24 shrink-0 text-trace">{content.label}</span>
-      <span className="whitespace-pre-wrap text-paper">{content.value}</span>
+    <div className="console-glow flex gap-2">
+      <span className="w-24 shrink-0 text-live/70">{content.label}</span>
+      <span className="whitespace-pre-wrap text-live">{content.value}</span>
     </div>
   );
 }
@@ -323,7 +323,7 @@ export function ConsoleDrawer() {
                   autoComplete="off"
                   spellCheck={false}
                   placeholder="type 'help'"
-                  className="flex-1 bg-transparent font-mono text-sm text-paper outline-none placeholder:text-ash-dim"
+                  className="console-glow flex-1 bg-transparent font-mono text-sm text-live outline-none placeholder:text-ash-dim"
                 />
               </form>
             </div>
