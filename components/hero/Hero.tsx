@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { FileText } from "lucide-react";
 import { GlitchText } from "@/components/ui/GlitchText";
 import { HandshakeSequence, HANDSHAKE_TOTAL_MS } from "./HandshakeSequence";
 import { WhoAmI } from "./WhoAmI";
@@ -79,9 +80,11 @@ export function Hero() {
             href="/Gonzaga_Resume.pdf"
             target="_blank"
             rel="noreferrer"
-            className="font-mono text-sm text-ash underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
+            className="group inline-flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2 font-mono text-sm text-ash transition-colors hover:border-signal hover:text-signal"
           >
-            → view résumé
+            <FileText size={14} />
+            view résumé
+            <span className="transition-transform group-hover:translate-x-0.5">→</span>
           </a>
         </motion.div>
       </div>
