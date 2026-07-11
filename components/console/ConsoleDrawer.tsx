@@ -250,7 +250,7 @@ export function ConsoleDrawer() {
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
             transition={{ delay: reduceMotion ? 0 : 1.8, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-6 right-6 z-50 relative flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2.5 font-mono text-xs text-ash shadow-lg shadow-black/40 transition-colors hover:border-signal/50 hover:text-paper"
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2.5 font-mono text-xs text-ash shadow-lg shadow-black/40 transition-colors hover:border-signal/50 hover:text-paper"
           >
             {pulse && (
               <span className="absolute inset-0 animate-ping rounded-full border border-signal" />
