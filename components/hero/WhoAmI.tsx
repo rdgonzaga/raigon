@@ -14,6 +14,7 @@ export function WhoAmI() {
         </span>
       ),
     },
+    { key: "learning", value: site.currentlyLearning },
   ];
 
   return (
