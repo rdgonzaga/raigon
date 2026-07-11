@@ -4,7 +4,7 @@ import { forwardRef, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { FileText } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
-import { GlitchText } from "@/components/ui/GlitchText";
+import DecryptedText from "@/components/ui/DecryptedText";
 
 type MagneticLinkProps = {
   href: string;
@@ -40,7 +40,7 @@ const MagneticLink = forwardRef<HTMLAnchorElement, MagneticLinkProps>(
         style={{ x: springX, y: springY }}
         className="inline-block py-2 text-sm text-ash transition-colors hover:text-paper sm:text-base"
       >
-        <GlitchText text={children} trigger="hover" charDelayMs={18} cycleMs={180} />
+        <DecryptedText text={children} speed={50} sequential animateOn="hover" />
       </motion.a>
     );
   }

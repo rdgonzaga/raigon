@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { FileText } from "lucide-react";
-import { GlitchText } from "@/components/ui/GlitchText";
+import DecryptedText from "@/components/ui/DecryptedText";
 import { HandshakeSequence, HANDSHAKE_TOTAL_MS } from "./HandshakeSequence";
 import { WhoAmI } from "./WhoAmI";
 import { site } from "@/lib/content";
@@ -30,6 +31,14 @@ export function Hero() {
   const taglineDelay = handshakeS + 0.4;
   const whoamiDelay = taglineDelay + 0.35;
 
+  // Headline stays plain text while the handshake sequence plays, then
+  // decrypts in right on cue — same sequencing GlitchText's startDelayMs did.
+  const [headlineReady, setHeadlineReady] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setHeadlineReady(true), HANDSHAKE_TOTAL_MS);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <section
       id="top"
@@ -43,15 +52,13 @@ export function Hero() {
       <div className="mx-auto w-full max-w-6xl">
         <HandshakeSequence />
 
-        <GlitchText
-          as="h1"
-          text="RAINER GONZAGA"
-          trigger="mount"
-          startDelayMs={HANDSHAKE_TOTAL_MS}
-          charDelayMs={26}
-          cycleMs={240}
-          className="mt-6 block text-[clamp(2.25rem,7.5vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-paper"
-        />
+        <h1 className="mt-6 block text-[clamp(2.25rem,7.5vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-paper">
+          {headlineReady ? (
+            <DecryptedText text="RAINER GONZAGA" speed={50} sequential animateOn="view" />
+          ) : (
+            "RAINER GONZAGA"
+          )}
+        </h1>
 
         <motion.p
           initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
