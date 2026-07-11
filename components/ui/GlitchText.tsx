@@ -34,7 +34,7 @@ export function GlitchText({
   const reduceMotion = useReducedMotion();
   const [display, setDisplay] = useState(text);
   const spanRef = useRef<HTMLSpanElement>(null);
-  const inView = useInView(spanRef, { once: true, margin: "-80px" });
+  const inView = useInView(spanRef, { once: false, margin: "-80px" });
   const frameRef = useRef<number | null>(null);
   const playingRef = useRef(false);
 
