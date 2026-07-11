@@ -18,7 +18,7 @@ export function SkillsSection() {
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "-80px" }}
           className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2"
         >
           {skillGroups.map((group) => (
