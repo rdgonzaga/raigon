@@ -1,3 +1,5 @@
+import { Mail } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { site } from "@/lib/content";
 
 export function Footer() {
@@ -12,24 +14,27 @@ export function Footer() {
         <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 font-mono text-sm">
           <a
             href={`mailto:${site.email}`}
-            className="text-ash transition-colors hover:text-signal"
+            className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
           >
+            <Mail size={15} aria-hidden="true" />
             {site.email}
           </a>
           <a
             href={site.github}
             target="_blank"
             rel="noreferrer"
-            className="text-ash transition-colors hover:text-signal"
+            className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
           >
+            <FaGithub size={15} aria-hidden="true" />
             github
           </a>
           <a
             href={site.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="text-ash transition-colors hover:text-signal"
+            className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
           >
+            <FaLinkedin size={15} aria-hidden="true" />
             linkedin
           </a>
         </div>
