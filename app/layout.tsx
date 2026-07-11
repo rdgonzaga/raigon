@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Manrope } from "next/font/google";
 import "./globals.css";
+import { SiteBackground } from "@/components/background/SiteBackground";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -35,6 +36,7 @@ export default function RootLayout({
       className={`${jetbrainsMono.variable} ${manrope.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col bg-void text-paper font-sans">
+        <SiteBackground />
         {children}
       </body>
     </html>
