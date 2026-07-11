@@ -22,7 +22,6 @@ export function SiteBackground() {
       mouseReact
       mouseStrength={0.2}
       brightness={0.6}
-      dpr={1}
       className="opacity-[0.25]"
       style={{ position: "fixed", inset: 0, zIndex: -10 }}
     />
