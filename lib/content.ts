@@ -5,18 +5,21 @@ export const site = {
   name: "Rainer Gonzaga",
   handle: "raigon",
   tagline:
-    "Bridging network security, machine learning, and scalable backend architecture.",
-  focus: ["network security", "machine learning", "backend systems"],
+    "Bridging ethical hacking, machine learning, and scalable backend architecture.",
+  focus: ["ethical hacking / cybersec", "machine learning / ai", "backend systems"],
   location: "Philippines",
-  status: "available for opportunities",
-  currentlyLearning: "German",
+  study: "BS Computer Science, Major in Network and Information Security · DLSU · 2nd year",
+  currentlyLearning:
+    "German · offensive security · image recognition & OCR · supervised machine learning",
   email: "rainerdgonzaga@gmail.com",
   github: "https://github.com/rdgonzaga",
   linkedin: "https://www.linkedin.com/in/rdgonzaga/",
 };
 
 export const navLinks = [
+  { label: "About", href: "#about" },
   { label: "Work", href: "#work" },
+  { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
@@ -104,19 +107,35 @@ export const skillGroups: SkillGroup[] = [
 export type ExperienceEntry = {
   org: string;
   role: string;
+  type?: string;
   date: string;
+  location?: string;
   bullets: string[];
 };
 
-export const experience: ExperienceEntry[] = [
+export const workExperience: ExperienceEntry[] = [
   {
     org: "DeckTradr",
     role: "Software QA & Machine Learning Specialist",
+    type: "Part-time",
     date: "Apr 2026 — Present",
+    location: "Phoenix, Arizona, United States · Remote",
     bullets: [
-      "Annotated datasets and trained custom ML models for OCR and an AI condition grading system, improving scanner accuracy by over 40%",
-      "Conducted QA testing across iOS and web builds for a TCG point-of-sale and inventory management system",
-      "Collaborated on data-driven marketing initiatives, conceptualizing content strategies based on TCG price trends",
+      "Annotated datasets and trained custom **ML models** for **OCR** and an AI condition grading system, improving scanner accuracy by **over 40%**",
+      "Conducted **QA testing** across iOS and web builds for a **TCG point-of-sale and inventory management system**",
+      "Collaborated on data-driven marketing initiatives, conceptualizing content strategies based on **TCG price trends**",
+    ],
+  },
+  {
+    org: "Yergoods",
+    role: "Full Stack Shopify Developer",
+    type: "Freelance",
+    date: "Apr 2026 — Jul 2026",
+    location: "Apeldoorn, Gelderland, Netherlands · Remote",
+    bullets: [
+      "Drove a **55.97% increase** in total sales by spearheading an end-to-end redesign of the **Shopify storefront** to improve UI/UX and optimize the customer conversion funnel",
+      "Engineered **custom API solutions** to streamline backend operations, significantly optimizing overall website performance and page load speeds",
+      "Implemented and monitored targeted **Google Ads campaigns**, setting up robust data tracking to analyze traffic sources and maximize **return on ad spend (ROAS)**",
     ],
   },
   {
@@ -124,26 +143,20 @@ export const experience: ExperienceEntry[] = [
     role: "Associate Backend Engineer",
     date: "Oct 2024 — Aug 2026",
     bullets: [
-      "Architected the backend infrastructure for ArcherBytes, a centralized academic resource platform for 20,000+ DLSU students, using Next.js and PostgreSQL",
-      "Designed scalable database schemas with Drizzle ORM for complex content types, user reactions, and community features",
-      "Engineered secure authentication by integrating Better Auth with Google Auth for school-exclusive access",
-      "Rank 2, Research and Development committee, Term 1 & Term 2, A.Y. 2025–2026",
+      "Architected the backend infrastructure for **ArcherBytes**, a centralized academic resource platform for **20,000+ DLSU students**, using **Next.js** and **PostgreSQL**",
+      "Designed scalable database schemas with **Drizzle ORM** for complex content types, user reactions, and community features",
+      "Engineered secure authentication by integrating **Better Auth** with **Google Auth** for school-exclusive access",
+      "**Rank 2**, Research and Development committee, Term 1 & Term 2, A.Y. 2025–2026",
     ],
   },
+];
+
+export const education: ExperienceEntry[] = [
   {
     org: "De La Salle University",
     role: "BS Computer Science, Major in Network and Information Security",
     date: "Expected Sep 2028",
     bullets: ["Manila, Philippines"],
-  },
-  {
-    org: "Mapúa University Senior High School Student Council",
-    role: "Publicity and Content Committee Supervisor",
-    date: "Sep 2022 — Sep 2023",
-    bullets: [
-      "Supervised a 24-member team producing graphic design materials for the 2022–2023 academic year",
-      'Awarded "Best Committee" in 2 of 4 quarters',
-    ],
   },
   {
     org: "Mapúa University — Senior High School",

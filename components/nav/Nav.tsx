@@ -4,7 +4,6 @@ import { forwardRef, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { FileText } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
-import { StatusDot } from "@/components/ui/StatusDot";
 import { GlitchText } from "@/components/ui/GlitchText";
 
 type MagneticLinkProps = {
@@ -39,7 +38,7 @@ const MagneticLink = forwardRef<HTMLAnchorElement, MagneticLinkProps>(
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ x: springX, y: springY }}
-        className="inline-block py-2 text-xs text-ash transition-colors hover:text-paper sm:text-sm"
+        className="inline-block py-2 text-sm text-ash transition-colors hover:text-paper sm:text-base"
       >
         <GlitchText text={children} trigger="hover" charDelayMs={18} cycleMs={180} />
       </motion.a>
@@ -65,7 +64,7 @@ export function Nav() {
     <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-void/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <a href="#top" className="font-mono text-sm tracking-tight text-paper">
-          <span className="text-signal">~/</span>
+          <span className="text-signal">rai@</span>
           {site.handle}
         </a>
 
@@ -94,21 +93,15 @@ export function Nav() {
           />
         </ul>
 
-        <div className="flex items-center gap-4">
-          <a
-            href="/Gonzaga_Resume.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1.5 font-mono text-xs text-ash transition-colors hover:text-signal"
-          >
-            <FileText size={14} />
-            <span className="hidden sm:inline">résumé</span>
-          </a>
-          <div className="hidden items-center gap-2 font-mono text-xs text-ash sm:flex">
-            <StatusDot />
-            {site.status}
-          </div>
-        </div>
+        <a
+          href="/Gonzaga_Resume.pdf"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-1.5 font-mono text-xs text-ash transition-colors hover:text-signal"
+        >
+          <FileText size={14} />
+          <span className="hidden sm:inline">résumé</span>
+        </a>
       </div>
     </header>
   );

@@ -26,7 +26,7 @@ export function HandshakeSequence() {
   }, [step, isFinal, reduceMotion]);
 
   return (
-    <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-signal">
+    <p className="flex items-center gap-2 font-mono text-sm uppercase tracking-[0.2em] text-signal">
       <GlitchText
         key={activeStep}
         text={STEPS[activeStep]}
