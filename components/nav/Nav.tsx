@@ -2,6 +2,7 @@
 
 import { forwardRef, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { FileText } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { GlitchText } from "@/components/ui/GlitchText";
@@ -93,9 +94,20 @@ export function Nav() {
           />
         </ul>
 
-        <div className="hidden items-center gap-2 font-mono text-xs text-ash sm:flex">
-          <StatusDot />
-          {site.status}
+        <div className="flex items-center gap-4">
+          <a
+            href="/Gonzaga_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 font-mono text-xs text-ash transition-colors hover:text-signal"
+          >
+            <FileText size={14} />
+            <span className="hidden sm:inline">résumé</span>
+          </a>
+          <div className="hidden items-center gap-2 font-mono text-xs text-ash sm:flex">
+            <StatusDot />
+            {site.status}
+          </div>
         </div>
       </div>
     </header>

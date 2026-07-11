@@ -68,6 +68,22 @@ export function Hero() {
         >
           <WhoAmI />
         </motion.div>
+
+        <motion.div
+          initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          transition={{ delay: whoamiDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-8"
+        >
+          <a
+            href="/Gonzaga_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="font-mono text-sm text-ash underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
+          >
+            → view résumé
+          </a>
+        </motion.div>
       </div>
 
       <ScrollCue />
