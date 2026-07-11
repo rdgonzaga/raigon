@@ -1,6 +1,7 @@
 import { Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { site } from "@/lib/content";
+import { ContactForm } from "./ContactForm";
 
 export function Footer() {
   return (
@@ -38,6 +39,8 @@ export function Footer() {
             linkedin
           </a>
         </div>
+
+        <ContactForm />
 
         <div className="mt-16 flex flex-col gap-2 border-t border-line pt-6 font-mono text-xs text-ash-dim sm:flex-row sm:items-center sm:justify-between">
           <p>
