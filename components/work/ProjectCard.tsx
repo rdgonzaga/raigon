@@ -54,7 +54,7 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
       </div>
 
       <div className="mt-6">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-ash">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-paper/70">
           stack
         </p>
         <div className="mt-2 flex flex-wrap gap-2">

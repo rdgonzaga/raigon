@@ -53,8 +53,8 @@ export function ExperienceSection() {
               aria-pressed={tab === t.key}
               className={`rounded-full border px-4 py-1.5 uppercase tracking-wider transition-colors ${
                 tab === t.key
-                  ? "border-signal text-signal"
-                  : "border-line text-ash-dim hover:border-line-strong hover:text-paper"
+                  ? "border-signal bg-signal/10 text-signal"
+                  : "border-line-strong bg-inset text-ash hover:border-signal-dim hover:text-paper"
               }`}
             >
               {t.label}
