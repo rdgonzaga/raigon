@@ -2,7 +2,7 @@ import { site } from "@/lib/content";
 
 export function Footer() {
   return (
-    <footer id="contact" className="scroll-mt-16 border-t border-line px-4 py-16 sm:px-6">
+    <footer id="contact" className="scroll-mt-16 border-t border-line bg-void px-4 py-16 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-signal">Contact</p>
         <h2 className="mt-2 max-w-lg text-2xl font-semibold text-paper sm:text-3xl">
