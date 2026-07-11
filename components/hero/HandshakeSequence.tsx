@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { GlitchText } from "@/components/ui/GlitchText";
+import DecryptedText from "@/components/ui/DecryptedText";
 
 const STEPS = ["resolving…", "handshake ok", "status: connected"];
 const STEP_MS = 260;
@@ -27,13 +27,7 @@ export function HandshakeSequence() {
 
   return (
     <p className="flex items-center gap-2 font-mono text-sm uppercase tracking-[0.2em] text-signal">
-      <GlitchText
-        key={activeStep}
-        text={STEPS[activeStep]}
-        trigger="mount"
-        charDelayMs={14}
-        cycleMs={110}
-      />
+      <DecryptedText key={activeStep} text={STEPS[activeStep]} speed={50} sequential animateOn="view" />
       <span className="caret-blink text-signal">_</span>
     </p>
   );
