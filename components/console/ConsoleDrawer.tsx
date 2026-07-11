@@ -271,10 +271,10 @@ export function ConsoleDrawer() {
             onKeyDown={(event) => {
               if (event.key === "Escape") close();
             }}
-            initial={{ opacity: 0, y: 16, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 380, damping: 32 }}
+            initial={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
+            transition={reduceMotion ? undefined : { type: "spring", stiffness: 380, damping: 32 }}
             className="fixed bottom-6 right-6 z-50 flex h-[28rem] w-[calc(100vw-3rem)] max-w-md flex-col overflow-hidden rounded-md border border-line-strong bg-panel/95 shadow-2xl shadow-black/50 backdrop-blur-md max-h-[70vh]"
           >
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
