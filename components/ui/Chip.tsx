@@ -12,7 +12,7 @@ export function Chip({ children, tone = "default", className = "" }: ChipProps) 
 
   return (
     <span
-      className={`inline-flex items-center rounded-[3px] border px-2.5 py-1 font-mono text-sm uppercase tracking-wider ${toneClass} ${className}`}
+      className={`inline-flex items-center rounded-[3px] border px-2 py-0.5 font-mono text-xs uppercase tracking-wider ${toneClass} ${className}`}
     >
       {children}
     </span>
