@@ -25,9 +25,9 @@ export function ProjectsGrid() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: false, margin: "-80px" }}
-          className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2"
+          className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3"
         >
-          <motion.div variants={item} className="md:col-span-2">
+          <motion.div variants={item} className="md:col-span-3">
             <ProjectCard project={featured} className="md:min-h-[16rem]" />
           </motion.div>
           {rest.map((p) => (
