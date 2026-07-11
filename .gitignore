@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 CLAUDE.md
 AGENTS.md
+
+# local planning scratch (specs/plans) — not meant to be pushed
+docs/superpowers/
