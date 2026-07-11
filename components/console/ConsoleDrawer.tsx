@@ -5,49 +5,51 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { site, skillGroups, projects } from "@/lib/content";
 
-type HistoryEntry = { type: "input" | "output" | "error"; content: string };
+type OutputContent = string | { label: string; value: string } | { heading: string };
+type HistoryEntry =
+  | { type: "input"; content: string }
+  | { type: "output"; content: OutputContent }
+  | { type: "error"; content: string };
 
-type Command = { description: string; run: () => string[] };
+type Command = { description: string; run: () => OutputContent[] };
 
 const COMMANDS: Record<string, Command> = {
   help: {
     description: "list available commands",
-    run: () =>
-      Object.entries(COMMANDS).map(
-        ([name, cmd]) => `  ${name.padEnd(10)} ${cmd.description}`
-      ),
+    run: () => Object.entries(COMMANDS).map(([name, cmd]) => ({ label: name, value: cmd.description })),
   },
   whoami: {
     description: "who's behind this terminal",
     run: () => [
-      site.name.toLowerCase().replace(/\s+/g, "."),
-      site.tagline,
-      `focus: ${site.focus.join(", ")}`,
-      `based in ${site.location}`,
+      { label: "user", value: site.name.toLowerCase().replace(/\s+/g, ".") },
+      { label: "about", value: site.tagline },
+      { label: "focus", value: site.focus.join(", ") },
+      { label: "based", value: site.location },
+      { label: "learning", value: site.currentlyLearning },
     ],
   },
   skills: {
     description: "technical competencies",
     run: () =>
       skillGroups.flatMap((group) => [
-        `${group.label.toLowerCase()}:`,
-        ...group.items.map((item) => `  - ${item}`),
+        { heading: group.label.toLowerCase() } as OutputContent,
+        ...group.items.map((item) => `  ${item}`),
       ]),
   },
   projects: {
     description: "things I've shipped",
     run: () =>
       projects.flatMap((project) => [
-        `${project.name} — ${project.type}`,
+        { label: project.name, value: project.type } as OutputContent,
         `  ${project.description}`,
       ]),
   },
   contact: {
     description: "ways to reach me",
     run: () => [
-      `email    ${site.email}`,
-      `github   ${site.github}`,
-      `linkedin ${site.linkedin}`,
+      { label: "email", value: site.email },
+      { label: "github", value: site.github },
+      { label: "linkedin", value: site.linkedin },
     ],
   },
   sudo: {
@@ -60,37 +62,72 @@ const COMMANDS: Record<string, Command> = {
   },
 };
 
-const WELCOME: HistoryEntry[] = [
-  { type: "output", content: `${site.handle} console — type 'help' to see what's available.` },
+const BANNER: HistoryEntry[] = [
+  { type: "output", content: "┌─ raigon ──────────────────┐" },
+  { type: "output", content: "│ network · ml · backend    │" },
+  { type: "output", content: "└────────────────────────────┘" },
+  { type: "output", content: "type 'help' to see what's available." },
 ];
 
 function HistoryLine({ entry }: { entry: HistoryEntry }) {
   if (entry.type === "input") {
     return (
       <div className="text-paper">
-        <span className="text-signal">{"> "}</span>
-        {entry.content}
+        <span className="text-live">└─$</span> {entry.content}
       </div>
     );
   }
   if (entry.type === "error") {
     return <div className="text-alert">{entry.content}</div>;
   }
-  return <div className="whitespace-pre-wrap text-ash">{entry.content}</div>;
+  const content = entry.content;
+  if (typeof content === "string") {
+    return <div className="whitespace-pre-wrap text-paper">{content}</div>;
+  }
+  if ("heading" in content) {
+    return <div className="mt-1 text-trace">{content.heading}:</div>;
+  }
+  return (
+    <div className="flex gap-2">
+      <span className="w-24 shrink-0 text-trace">{content.label}</span>
+      <span className="whitespace-pre-wrap text-paper">{content.value}</span>
+    </div>
+  );
 }
 
 export function ConsoleDrawer() {
   const reduceMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
-  const [history, setHistory] = useState<HistoryEntry[]>(WELCOME);
+  const [history, setHistory] = useState<HistoryEntry[]>(BANNER);
   const [input, setInput] = useState("");
   const [commandLog, setCommandLog] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number | null>(null);
+  const [pulse, setPulse] = useState(false);
+  const [showNudge, setShowNudge] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const dockButtonRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  const markSeen = () => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("raigon-console-seen", "1");
+    }
+    setShowNudge(false);
+  };
+
+  // Idle nudge: pulse the dock after 5s of no interaction; show a
+  // dismissible callout too, but only if this visitor hasn't seen it before.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const seen = window.localStorage.getItem("raigon-console-seen");
+    const timer = setTimeout(() => {
+      setPulse(true);
+      if (!seen) setShowNudge(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const close = () => {
     setOpen(false);
@@ -175,16 +212,43 @@ export function ConsoleDrawer() {
   return (
     <>
       <AnimatePresence>
+        {showNudge && !open && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            className="fixed bottom-20 right-6 z-50 flex items-center gap-2 rounded-md border border-line-strong bg-panel px-3 py-2 font-mono text-xs text-ash shadow-lg shadow-black/40"
+          >
+            try <span className="text-signal">~/console</span>
+            <button
+              onClick={markSeen}
+              aria-label="Dismiss"
+              className="text-ash-dim transition-colors hover:text-paper"
+            >
+              ×
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
         {!open && (
           <motion.button
             ref={dockButtonRef}
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setOpen(true);
+              setPulse(false);
+              markSeen();
+            }}
             initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
             transition={{ delay: reduceMotion ? 0 : 1.8, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2.5 font-mono text-xs text-ash shadow-lg shadow-black/40 transition-colors hover:border-signal/50 hover:text-paper"
+            className="fixed bottom-6 right-6 z-50 relative flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2.5 font-mono text-xs text-ash shadow-lg shadow-black/40 transition-colors hover:border-signal/50 hover:text-paper"
           >
+            {pulse && (
+              <span className="absolute inset-0 animate-ping rounded-full border border-signal" />
+            )}
             <StatusDot />
             ~/console
           </motion.button>
@@ -238,23 +302,25 @@ export function ConsoleDrawer() {
               <div ref={bottomRef} />
             </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="flex items-center gap-2 border-t border-line px-4 py-3"
-            >
-              <span className="text-signal">{">"}</span>
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                onKeyDown={handleInputKeyDown}
-                aria-label="Console command input"
-                autoComplete="off"
-                spellCheck={false}
-                placeholder="type 'help'"
-                className="flex-1 bg-transparent font-mono text-sm text-paper outline-none placeholder:text-ash-dim"
-              />
-            </form>
+            <div className="border-t border-line px-4 pt-3">
+              <p className="font-mono text-[0.6875rem] text-live">
+                ┌──({site.name.split(" ")[0].toLowerCase()}㉿{site.handle})-[~]
+              </p>
+              <form onSubmit={handleSubmit} className="flex items-center gap-2 pb-3">
+                <span className="text-live">└─$</span>
+                <input
+                  ref={inputRef}
+                  value={input}
+                  onChange={(event) => setInput(event.target.value)}
+                  onKeyDown={handleInputKeyDown}
+                  aria-label="Console command input"
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="type 'help'"
+                  className="flex-1 bg-transparent font-mono text-sm text-paper outline-none placeholder:text-ash-dim"
+                />
+              </form>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
