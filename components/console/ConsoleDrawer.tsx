@@ -79,6 +79,7 @@ const BANNER: HistoryEntry[] = [
   { type: "output", content: `| ${BANNER_SUBTITLE} |` },
   { type: "output", content: `+${"-".repeat(BANNER_WIDTH)}+` },
   { type: "output", content: "type 'help' to see what's available." },
+  { type: "output", content: "press ` to close this console." },
 ];
 
 function HistoryLine({ entry }: { entry: HistoryEntry }) {
@@ -170,6 +171,26 @@ export function ConsoleDrawer() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "`") return;
+      const target = event.target as HTMLElement | null;
+      const isTyping =
+        target !== inputRef.current &&
+        (target?.tagName === "INPUT" ||
+          target?.tagName === "TEXTAREA" ||
+          target?.isContentEditable);
+      if (isTyping) return;
+
+      event.preventDefault();
+      setHasInteracted(true);
+      markSeen();
+      setOpen((o) => !o);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const raw = input.trim();
@@ -236,6 +257,7 @@ export function ConsoleDrawer() {
             className="fixed bottom-20 right-6 z-50 flex items-center gap-2 rounded-md border border-line-strong bg-panel px-3 py-2 font-mono text-xs text-ash shadow-lg shadow-black/40"
           >
             try <span className="text-signal">~/console</span>
+            <span className="text-ash-dim">· press `</span>
             <button
               onClick={markSeen}
               aria-label="Dismiss"
@@ -266,6 +288,7 @@ export function ConsoleDrawer() {
               ease: [0.16, 1, 0.3, 1],
             }}
             onAnimationComplete={() => setHasShownDock(true)}
+            aria-label="Open console (press ` to toggle)"
             className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2.5 font-mono text-xs text-ash shadow-lg shadow-black/40 transition-colors hover:border-signal/50 hover:text-paper"
           >
             {pulse && (
@@ -273,6 +296,9 @@ export function ConsoleDrawer() {
             )}
             <StatusDot />
             ~/console
+            <span aria-hidden="true" className="text-ash-dim">
+              press `
+            </span>
           </motion.button>
         )}
       </AnimatePresence>
