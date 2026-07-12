@@ -3,7 +3,6 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { site } from "@/lib/content";
 import { ContactForm } from "./ContactForm";
 import { TerminalButton } from "@/components/ui/TerminalButton";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export function Footer() {
   return (
@@ -56,10 +55,7 @@ export function Footer() {
           <p>
             connection closed · {new Date().getFullYear()} {site.name}
           </p>
-          <div className="flex items-center gap-4">
-            <p>EOF</p>
-            <ThemeToggle />
-          </div>
+          <p>EOF</p>
         </div>
       </div>
     </footer>

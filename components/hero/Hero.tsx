@@ -8,8 +8,6 @@ import { WhoAmI } from "./WhoAmI";
 import { site } from "@/lib/content";
 import { TerminalButton } from "@/components/ui/TerminalButton";
 
-// Soft radial fade behind a block of text — enough to lift it off the busy
-// animated background without boxing it in a card or border.
 function TextGlow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <div className={`relative ${className}`}>
@@ -18,7 +16,7 @@ function TextGlow({ children, className = "" }: { children: React.ReactNode; cla
         className="pointer-events-none absolute -inset-x-4 -inset-y-3 -z-10"
         style={{
           background:
-            "radial-gradient(70% 70% at 50% 50%, color-mix(in srgb, var(--color-void) 40%, transparent) 0%, transparent 100%)",
+            "radial-gradient(70% 70% at 50% 50%, color-mix(in srgb, var(--color-void) var(--hero-glow-mix), transparent) 0%, transparent 100%)",
         }}
       />
       {children}
@@ -49,12 +47,8 @@ export function Hero() {
   const taglineDelay = handshakeS + 0.4;
   const whoamiDelay = taglineDelay + 0.35;
 
-  // Manual break before the last clause so it doesn't wrap into a lone
-  // orphan word at the container's max-width.
   const [taglineLead, taglineTail] = site.tagline.split(", and ");
 
-  // Headline stays plain text while the handshake sequence plays, then
-  // decrypts in right on cue — same sequencing GlitchText's startDelayMs did.
   const [headlineReady, setHeadlineReady] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setHeadlineReady(true), HANDSHAKE_TOTAL_MS);
@@ -70,7 +64,6 @@ export function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-[38%] -z-10 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal opacity-[0.07] blur-[140px]"
       />
-
 
       <div className="mx-auto w-full max-w-6xl">
         <HandshakeSequence />

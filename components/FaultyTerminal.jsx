@@ -33,6 +33,7 @@ uniform float uChromaticAberration;
 uniform float uDither;
 uniform float uCurvature;
 uniform vec3  uTint;
+uniform vec3  uBackground;
 uniform vec2  uMouse;
 uniform float uMouseStrength;
 uniform float uUseMouse;
@@ -198,8 +199,7 @@ void main() {
       col.b = getColor(p - ca).b;
     }
 
-    col *= uTint;
-    col *= uBrightness;
+    col = mix(uBackground, uTint * uBrightness, clamp(col, 0.0, 1.0));
 
     if(uDither > 0.0){
       float rnd = hash21(gl_FragCoord.xy);
@@ -235,6 +235,7 @@ export default function FaultyTerminal({
   dither = 0,
   curvature = 0.2,
   tint = '#ffffff',
+  background = '#000000',
   mouseReact = true,
   mouseStrength = 0.2,
   dpr = undefined,
@@ -244,8 +245,6 @@ export default function FaultyTerminal({
   style,
   ...rest
 }) {
-  // `window` doesn't exist during Next.js's server render pass — resolve
-  // lazily instead of defaulting the prop directly off `window`.
   const resolvedDpr = dpr ?? (typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1);
 
   const containerRef = useRef(null);
@@ -259,6 +258,7 @@ export default function FaultyTerminal({
   const timeOffsetRef = useRef(0);
 
   const tintVec = useMemo(() => hexToRgb(tint), [tint]);
+  const backgroundVec = useMemo(() => hexToRgb(background), [background]);
 
   const ditherValue = useMemo(() => (typeof dither === 'boolean' ? (dither ? 1 : 0) : dither), [dither]);
 
@@ -275,14 +275,11 @@ export default function FaultyTerminal({
     const ctn = containerRef.current;
     if (!ctn) return;
 
-    // Fresh random offset each time this effect (re)runs, matching the
-    // reset in cleanup below — moved out of render to stay pure.
     timeOffsetRef.current = Math.random() * 100;
 
     const renderer = new Renderer({ dpr: resolvedDpr });
     rendererRef.current = renderer;
     const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 1);
 
     const geometry = new Triangle(gl);
 
@@ -306,6 +303,7 @@ export default function FaultyTerminal({
         uDither: { value: ditherValue },
         uCurvature: { value: curvature },
         uTint: { value: new Color(tintVec[0], tintVec[1], tintVec[2]) },
+        uBackground: { value: new Color(backgroundVec[0], backgroundVec[1], backgroundVec[2]) },
         uMouse: {
           value: new Float32Array([smoothMouseRef.current.x, smoothMouseRef.current.y])
         },
@@ -373,12 +371,6 @@ export default function FaultyTerminal({
     rafRef.current = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
 
-    // Listen on `window`, not `ctn` — this container sits at a negative
-    // z-index behind every full-width page section, so a listener on the
-    // container itself would only ever fire in the sliver of viewport no
-    // foreground element happens to cover. `handleMouseMove` already
-    // derives position via `ctn.getBoundingClientRect()`, so it works the
-    // same regardless of which element the event originated on.
     if (mouseReact) window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
@@ -405,6 +397,7 @@ export default function FaultyTerminal({
     ditherValue,
     curvature,
     tintVec,
+    backgroundVec,
     mouseReact,
     mouseStrength,
     pageLoadAnimation,

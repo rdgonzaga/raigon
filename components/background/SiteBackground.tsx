@@ -1,38 +1,48 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import FaultyTerminal from "@/components/FaultyTerminal";
 
-// Shader opacity: DEFAULT applies at the top of the page, DIMMED kicks in
-// once scrollY > 4 (see the effect below). To retune by hand, just edit
-// these two values — DIMMED should stay lower than DEFAULT since the goal
-// is to fade the background out of the way once you scroll past the hero.
-const OPACITY_DEFAULT = "0.25";
-const OPACITY_DIMMED = "0.15";
+const DARK_TINT = "#39ff6a";
+const LIGHT_TINT = "#8c6a2e";
+
+const DARK_OPACITY_DEFAULT = "0.25";
+const DARK_OPACITY_DIMMED = "0.15";
+const LIGHT_OPACITY_DEFAULT = "0.2";
+const LIGHT_OPACITY_DIMMED = "0.09";
 
 export function SiteBackground() {
   const reduceMotion = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isLight, setIsLight] = useState(false);
+  const [pageBackground, setPageBackground] = useState("#0a0a0d");
 
-  // Dim the background as soon as the page scrolls at all, so the texture
-  // stays out of the way of everything below the landing screen. Mutates
-  // the wrapper's opacity directly via ref rather than React state —
-  // FaultyTerminal mounts a WebGL context in an effect keyed on its props
-  // (including an unmemoized default array, `gridMul`, which gets a new
-  // reference on every render), so re-rendering it on every scroll-driven
-  // state change was tearing down and rebuilding the whole renderer,
-  // causing a visible stutter.
+  useEffect(() => {
+    const root = document.documentElement;
+    const syncTheme = () => {
+      setIsLight(root.getAttribute("data-theme") === "light");
+      setPageBackground(getComputedStyle(root).getPropertyValue("--color-void").trim());
+    };
+    syncTheme();
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
+
+  const opacityDefault = isLight ? LIGHT_OPACITY_DEFAULT : DARK_OPACITY_DEFAULT;
+  const opacityDimmed = isLight ? LIGHT_OPACITY_DIMMED : DARK_OPACITY_DIMMED;
+
   useEffect(() => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
     const handleScroll = () => {
-      wrapper.style.opacity = window.scrollY > 4 ? OPACITY_DIMMED : OPACITY_DEFAULT;
+      wrapper.style.opacity = window.scrollY > 4 ? opacityDimmed : opacityDefault;
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [opacityDefault, opacityDimmed]);
 
   if (reduceMotion) return null;
 
@@ -40,7 +50,7 @@ export function SiteBackground() {
     <div
       ref={wrapperRef}
       className="transition-opacity duration-700 ease-out"
-      style={{ position: "fixed", inset: 0, zIndex: -10, opacity: OPACITY_DEFAULT }}
+      style={{ position: "fixed", inset: 0, zIndex: -10, opacity: opacityDefault }}
     >
       <FaultyTerminal
         scale={2.8}
@@ -53,7 +63,8 @@ export function SiteBackground() {
         chromaticAberration={0.035}
         dither={0.1}
         curvature={0.1}
-        tint="#39ff6a"
+        tint={isLight ? LIGHT_TINT : DARK_TINT}
+        background={pageBackground}
         mouseReact
         mouseStrength={0.2}
         brightness={0.9}
