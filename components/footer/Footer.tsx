@@ -3,6 +3,10 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { site } from "@/lib/content";
 import { ContactForm } from "./ContactForm";
 import { TerminalButton } from "@/components/ui/TerminalButton";
+import { Chip } from "@/components/ui/Chip";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+
+const ENGAGEMENT_TYPES = ["Internship", "Part-time", "Freelance"];
 
 export function Footer() {
   return (
@@ -10,12 +14,22 @@ export function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div>
-            <p className="font-mono text-sm uppercase tracking-[0.2em] text-signal">Contact</p>
-            <h2 className="mt-2 max-w-lg text-2xl font-semibold text-paper sm:text-3xl">
-              Open to backend-heavy full-stack, cybersecurity, and applied ML roles.
-            </h2>
+            <SectionHeading
+              eyebrow="Contact"
+              title="Open to backend-heavy full-stack, cybersecurity, and applied ML roles."
+            />
 
-            <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 font-mono text-sm">
+            <div className="mt-6 flex flex-wrap gap-2">
+              {ENGAGEMENT_TYPES.map((type) => (
+                <Chip key={type}>{type}</Chip>
+              ))}
+            </div>
+
+            <TerminalButton href="/Gonzaga_Resume.pdf" className="mt-6">
+              ./view-resume.pdf
+            </TerminalButton>
+
+            <div className="mt-6 flex flex-wrap gap-x-10 gap-y-4 font-mono text-sm">
               <a
                 href={`mailto:${site.email}`}
                 className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
@@ -42,10 +56,6 @@ export function Footer() {
                 linkedin
               </a>
             </div>
-
-            <TerminalButton href="/Gonzaga_Resume.pdf" className="mt-8">
-              ./view-resume.pdf
-            </TerminalButton>
           </div>
 
           <ContactForm />
@@ -53,9 +63,9 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col gap-4 border-t border-line pt-6 font-mono text-xs text-ash-dim sm:flex-row sm:items-center sm:justify-between">
           <p>
-            connection closed · {new Date().getFullYear()} {site.name}
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p>EOF</p>
+          <p>connection closed · EOF</p>
         </div>
       </div>
     </footer>
