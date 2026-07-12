@@ -226,7 +226,7 @@ export function ConsoleDrawer() {
   };
 
   return (
-    <>
+    <div className="hidden sm:contents">
       <AnimatePresence>
         {showNudge && !open && (
           <motion.div
@@ -353,6 +353,6 @@ export function ConsoleDrawer() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
