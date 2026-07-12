@@ -23,6 +23,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.raigon.dev"),
   title: "Rainer Gonzaga | Portfolio",
   description:
     "Bridging network security, machine learning, and scalable backend architecture.",
