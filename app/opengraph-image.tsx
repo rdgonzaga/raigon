@@ -8,13 +8,47 @@ export const contentType = "image/png";
 const VOID = "#0a0a0d";
 const PANEL = "#131419";
 const LINE = "#262932";
+const LINE_STRONG = "#383c47";
 const PAPER = "#edeef2";
-const ASH = "#adb1ba";
 const ASH_DIM = "#767b85";
 const SIGNAL = "#39ff6a";
 const LIVE = "#5fd98a";
 
-export default function Image() {
+const GLOW = `0 0 6px ${SIGNAL}88`;
+
+async function loadJetBrainsMono(weight: number): Promise<ArrayBuffer | null> {
+  try {
+    const css = await fetch(
+      `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@${weight}`,
+      { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.34" } }
+    ).then((res) => res.text());
+    const url = css.match(/src: url\(([^)]+)\)/)?.[1];
+    if (!url) return null;
+    const fontRes = await fetch(url);
+    return fontRes.ok ? await fontRes.arrayBuffer() : null;
+  } catch {
+    return null;
+  }
+}
+
+function WhoAmIRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{ display: "flex", gap: 28 }}>
+      <div style={{ display: "flex", width: 110, color: ASH_DIM, fontWeight: 700 }}>{label}</div>
+      <div style={{ display: "flex", color: LIVE }}>{value}</div>
+    </div>
+  );
+}
+
+export default async function Image() {
+  const [regular, bold] = await Promise.all([loadJetBrainsMono(400), loadJetBrainsMono(700)]);
+  const fonts = [regular, bold].every(Boolean)
+    ? [
+        { name: "JetBrains Mono", data: regular as ArrayBuffer, weight: 400 as const, style: "normal" as const },
+        { name: "JetBrains Mono", data: bold as ArrayBuffer, weight: 700 as const, style: "normal" as const },
+      ]
+    : undefined;
+
   return new ImageResponse(
     (
       <div
@@ -26,7 +60,7 @@ export default function Image() {
           alignItems: "center",
           justifyContent: "center",
           background: VOID,
-          fontFamily: "monospace",
+          fontFamily: fonts ? "JetBrains Mono" : "monospace",
         }}
       >
         <div
@@ -59,7 +93,7 @@ export default function Image() {
             width: 1080,
             height: 510,
             borderRadius: 10,
-            border: `1px solid ${LINE}`,
+            border: `1px solid ${LINE_STRONG}`,
             background: PANEL,
             overflow: "hidden",
           }}
@@ -73,9 +107,19 @@ export default function Image() {
               borderBottom: `1px solid ${LINE}`,
             }}
           >
-            <div style={{ display: "flex", fontSize: 20, color: ASH }}>whoami.sh</div>
+            <div style={{ display: "flex", fontSize: 20, color: "#adb1ba" }}>whoami.sh</div>
             <div style={{ display: "flex", fontSize: 20, color: ASH_DIM }}>×</div>
           </div>
+
+          <div
+            style={{
+              position: "absolute",
+              display: "flex",
+              width: "100%",
+              height: "100%",
+              backgroundImage: `repeating-linear-gradient(0deg, #00000000 0px, #00000000 2px, ${VOID}40 2px, ${VOID}40 4px)`,
+            }}
+          />
 
           <div
             style={{
@@ -83,7 +127,7 @@ export default function Image() {
               flexDirection: "column",
               justifyContent: "space-between",
               flex: 1,
-              padding: "48px 56px",
+              padding: "44px 56px",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -99,42 +143,46 @@ export default function Image() {
               <div
                 style={{
                   display: "flex",
-                  fontSize: 24,
+                  fontSize: 22,
                   letterSpacing: 5,
                   textTransform: "uppercase",
                   color: SIGNAL,
+                  textShadow: GLOW,
                 }}
               >
                 {site.handle}
               </div>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
               <div
                 style={{
                   display: "flex",
-                  fontSize: 84,
+                  fontSize: 68,
                   fontWeight: 700,
                   textTransform: "uppercase",
                   letterSpacing: -2,
-                  color: PAPER,
                   lineHeight: 1,
+                  color: PAPER,
                 }}
               >
                 {site.name}
               </div>
-              <div style={{ display: "flex", fontSize: 28, color: ASH }}>
-                {site.focus.join("  ·  ")}
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 22 }}>
+                <WhoAmIRow label="focus" value={site.focus.join(" · ")} />
+                <WhoAmIRow label="study" value={site.study} />
+                <WhoAmIRow label="status" value={site.status} />
               </div>
             </div>
 
-            <div style={{ display: "flex", fontSize: 24, color: LIVE }}>
+            <div style={{ display: "flex", fontSize: 22, color: LIVE, textShadow: GLOW }}>
               guest@{site.handle}:~$ whoami_
             </div>
           </div>
         </div>
       </div>
     ),
-    { ...size }
+    { ...size, fonts }
   );
 }

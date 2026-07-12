@@ -22,11 +22,26 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
+const TITLE = "Rainer Gonzaga | Portfolio";
+const DESCRIPTION =
+  "Bridging network security, machine learning, and scalable backend architecture.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.raigon.dev"),
-  title: "Rainer Gonzaga | Portfolio",
-  description:
-    "Bridging network security, machine learning, and scalable backend architecture.",
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: TITLE,
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {
