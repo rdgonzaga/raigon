@@ -6,7 +6,7 @@ export const site = {
   focus: ["backend engineering", "devsecops", "machine learning & ai"],
   location: "Philippines",
   study: "BS Computer Science (Network & Information Security) @ DLSU",
-  status: "active software QA & ML specialist @ DeckTradr",
+  status: "software QA & ML specialist @ DeckTradr",
   currentlyLearning:
     "offensive security · image recognition & OCR · supervised machine learning · German",
   email: "rainerdgonzaga@gmail.com",
