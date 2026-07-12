@@ -3,8 +3,9 @@
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { TerminalButton } from "@/components/ui/TerminalButton";
 import { useRevealVariants } from "@/lib/motion";
-import { projects } from "@/lib/content";
+import { projects, site } from "@/lib/content";
 import { ProjectCard } from "./ProjectCard";
 
 export function ProjectsGrid() {
@@ -36,6 +37,10 @@ export function ProjectsGrid() {
           </motion.div>
         ))}
       </motion.div>
+
+      <div className="mt-8 flex justify-center">
+        <TerminalButton href={site.github}>more on github.com/rdgonzaga</TerminalButton>
+      </div>
     </Section>
   );
 }
