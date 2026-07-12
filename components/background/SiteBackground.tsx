@@ -7,15 +7,18 @@ import FaultyTerminal from "@/components/FaultyTerminal";
 const DARK_TINT = "#39ff6a";
 const LIGHT_TINT = "#8c6a2e";
 
-const DARK_OPACITY_DEFAULT = "0.2";
-const DARK_OPACITY_DIMMED = "0.1";
-const LIGHT_OPACITY_DEFAULT = "0.2";
-const LIGHT_OPACITY_DIMMED = "0.15";
+const DARK_OPACITY_DEFAULT = 0.2;
+const DARK_OPACITY_DIMMED = 0.1;
+const LIGHT_OPACITY_DEFAULT = 0.2;
+const LIGHT_OPACITY_DIMMED = 0.15;
+
+const MOBILE_DIM_FACTOR = 0.55;
 
 export function SiteBackground() {
   const reduceMotion = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [isLight, setIsLight] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [pageBackground, setPageBackground] = useState("#0a0a0d");
 
   useEffect(() => {
@@ -30,14 +33,23 @@ export function SiteBackground() {
     return () => observer.disconnect();
   }, []);
 
-  const opacityDefault = isLight ? LIGHT_OPACITY_DEFAULT : DARK_OPACITY_DEFAULT;
-  const opacityDimmed = isLight ? LIGHT_OPACITY_DIMMED : DARK_OPACITY_DIMMED;
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 639px)");
+    const update = () => setIsMobile(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  const dimFactor = isMobile && !isLight ? MOBILE_DIM_FACTOR : 1;
+  const opacityDefault = (isLight ? LIGHT_OPACITY_DEFAULT : DARK_OPACITY_DEFAULT) * dimFactor;
+  const opacityDimmed = (isLight ? LIGHT_OPACITY_DIMMED : DARK_OPACITY_DIMMED) * dimFactor;
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
     const handleScroll = () => {
-      wrapper.style.opacity = window.scrollY > 4 ? opacityDimmed : opacityDefault;
+      wrapper.style.opacity = String(window.scrollY > 4 ? opacityDimmed : opacityDefault);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
