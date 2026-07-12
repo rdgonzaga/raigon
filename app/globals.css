@@ -13,8 +13,8 @@
   --color-line-strong: #383c47;
 
   --color-paper: #edeef2;
-  --color-ash: #8b8f99;
-  --color-ash-dim: #55585f;
+  --color-ash: #adb1ba;
+  --color-ash-dim: #767b85;
 
   --color-signal: #39ff6a;
   --color-signal-dim: #1f5c37;
@@ -151,4 +151,21 @@ body {
 }
 .caret-blink {
   animation: caret-blink 1s step-end infinite;
+}
+
+/* horizontal nudge — hints that mobile-width scrollable content (e.g. the
+   contribution graph) extends sideways */
+@keyframes scroll-hint {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 1;
+  }
+}
+.scroll-hint {
+  animation: scroll-hint 1.4s ease-in-out infinite;
 }

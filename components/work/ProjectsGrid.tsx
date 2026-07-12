@@ -15,7 +15,7 @@ export function ProjectsGrid() {
     <section id="work" className="scroll-mt-16 px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="Work"
+          eyebrow="Projects"
           title="What I've built"
           trailing={`${String(projects.length).padStart(2, "0")} shipped`}
         />

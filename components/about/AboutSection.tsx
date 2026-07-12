@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SpotlightBorder } from "@/components/ui/SpotlightBorder";
+import { WindowFrame } from "@/components/ui/WindowFrame";
 import { useRevealVariants } from "@/lib/motion";
 import { site } from "@/lib/content";
 
@@ -21,7 +21,10 @@ export function AboutSection() {
           viewport={{ once: false, margin: "-80px" }}
           className="mt-8"
         >
-          <SpotlightBorder className="rounded-md border border-line bg-panel p-6 font-mono text-sm sm:p-8">
+          <WindowFrame
+            tabs={[{ key: "about", label: "about.md" }]}
+            contentClassName="p-6 font-mono text-sm sm:p-8"
+          >
             <motion.div variants={item}>
               <p className="text-trace"># whoami</p>
               <p className="mt-3 leading-relaxed text-ash">
@@ -49,7 +52,7 @@ export function AboutSection() {
                 </li>
               </ul>
             </motion.div>
-          </SpotlightBorder>
+          </WindowFrame>
         </motion.div>
       </div>
     </section>

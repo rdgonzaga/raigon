@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SpotlightBorder } from "@/components/ui/SpotlightBorder";
+import { WindowFrame } from "@/components/ui/WindowFrame";
 import { useRevealVariants } from "@/lib/motion";
 import { workExperience, education } from "@/lib/content";
 
 type Tab = "work" | "education";
 
 const TABS: { key: Tab; label: string }[] = [
-  { key: "work", label: "work experience" },
-  { key: "education", label: "education" },
+  { key: "work", label: "work.log" },
+  { key: "education", label: "education.log" },
 ];
 
 // Bullets use a light `**bold**` markdown convention to call out keywords —
@@ -44,25 +44,13 @@ export function ExperienceSection() {
           trailing={`${entries.length} entries`}
         />
 
-        <div className="mt-8 flex gap-2 font-mono text-xs">
-          {TABS.map((t) => (
-            <button
-              key={t.key}
-              type="button"
-              onClick={() => setTab(t.key)}
-              aria-pressed={tab === t.key}
-              className={`rounded-full border px-4 py-1.5 uppercase tracking-wider transition-colors ${
-                tab === t.key
-                  ? "border-signal bg-signal/10 text-signal"
-                  : "border-line-strong bg-inset text-ash hover:border-signal-dim hover:text-paper"
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-
-        <SpotlightBorder className="mt-6 rounded-md border border-line bg-panel p-6 sm:p-8">
+        <WindowFrame
+          tabs={TABS}
+          activeTab={tab}
+          onTabChange={(key) => setTab(key as Tab)}
+          className="mt-8"
+          contentClassName="p-6 sm:p-8"
+        >
           <motion.ol
             key={tab}
             variants={container}
@@ -82,7 +70,7 @@ export function ExperienceSection() {
                   {entry.role} <span className="text-trace">· {entry.org}</span>
                 </h3>
                 {entry.location && (
-                  <p className="mt-1 font-mono text-sm text-ash">{entry.location}</p>
+                  <p className="mt-1 font-mono text-xs text-ash">{entry.location}</p>
                 )}
                 <ul className="mt-2 space-y-1">
                   {entry.bullets.map((bullet, i) => (
@@ -95,7 +83,7 @@ export function ExperienceSection() {
               </motion.li>
             ))}
           </motion.ol>
-        </SpotlightBorder>
+        </WindowFrame>
       </div>
     </section>
   );

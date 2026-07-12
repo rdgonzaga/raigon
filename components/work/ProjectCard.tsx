@@ -1,7 +1,7 @@
 "use client";
 
 import { Chip } from "@/components/ui/Chip";
-import { SpotlightBorder } from "@/components/ui/SpotlightBorder";
+import { WindowFrame } from "@/components/ui/WindowFrame";
 import type { Project } from "@/lib/content";
 
 type ProjectCardProps = {
@@ -28,8 +28,10 @@ function GithubIcon({ size = 16 }: { size?: number }) {
 
 export function ProjectCard({ project, className = "" }: ProjectCardProps) {
   return (
-    <SpotlightBorder
-      className={`relative flex h-full flex-col rounded-md border border-line bg-panel p-6 transition-colors hover:border-line-strong ${className}`}
+    <WindowFrame
+      tabs={[{ key: project.slug, label: `${project.slug}.tsx` }]}
+      className={`relative flex h-full flex-col transition-colors hover:border-line-strong ${className}`}
+      contentClassName="flex flex-1 flex-col p-6"
     >
       <div>
         <div className="flex items-start justify-between gap-3">
@@ -47,9 +49,16 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
             </a>
           )}
         </div>
-        <p className="mt-1 font-mono text-xs uppercase tracking-wider text-trace">
-          {project.type}
-        </p>
+        <div className="mt-1 flex flex-wrap items-center gap-2">
+          <p className="font-mono text-xs uppercase tracking-wider text-trace">
+            {project.type}
+          </p>
+          {project.inProgress && (
+            <span className="rounded-[3px] border border-alert/40 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-alert">
+              in dev
+            </span>
+          )}
+        </div>
         <p className="mt-4 text-sm leading-relaxed text-ash">{project.description}</p>
       </div>
 
@@ -63,6 +72,6 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
           ))}
         </div>
       </div>
-    </SpotlightBorder>
+    </WindowFrame>
   );
 }
