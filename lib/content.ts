@@ -216,6 +216,6 @@ export const education: ExperienceEntry[] = [
     org: "Mapúa University — Senior High School",
     role: "STEM Strand",
     date: "Jul 2024",
-    bullets: ["GWA: 94.95 · Manila, Philippines"],
+    bullets: ["**Graduated with Honors**", "GWA: 94.95 · Manila, Philippines"],
   },
 ];
