@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-/*
-  Palette — "phosphor green" over three-tier near-black. Signal leans into
-  the neon-green hacker-terminal cliché on purpose; Trace (cyan) exists as
-  a real second data-class, not decoration.
-*/
 :root {
   --color-void: #0a0a0d;
   --color-panel: #131419;
@@ -22,6 +17,29 @@
 
   --color-live: #5fd98a;
   --color-alert: #e5675f;
+
+  --hero-glow-mix: 40%;
+}
+
+:root[data-theme="light"] {
+  --color-void: #f8f5ee;
+  --color-panel: #eeeae0;
+  --color-inset: #e2dcc9;
+  --color-line: #c7bfa8;
+  --color-line-strong: #a99f84;
+
+  --color-paper: #2b271f;
+  --color-ash: #5b5546;
+  --color-ash-dim: #8a8371;
+
+  --color-signal: #96650f;
+  --color-signal-dim: #f0e2c4;
+  --color-trace: #3f6a8a;
+
+  --color-live: #a8710f;
+  --color-alert: #a24e3f;
+
+  --hero-glow-mix: 65%;
 }
 
 @theme inline {
@@ -59,10 +77,43 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none;
+}
+::view-transition-new(root) {
+  z-index: 2;
+  animation: theme-reveal 0.6s var(--ease-out-expo);
+}
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0px at var(--theme-toggle-x, 50%) var(--theme-toggle-y, 50%));
+  }
+  to {
+    clip-path: circle(
+      var(--theme-toggle-r, 150%) at var(--theme-toggle-x, 50%) var(--theme-toggle-y, 50%)
+    );
+  }
 }
 
 html {
   color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
 }
 
 body {
@@ -81,7 +132,6 @@ body {
   outline-offset: 3px;
 }
 
-/* thin, dark scrollbar — keeps chrome consistent with the rest of the UI */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-line-strong) transparent;
@@ -99,12 +149,6 @@ body {
   background: transparent;
 }
 
-/*
-  Spotlight border: a pointer-tracked ring of light along a card's edge.
-  Consumers set --spot-x / --spot-y (0-100%) via pointermove and toggle
-  --spot-o (opacity) on enter/leave. Pure CSS + custom properties so the
-  cursor-following motion never touches React state.
-*/
 .spotlight-border {
   --spot-x: 50%;
   --spot-y: 50%;
@@ -133,12 +177,10 @@ body {
   pointer-events: none;
 }
 
-/* phosphor-green glow for the console's terminal output */
 .console-glow {
   text-shadow: 0 0 3px color-mix(in srgb, var(--color-live) 35%, transparent);
 }
 
-/* blinking terminal cursor, shared by hero + console */
 @keyframes caret-blink {
   0%,
   49% {
@@ -153,8 +195,6 @@ body {
   animation: caret-blink 1s step-end infinite;
 }
 
-/* horizontal nudge — hints that mobile-width scrollable content (e.g. the
-   contribution graph) extends sideways */
 @keyframes scroll-hint {
   0%,
   100% {
