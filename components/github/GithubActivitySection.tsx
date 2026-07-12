@@ -8,8 +8,8 @@ const LEVEL_CLASS: Record<0 | 1 | 2 | 3 | 4, string> = {
   0: "bg-inset",
   1: "bg-signal/25",
   2: "bg-signal/50",
-  3: "bg-signal/75 shadow-[0_0_6px_var(--color-signal)]",
-  4: "bg-signal shadow-[0_0_10px_var(--color-signal)]",
+  3: "bg-signal/75 shadow-[0_0_3px_color-mix(in_srgb,var(--color-signal)_50%,transparent)]",
+  4: "bg-signal shadow-[0_0_5px_color-mix(in_srgb,var(--color-signal)_60%,transparent)]",
 };
 
 const LEVELS = [0, 1, 2, 3, 4] as const;
