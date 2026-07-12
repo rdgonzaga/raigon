@@ -7,7 +7,8 @@ import { SiteBackground } from "@/components/background/SiteBackground";
 const THEME_INIT_SCRIPT = `
   try {
     var stored = localStorage.getItem("theme");
-    var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    var isMobile = window.matchMedia("(max-width: 639px)").matches;
+    var theme = stored || (isMobile || window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
     if (theme === "light") document.documentElement.setAttribute("data-theme", "light");
   } catch (e) {}
 `;
