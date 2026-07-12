@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { site } from "@/lib/content";
-import { SpotlightBorder } from "@/components/ui/SpotlightBorder";
+import { WindowFrame } from "@/components/ui/WindowFrame";
 
 type FormStatus = "idle" | "sending" | "sent" | "error";
 
@@ -45,7 +45,10 @@ export function ContactForm() {
   };
 
   return (
-    <SpotlightBorder className="rounded-md border border-line bg-panel p-6 sm:p-8">
+    <WindowFrame
+      tabs={[{ key: "contact", label: "contact.sh" }]}
+      contentClassName="p-6 sm:p-8"
+    >
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Honeypot: hidden from sighted users, but visible to naive bots that
             fill every field. If it's checked on submit, we silently bail. */}
@@ -136,6 +139,6 @@ export function ContactForm() {
           )}
         </div>
       </form>
-    </SpotlightBorder>
+    </WindowFrame>
   );
 }

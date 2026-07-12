@@ -5,8 +5,8 @@ export const site = {
   name: "Rainer Gonzaga",
   handle: "raigon",
   tagline:
-    "Bridging ethical hacking, machine learning, and scalable backend architecture.",
-  focus: ["ethical hacking / cybersec", "machine learning / ai", "backend systems"],
+    "Bridging cybersecurity, backend engineering, and machine learning.",
+  focus: ["ethical hacking / cybersec", "machine learning / ai", "full-stack dev / backend-heavy"],
   location: "Philippines",
   study: "BS Computer Science, Major in Network and Information Security · DLSU · 2nd year",
   currentlyLearning:
@@ -18,7 +18,7 @@ export const site = {
 
 export const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
+  { label: "Projects", href: "#work" },
   { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
@@ -31,11 +31,9 @@ export type Project = {
   description: string;
   stack: string[];
   featured?: boolean;
-  // TODO(rainer): replace with each project's real repo URL.
+  inProgress?: boolean;
   github?: string;
 };
-
-const GITHUB_PLACEHOLDER = "https://github.com/your-username";
 
 export const projects: Project[] = [
   {
@@ -43,37 +41,50 @@ export const projects: Project[] = [
     name: "ArcherBytes",
     type: "Full-stack platform",
     description:
-      "Backend architecture for a digital knowledge-sharing platform and CMS serving 20,000+ DLSU students — articles, nested comment threads, and reactions on Next.js and PostgreSQL.",
-    stack: ["Next.js", "TypeScript", "Drizzle ORM", "PostgreSQL", "Better Auth", "Docker"],
+      "Backend architecture and CMS for a knowledge-sharing platform serving 20,000+ DLSU students. REST APIs and PostgreSQL schemas built with Drizzle ORM power articles, comment threads, and reactions, with Google sign-in through Better Auth.",
+    stack: ["Next.js", "TypeScript", "Better Auth", "Drizzle ORM", "PostgreSQL", "Docker"],
     featured: true,
-    github: GITHUB_PLACEHOLDER,
+    github: "https://github.com/dlsu-lscs/archerbytes",
+  },
+  {
+    slug: "resole",
+    name: "ReSole",
+    type: "Mobile / AI marketplace",
+    description:
+      "An AI-powered peer-to-peer marketplace that predicts fair prices for shoe listings and nudges owners to donate to charity after 30 days unsold. Built with React Native (Expo), backed by a TensorFlow-trained LLM — YOLOv8 Nano for shoe detection, Gemini 2.5 Flash and EfficientNet Lite for condition grading.",
+    stack: [
+      "React Native (Expo)",
+      "Next.js",
+      "PostgreSQL",
+      "Supabase",
+      "Better Auth",
+      "Drizzle",
+      "TensorFlow Lite",
+      "YOLOv8 Nano",
+      "Gemini 2.5 Flash",
+      "EfficientNet Lite",
+    ],
+    inProgress: true,
+    github: "https://github.com/rdgonzaga/resole",
+  },
+  {
+    slug: "vibe-coded-website-fuzzer",
+    name: "Vibe-Coded Website Fuzzer",
+    type: "Security tooling",
+    description:
+      "A hybrid security scanner and fuzzer for auditing \"vibe-coded\" apps — code shipped fast via LLMs like ChatGPT or Claude that runs fine but skips real security controls. It scans for hardcoded secrets, missing auth checks, and weak JWT validation, then fuzzes endpoints for IDOR issues, missing rate limits, and leaked stack traces.",
+    stack: ["Python"],
+    inProgress: true,
+    github: "https://github.com/rdgonzaga/vibe-coded-website-fuzzer",
   },
   {
     slug: "animonotes",
     name: "AnimoNotes",
     type: "Study notes platform",
     description:
-      "Full-stack study-resource app for College of Computer Studies students at De La Salle University — student-exclusive auth, type-safe frontend, Prisma-backed storage.",
+      "A study-resource hub for CCS students at DLSU, built so classmates could actually find and share notes instead of digging through group chats. Next.js and TypeScript up front, Prisma over PostgreSQL in back, with Better Auth locking access to verified students only.",
     stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Better Auth"],
-    github: GITHUB_PLACEHOLDER,
-  },
-  {
-    slug: "udp-voip",
-    name: "Reliable Data Transfer over UDP",
-    type: "Networking / VoIP",
-    description:
-      "Peer-to-peer VoIP application implementing SIP for call signaling and RTP/RTCP for real-time audio streaming over UDP.",
-    stack: ["Python", "SIP", "RTP/RTCP"],
-    github: GITHUB_PLACEHOLDER,
-  },
-  {
-    slug: "pinoy-bot",
-    name: "Pinoy Bot",
-    type: "ML / language ID",
-    description:
-      "Supervised learning model identifying Filipino code-switched text — custom lexical features, scikit-learn, evaluated across a 70-15-15 split.",
-    stack: ["Python", "scikit-learn", "NLP"],
-    github: GITHUB_PLACEHOLDER,
+    github: "https://github.com/rdgonzaga/animonotes",
   },
 ];
 
@@ -83,10 +94,6 @@ export type SkillGroup = {
 };
 
 export const skillGroups: SkillGroup[] = [
-  {
-    label: "Languages",
-    items: ["C", "Java", "Python", "JavaScript", "TypeScript"],
-  },
   {
     label: "Security",
     items: [
@@ -99,8 +106,55 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    label: "Web & Data",
-    items: ["Next.js", "HTML5/CSS", "PostgreSQL", "MySQL", "Prisma", "Docker", "Drizzle"],
+    label: "Frontend",
+    items: [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "Styled Components",
+      "HTML5/CSS",
+      "Vite",
+      "ESLint",
+      "Prettier",
+    ],
+  },
+  {
+    label: "Backend",
+    items: [
+      "Node.js",
+      "Python",
+      "Java",
+      "C",
+      "PHP",
+      "Express.js",
+      "NestJS",
+      "FastAPI",
+      "PostgreSQL",
+      "MySQL",
+      "Prisma",
+      "Drizzle",
+      "REST",
+      "JWT",
+    ],
+  },
+  {
+    label: "DevOps / Cloud",
+    items: ["GitHub Actions", "GitLab CI", "Docker"],
+  },
+  {
+    label: "AI & Machine Learning",
+    items: [
+      "TensorFlow",
+      "NumPy",
+      "pandas",
+      "scikit-learn",
+      "Anthropic",
+      "Antigravity",
+      "Claude Code",
+      "OpenCode",
+    ],
   },
 ];
 
@@ -121,9 +175,9 @@ export const workExperience: ExperienceEntry[] = [
     date: "Apr 2026 — Present",
     location: "Phoenix, Arizona, United States · Remote",
     bullets: [
-      "Annotated datasets and trained custom **ML models** for **OCR** and an AI condition grading system, improving scanner accuracy by **over 40%**",
-      "Conducted **QA testing** across iOS and web builds for a **TCG point-of-sale and inventory management system**",
-      "Collaborated on data-driven marketing initiatives, conceptualizing content strategies based on **TCG price trends**",
+      "Trained custom **ML models** for **OCR**, **Card Recognition** and AI grading, boosting scanner accuracy **40%+**",
+      "Led **QA testing** across iOS and web for a **TCG POS & inventory system**",
+      "Shaped marketing content strategy around **TCG price trends**",
     ],
   },
   {
@@ -133,9 +187,9 @@ export const workExperience: ExperienceEntry[] = [
     date: "Apr 2026 — Jul 2026",
     location: "Apeldoorn, Gelderland, Netherlands · Remote",
     bullets: [
-      "Drove a **55.97% increase** in total sales by spearheading an end-to-end redesign of the **Shopify storefront** to improve UI/UX and optimize the customer conversion funnel",
-      "Engineered **custom API solutions** to streamline backend operations, significantly optimizing overall website performance and page load speeds",
-      "Implemented and monitored targeted **Google Ads campaigns**, setting up robust data tracking to analyze traffic sources and maximize **return on ad spend (ROAS)**",
+      "Redesigned the **Shopify storefront**, driving a **55.97% increase** in sales",
+      "Built **custom API integrations** to speed up backend and page loads",
+      "Ran **Google Ads campaigns** with tracking tuned for **ROAS**",
     ],
   },
   {
@@ -143,10 +197,10 @@ export const workExperience: ExperienceEntry[] = [
     role: "Associate Backend Engineer",
     date: "Oct 2024 — Aug 2026",
     bullets: [
-      "Architected the backend infrastructure for **ArcherBytes**, a centralized academic resource platform for **20,000+ DLSU students**, using **Next.js** and **PostgreSQL**",
-      "Designed scalable database schemas with **Drizzle ORM** for complex content types, user reactions, and community features",
-      "Engineered secure authentication by integrating **Better Auth** with **Google Auth** for school-exclusive access",
-      "**Rank 2**, Research and Development committee, Term 1 & Term 2, A.Y. 2025–2026",
+      "Architected backend for **ArcherBytes**, serving **20,000+ DLSU students** on **Next.js** + **PostgreSQL**",
+      "Designed schemas with **Drizzle ORM** for content, reactions, and community features",
+      "Built secure auth via **Better Auth** + **Google Auth** for school-exclusive access",
+      "**Rank 2**, R&D committee, A.Y. 2025–2026",
     ],
   },
 ];

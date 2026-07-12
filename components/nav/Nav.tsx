@@ -1,19 +1,21 @@
 "use client";
 
-import { forwardRef, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { FileText } from "lucide-react";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
 import DecryptedText from "@/components/ui/DecryptedText";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 type MagneticLinkProps = {
   href: string;
   children: string;
+  active?: boolean;
   onMouseEnter?: () => void;
 };
 
 const MagneticLink = forwardRef<HTMLAnchorElement, MagneticLinkProps>(
-  function MagneticLink({ href, children, onMouseEnter }, ref) {
+  function MagneticLink({ href, children, active, onMouseEnter }, ref) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const springX = useSpring(x, { stiffness: 300, damping: 20, mass: 0.5 });
@@ -34,31 +36,113 @@ const MagneticLink = forwardRef<HTMLAnchorElement, MagneticLinkProps>(
       <motion.a
         ref={ref}
         href={href}
+        aria-current={active ? "true" : undefined}
         onMouseEnter={onMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ x: springX, y: springY }}
-        className="inline-block py-2 text-sm text-ash transition-colors hover:text-paper sm:text-base"
+        className={`inline-block py-2 font-mono text-sm transition-colors hover:text-paper ${
+          active ? "text-signal" : "text-ash"
+        }`}
       >
-        <DecryptedText text={children} speed={50} sequential animateOn="hover" />
+        <DecryptedText text={children} speed={30} sequential animateOn="hover" />
       </motion.a>
     );
   }
 );
 
+// Tracks which nav-linked section is centered in the viewport, using a thin
+// detection band (rootMargin) around the vertical middle so a section only
+// becomes "active" once it's actually the one in focus, not just barely
+// visible at the very top or bottom edge.
+function useActiveSection(): number | null {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const targets = navLinks
+      .map((link, index) => {
+        const el = document.getElementById(link.href.slice(1));
+        return el ? { el, index } : null;
+      })
+      .filter((t): t is { el: HTMLElement; index: number } => t !== null);
+
+    if (targets.length === 0) return;
+
+    const visible = new Set<number>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const target = targets.find((t) => t.el === entry.target);
+          if (!target) continue;
+          if (entry.isIntersecting) {
+            visible.add(target.index);
+          } else {
+            visible.delete(target.index);
+          }
+        }
+        if (visible.size > 0) {
+          setActiveIndex(Math.min(...visible));
+        }
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+
+    targets.forEach((t) => observer.observe(t.el));
+    return () => observer.disconnect();
+  }, []);
+
+  return activeIndex;
+}
+
 export function Nav() {
   const containerRef = useRef<HTMLUListElement>(null);
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [underline, setUnderline] = useState({ x: 0, width: 0, opacity: 0 });
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
-  const moveUnderline = (index: number) => {
-    const el = linkRefs.current[index];
+  const activeIndex = useActiveSection();
+  const displayIndex = hoverIndex ?? activeIndex;
+
+  useEffect(() => {
     const container = containerRef.current;
-    if (!el || !container) return;
+    if (displayIndex === null || !container) {
+      setUnderline((u) => ({ ...u, opacity: 0 }));
+      return;
+    }
+    const el = linkRefs.current[displayIndex];
+    if (!el) return;
     const elRect = el.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
     setUnderline({ x: elRect.left - containerRect.left, width: elRect.width, opacity: 1 });
+  }, [displayIndex]);
+
+  const closeMobile = () => {
+    setMobileOpen(false);
+    menuButtonRef.current?.focus({ preventScroll: true });
   };
+
+  // Click outside the open panel (and not on the toggle button itself) closes it.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(target) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(target)
+      ) {
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobileOpen]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-void/80 backdrop-blur-md">
@@ -70,8 +154,8 @@ export function Nav() {
 
         <ul
           ref={containerRef}
-          className="relative flex items-center gap-3 sm:gap-8"
-          onMouseLeave={() => setUnderline((u) => ({ ...u, opacity: 0 }))}
+          className="relative hidden items-center gap-8 md:flex"
+          onMouseLeave={() => setHoverIndex(null)}
         >
           {navLinks.map((link, i) => (
             <li key={link.href}>
@@ -80,7 +164,8 @@ export function Nav() {
                   linkRefs.current[i] = el;
                 }}
                 href={link.href}
-                onMouseEnter={() => moveUnderline(i)}
+                active={displayIndex === i}
+                onMouseEnter={() => setHoverIndex(i)}
               >
                 {link.label}
               </MagneticLink>
@@ -93,16 +178,53 @@ export function Nav() {
           />
         </ul>
 
-        <a
-          href="/Gonzaga_Resume.pdf"
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center gap-1.5 font-mono text-xs text-ash transition-colors hover:text-signal"
-        >
-          <FileText size={14} />
-          <span className="hidden sm:inline">résumé</span>
-        </a>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            className="text-ash-dim transition-colors hover:text-paper md:hidden"
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            ref={panelRef}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") closeMobile();
+            }}
+            initial={reduceMotion ? undefined : { opacity: 0, height: 0 }}
+            animate={reduceMotion ? undefined : { opacity: 1, height: "auto" }}
+            exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden border-b border-line bg-panel md:hidden"
+          >
+            <ul className="flex flex-col px-4 sm:px-6">
+              {navLinks.map((link, i) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    aria-current={activeIndex === i ? "true" : undefined}
+                    onClick={closeMobile}
+                    className={`block border-b border-line py-3 font-mono text-sm last:border-b-0 ${
+                      activeIndex === i ? "text-signal" : "text-ash"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

@@ -4,8 +4,12 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 import FaultyTerminal from "@/components/FaultyTerminal";
 
+// Shader opacity: DEFAULT applies at the top of the page, DIMMED kicks in
+// once scrollY > 4 (see the effect below). To retune by hand, just edit
+// these two values — DIMMED should stay lower than DEFAULT since the goal
+// is to fade the background out of the way once you scroll past the hero.
 const OPACITY_DEFAULT = "0.25";
-const OPACITY_DIMMED = "0.2";
+const OPACITY_DIMMED = "0.15";
 
 export function SiteBackground() {
   const reduceMotion = useReducedMotion();
@@ -39,8 +43,9 @@ export function SiteBackground() {
       style={{ position: "fixed", inset: 0, zIndex: -10, opacity: OPACITY_DEFAULT }}
     >
       <FaultyTerminal
-        scale={1.7}
-        digitSize={0.9}
+        scale={2.8}
+        digitSize={1.3}
+        timeScale={0.2}
         scanlineIntensity={0.4}
         glitchAmount={1}
         flickerAmount={1}
@@ -51,7 +56,7 @@ export function SiteBackground() {
         tint="#39ff6a"
         mouseReact
         mouseStrength={0.2}
-        brightness={0.6}
+        brightness={0.9}
         className=""
         style={undefined}
       />

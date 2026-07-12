@@ -3,9 +3,13 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Chip } from "@/components/ui/Chip";
-import { SpotlightBorder } from "@/components/ui/SpotlightBorder";
+import { WindowFrame } from "@/components/ui/WindowFrame";
 import { useRevealVariants } from "@/lib/motion";
 import { skillGroups } from "@/lib/content";
+
+function toFileName(label: string) {
+  return `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}.json`;
+}
 
 export function SkillsSection() {
   const { container, item } = useRevealVariants();
@@ -13,18 +17,21 @@ export function SkillsSection() {
   return (
     <section id="skills" className="scroll-mt-16 px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Skills" title="Two disciplines, one stack" />
+        <SectionHeading eyebrow="Skills" title="The stack I build and secure with" />
 
         <motion.div
           variants={container}
           initial="hidden"
           whileInView="show"
           viewport={{ once: false, margin: "-80px" }}
-          className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3"
+          className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         >
           {skillGroups.map((group) => (
             <motion.div key={group.label} variants={item}>
-              <SpotlightBorder className="rounded-md border border-line bg-panel p-6 transition-colors hover:border-line-strong">
+              <WindowFrame
+                tabs={[{ key: group.label, label: toFileName(group.label) }]}
+                className="transition-colors hover:border-line-strong"
+              >
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-trace">
                   {group.label}
                 </p>
@@ -33,7 +40,7 @@ export function SkillsSection() {
                     <Chip key={skill}>{skill}</Chip>
                   ))}
                 </div>
-              </SpotlightBorder>
+              </WindowFrame>
             </motion.div>
           ))}
         </motion.div>

@@ -4,6 +4,7 @@ import { AboutSection } from "@/components/about/AboutSection";
 import { ProjectsGrid } from "@/components/work/ProjectsGrid";
 import { ExperienceSection } from "@/components/experience/ExperienceSection";
 import { SkillsSection } from "@/components/skills/SkillsSection";
+import { GithubActivitySection } from "@/components/github/GithubActivitySection";
 import { Footer } from "@/components/footer/Footer";
 import { ConsoleDrawer } from "@/components/console/ConsoleDrawer";
 
@@ -17,6 +18,7 @@ export default function Home() {
         <ProjectsGrid />
         <ExperienceSection />
         <SkillsSection />
+        <GithubActivitySection />
       </main>
       <Footer />
       <ConsoleDrawer />

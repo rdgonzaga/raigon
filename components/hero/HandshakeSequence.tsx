@@ -27,7 +27,7 @@ export function HandshakeSequence() {
 
   return (
     <p className="flex items-center gap-2 font-mono text-sm uppercase tracking-[0.2em] text-signal">
-      <DecryptedText key={activeStep} text={STEPS[activeStep]} speed={50} sequential animateOn="view" />
+      <DecryptedText key={activeStep} text={STEPS[activeStep]} speed={30} sequential animateOn="view" />
       <span className="caret-blink text-signal">_</span>
     </p>
   );
