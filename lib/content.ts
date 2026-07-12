@@ -2,7 +2,7 @@ export const site = {
   name: "Rainer Gonzaga",
   handle: "raigon",
   tagline:
-    "Bridging cybersecurity, backend engineering, and machine learning.",
+    "Bridging backend engineering, cybersecurity, and machine learning.",
   focus: ["backend engineering", "cybersecurity", "machine learning & ai"],
   location: "Philippines",
   study: "compsci student, major in network & information security @ DLSU",
@@ -42,7 +42,7 @@ export const projects: Project[] = [
     name: "ArcherBytes",
     type: "Full-stack platform",
     description:
-      "Built the scalable backend architecture for a university-wide knowledge-sharing platform. Designed to handle 20,000+ students with robust content APIs, scalable schemas, and secure authentication.",
+      "Built the backend architecture for a university-wide knowledge-sharing platform. Designed to handle 20,000+ students with robust content APIs, scalable schemas, and secure authentication.",
     stack: ["Next.js", "TypeScript", "Better Auth", "Drizzle ORM", "PostgreSQL", "Docker"],
     featured: true,
     github: "https://github.com/dlsu-lscs/archerbytes",
@@ -234,10 +234,10 @@ export type Certification = {
 export const certifications: Certification[] = [
   {
     name: "Certified DLSU OffSec Vulnerability Analyst",
-    issuer: "DLSU — NSSECU02",
+    issuer: "NSSECU02",
     reference: "Class Ref. S04",
     bullets: [
-      "Placed among the **highest scores** in the NSSECU02 (Advanced & Offensive Security) hands-on VAPT class examination",
+      "Placed among the **highest scores** in the NSSECU02 (Advanced & Offensive Security) hands-on class examination",
       "Recognized for competency in **vulnerability analysis**",
     ],
     image: "/certs/certified_offsec_dlsu.png",

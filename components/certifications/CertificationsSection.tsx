@@ -63,7 +63,7 @@ export function CertificationsSection() {
           <span className="rounded-[3px] border border-alert/40 px-1.5 py-0.5 uppercase tracking-wider text-alert">
             in progress
           </span>
-          more credentials in cyberrsecurity and cloud soon
+          more credentials in cybersecurity and cloud engineering soon
         </p>
       </WindowFrame>
     </Section>
