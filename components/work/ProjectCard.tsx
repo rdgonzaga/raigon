@@ -26,12 +26,12 @@ function GithubIcon({ size = 16 }: { size?: number }) {
 export function ProjectCard({ project, className = "" }: ProjectCardProps) {
   return (
     <WindowFrame
-      tabs={[{ key: project.slug, label: `${project.slug}.tsx` }]}
+      tabs={[{ key: project.slug, label: `${project.slug}.${project.ext ?? "tsx"}` }]}
       className={`relative flex h-full flex-col transition-colors hover:border-line-strong ${className}`}
       contentClassName="flex flex-1 flex-col p-6"
     >
       <div>
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center justify-between gap-3">
           <h3 className="font-mono text-lg font-semibold text-paper">{project.name}</h3>
           {project.github && (
             <a
@@ -40,7 +40,7 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
               rel="noreferrer"
               aria-label={`${project.name} on GitHub`}
               onClick={(e) => e.stopPropagation()}
-              className="shrink-0 text-ash-dim transition-all hover:scale-110 hover:text-signal"
+              className="flex shrink-0 items-center text-ash-dim transition-all hover:scale-110 hover:text-signal"
             >
               <GithubIcon size={16} />
             </a>

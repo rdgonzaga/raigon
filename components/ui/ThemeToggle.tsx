@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { flushSync } from "react-dom";
 import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(true);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
-  }, []);
+  const [isDark, setIsDark] = useState(() =>
+    typeof document === "undefined"
+      ? true
+      : document.documentElement.getAttribute("data-theme") !== "light"
+  );
 
   const toggle = (event: React.MouseEvent<HTMLButtonElement>) => {
     const next = isDark ? "light" : "dark";
@@ -46,6 +45,7 @@ export function ThemeToggle() {
     <motion.button
       type="button"
       onClick={toggle}
+      suppressHydrationWarning
       aria-label="Toggle color theme"
       aria-pressed={!isDark}
       whileTap={{ scale: 0.9 }}

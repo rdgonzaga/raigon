@@ -22,7 +22,7 @@ export function HandshakeSequence() {
   }, [step, isFinal, reduceMotion]);
 
   return (
-    <p className="flex items-center gap-2 font-mono text-sm uppercase tracking-[0.2em] text-signal">
+    <p className="flex items-center gap-2 font-mono text-sm uppercase tracking-[0.2em] text-signal [[data-theme=light]_&]:font-bold">
       <DecryptedText key={activeStep} text={STEPS[activeStep]} speed={30} sequential animateOn="view" />
       <span className="caret-blink text-signal">_</span>
     </p>
