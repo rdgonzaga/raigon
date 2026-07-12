@@ -382,6 +382,7 @@ export default function FaultyTerminal({
       loadAnimationStartRef.current = 0;
       timeOffsetRef.current = Math.random() * 100;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     resolvedDpr,
     pause,
@@ -396,14 +397,19 @@ export default function FaultyTerminal({
     chromaticAberration,
     ditherValue,
     curvature,
-    tintVec,
-    backgroundVec,
     mouseReact,
     mouseStrength,
     pageLoadAnimation,
     brightness,
     handleMouseMove
   ]);
+
+  useEffect(() => {
+    const program = programRef.current;
+    if (!program) return;
+    program.uniforms.uTint.value = new Color(tintVec[0], tintVec[1], tintVec[2]);
+    program.uniforms.uBackground.value = new Color(backgroundVec[0], backgroundVec[1], backgroundVec[2]);
+  }, [tintVec, backgroundVec]);
 
   return <div ref={containerRef} className={`faulty-terminal-container ${className}`} style={style} {...rest} />;
 }

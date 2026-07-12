@@ -7,10 +7,10 @@ import FaultyTerminal from "@/components/FaultyTerminal";
 const DARK_TINT = "#39ff6a";
 const LIGHT_TINT = "#8c6a2e";
 
-const DARK_OPACITY_DEFAULT = "0.25";
-const DARK_OPACITY_DIMMED = "0.15";
+const DARK_OPACITY_DEFAULT = "0.2";
+const DARK_OPACITY_DIMMED = "0.1";
 const LIGHT_OPACITY_DEFAULT = "0.2";
-const LIGHT_OPACITY_DIMMED = "0.09";
+const LIGHT_OPACITY_DIMMED = "0.15";
 
 export function SiteBackground() {
   const reduceMotion = useReducedMotion();

@@ -74,7 +74,7 @@ export function ContactForm() {
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder="jane doe"
-              className="mt-1 w-full border-b border-line bg-transparent py-2 font-mono text-sm text-paper outline-none placeholder:text-ash-dim focus:border-signal disabled:opacity-50"
+              className="no-focus-ring mt-1 w-full border-b border-line bg-transparent py-2 font-mono text-sm text-paper placeholder:text-ash-dim focus:border-signal disabled:opacity-50"
             />
           </div>
           <div>
@@ -89,7 +89,7 @@ export function ContactForm() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="jane@email.com"
-              className="mt-1 w-full border-b border-line bg-transparent py-2 font-mono text-sm text-paper outline-none placeholder:text-ash-dim focus:border-signal disabled:opacity-50"
+              className="no-focus-ring mt-1 w-full border-b border-line bg-transparent py-2 font-mono text-sm text-paper placeholder:text-ash-dim focus:border-signal disabled:opacity-50"
             />
           </div>
         </div>
@@ -106,7 +106,7 @@ export function ContactForm() {
             value={message}
             onChange={(event) => setMessage(event.target.value)}
             placeholder="say something"
-            className="mt-1 w-full resize-none border-b border-line bg-transparent py-2 font-mono text-sm text-paper outline-none placeholder:text-ash-dim focus:border-signal disabled:opacity-50"
+            className="no-focus-ring mt-1 w-full resize-none border-b border-line bg-transparent py-2 font-mono text-sm text-paper placeholder:text-ash-dim focus:border-signal disabled:opacity-50"
           />
         </div>
 
