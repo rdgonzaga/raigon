@@ -1,10 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { GlitchText } from "@/components/ui/GlitchText";
+import DecryptedText from "@/components/ui/DecryptedText";
 import { HandshakeSequence, HANDSHAKE_TOTAL_MS } from "./HandshakeSequence";
 import { WhoAmI } from "./WhoAmI";
-import { site } from "@/lib/content";
+import { TerminalButton } from "@/components/ui/TerminalButton";
+
+function TextGlow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative ${className}`}>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-x-4 -inset-y-3 -z-10"
+        style={{
+          background:
+            "radial-gradient(70% 70% at 50% 50%, color-mix(in srgb, var(--color-void) var(--hero-glow-mix), transparent) 0%, transparent 100%)",
+        }}
+      />
+      {children}
+    </div>
+  );
+}
 
 function ScrollCue() {
   const reduceMotion = useReducedMotion();
@@ -26,8 +43,14 @@ function ScrollCue() {
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const handshakeS = HANDSHAKE_TOTAL_MS / 1000;
-  const taglineDelay = handshakeS + 0.4;
-  const whoamiDelay = taglineDelay + 0.35;
+  const whoamiDelay = handshakeS + 0.4;
+  const buttonDelay = whoamiDelay + 0.35;
+
+  const [headlineReady, setHeadlineReady] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setHeadlineReady(true), HANDSHAKE_TOTAL_MS);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <section
@@ -42,47 +65,32 @@ export function Hero() {
       <div className="mx-auto w-full max-w-6xl">
         <HandshakeSequence />
 
-        <GlitchText
-          as="h1"
-          text="RAINER GONZAGA"
-          trigger="mount"
-          startDelayMs={HANDSHAKE_TOTAL_MS}
-          charDelayMs={26}
-          cycleMs={240}
-          className="mt-6 block text-[clamp(2.25rem,7.5vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-paper"
-        />
-
-        <motion.p
-          initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
-          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ delay: taglineDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6 max-w-xl text-lg text-ash sm:text-xl"
-        >
-          {site.tagline}
-        </motion.p>
+        <h1 className="mt-6 block text-[clamp(2.25rem,7.5vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.02em] text-paper">
+          {headlineReady ? (
+            <DecryptedText text="RAINER GONZAGA" speed={30} sequential animateOn="view" />
+          ) : (
+            "RAINER GONZAGA"
+          )}
+        </h1>
 
         <motion.div
           initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
           animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ delay: whoamiDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-3 sm:mt-5"
         >
-          <WhoAmI />
+          <TextGlow>
+            <WhoAmI />
+          </TextGlow>
         </motion.div>
 
         <motion.div
           initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
           animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ delay: whoamiDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: buttonDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8"
         >
-          <a
-            href="/Gonzaga_Resume.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className="font-mono text-sm text-ash underline decoration-line-strong underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
-          >
-            → view résumé
-          </a>
+          <TerminalButton href="/Gonzaga_Resume.pdf">./view-resume.pdf</TerminalButton>
         </motion.div>
       </div>
 
