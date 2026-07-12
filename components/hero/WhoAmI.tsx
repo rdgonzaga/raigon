@@ -4,7 +4,7 @@ export function WhoAmI() {
   const rows: { key: string; value: React.ReactNode }[] = [
     { key: "focus", value: site.focus.join(" · ") },
     { key: "study", value: site.study },
-    { key: "learning", value: site.currentlyLearning },
+    { key: "status", value: site.status },
   ];
 
   return (

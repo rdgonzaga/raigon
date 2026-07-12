@@ -5,7 +5,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import DecryptedText from "@/components/ui/DecryptedText";
 import { HandshakeSequence, HANDSHAKE_TOTAL_MS } from "./HandshakeSequence";
 import { WhoAmI } from "./WhoAmI";
-import { site } from "@/lib/content";
 import { TerminalButton } from "@/components/ui/TerminalButton";
 
 function TextGlow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -44,10 +43,8 @@ function ScrollCue() {
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const handshakeS = HANDSHAKE_TOTAL_MS / 1000;
-  const taglineDelay = handshakeS + 0.4;
-  const whoamiDelay = taglineDelay + 0.35;
-
-  const [taglineLead, taglineTail] = site.tagline.split(", and ");
+  const whoamiDelay = handshakeS + 0.4;
+  const buttonDelay = whoamiDelay + 0.35;
 
   const [headlineReady, setHeadlineReady] = useState(false);
   useEffect(() => {
@@ -79,29 +76,8 @@ export function Hero() {
         <motion.div
           initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
           animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ delay: taglineDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6 max-w-xl"
-        >
-          <TextGlow>
-            <p className="text-lg text-ash sm:text-xl">
-              {taglineTail ? (
-                <>
-                  {taglineLead},
-                  <br />
-                  and {taglineTail}
-                </>
-              ) : (
-                site.tagline
-              )}
-            </p>
-          </TextGlow>
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
-          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ delay: whoamiDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8"
+          className="mt-6"
         >
           <TextGlow>
             <WhoAmI />
@@ -111,7 +87,7 @@ export function Hero() {
         <motion.div
           initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
           animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ delay: whoamiDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: buttonDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8"
         >
           <TerminalButton href="/Gonzaga_Resume.pdf">./view-resume.pdf</TerminalButton>
