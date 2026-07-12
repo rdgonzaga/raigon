@@ -62,6 +62,29 @@ type GraphQLResponse = {
   };
 };
 
+export function computeStreaks(weeks: GithubActivityWeek[]): { current: number; longest: number } {
+  const days = weeks.flatMap((week) => week.days);
+
+  let longest = 0;
+  let running = 0;
+  for (const day of days) {
+    running = day.count > 0 ? running + 1 : 0;
+    longest = Math.max(longest, running);
+  }
+
+  // Today's contributions may not be finalized yet, so a trailing zero-count
+  // day shouldn't count as a broken streak on its own.
+  let end = days.length - 1;
+  if (end >= 0 && days[end].count === 0) end -= 1;
+
+  let current = 0;
+  for (let i = end; i >= 0 && days[i].count > 0; i--) {
+    current++;
+  }
+
+  return { current, longest };
+}
+
 export async function getGithubActivity(): Promise<GithubActivity | null> {
   const token = process.env.GITHUB_TOKEN;
   if (!token) return null;

@@ -1,9 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WindowFrame } from "@/components/ui/WindowFrame";
-import { TerminalButton } from "@/components/ui/TerminalButton";
-import { site } from "@/lib/content";
-import { getGithubActivity, type GithubActivityWeek } from "@/lib/github";
+import { computeStreaks, getGithubActivity, type GithubActivityWeek } from "@/lib/github";
 
 const LEVEL_CLASS: Record<0 | 1 | 2 | 3 | 4, string> = {
   0: "bg-inset",
@@ -44,6 +42,7 @@ function monthLabels(weeks: GithubActivityWeek[]) {
 
 export async function GithubActivitySection() {
   const activity = await getGithubActivity();
+  const streaks = activity ? computeStreaks(activity.weeks) : null;
 
   return (
     <Section id="activity">
@@ -110,20 +109,24 @@ export async function GithubActivitySection() {
                     more
                   </div>
                 </div>
-                <TerminalButton href={site.github} size="sm">
-                  open github.com/rdgonzaga
-                </TerminalButton>
+
+                {streaks && (
+                  <div className="flex flex-col items-end gap-2 text-right">
+                    <p className="console-glow font-mono text-sm text-live">
+                      &gt; current streak: {streaks.current} {streaks.current === 1 ? "day" : "days"}
+                      <span className="caret-blink text-signal">_</span>
+                    </p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ash-dim">
+                      longest: {streaks.longest} {streaks.longest === 1 ? "day" : "days"}
+                    </p>
+                  </div>
+                )}
               </div>
             </>
           ) : (
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <p className="font-mono text-sm text-ash-dim">
-                activity feed offline — check back later
-              </p>
-              <TerminalButton href={site.github} size="sm">
-                open github.com/rdgonzaga
-              </TerminalButton>
-            </div>
+            <p className="font-mono text-sm text-ash-dim">
+              activity feed offline — check back later
+            </p>
           )}
         </WindowFrame>
       </div>
