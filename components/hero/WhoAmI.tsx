@@ -10,8 +10,8 @@ export function WhoAmI() {
   return (
     <dl className="space-y-2 font-mono text-sm sm:text-base">
       {rows.map((row) => (
-        <div key={row.key} className="flex gap-8">
-          <dt className="w-20 shrink-0 font-semibold text-ash-dim">{row.key}</dt>
+        <div key={row.key} className="flex gap-3 sm:gap-8">
+          <dt className="w-14 shrink-0 font-semibold text-ash-dim sm:w-20">{row.key}</dt>
           <dd className="text-ash">{row.value}</dd>
         </div>
       ))}

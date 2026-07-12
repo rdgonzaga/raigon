@@ -30,7 +30,7 @@ export function Footer() {
               ./view-resume.pdf
             </TerminalButton>
 
-            <div className="mt-6 flex flex-wrap gap-x-10 gap-y-4 font-mono text-sm">
+            <div className="mt-6 flex flex-col gap-4 font-mono text-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:gap-y-4">
               <a
                 href={`mailto:${site.email}`}
                 className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
@@ -38,24 +38,26 @@ export function Footer() {
                 <Mail size={15} aria-hidden="true" />
                 {site.email}
               </a>
-              <a
-                href={site.github}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
-              >
-                <FaGithub size={15} aria-hidden="true" />
-                github
-              </a>
-              <a
-                href={site.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
-              >
-                <FaLinkedin size={15} aria-hidden="true" />
-                linkedin
-              </a>
+              <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
+                <a
+                  href={site.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
+                >
+                  <FaGithub size={15} aria-hidden="true" />
+                  github
+                </a>
+                <a
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 text-ash transition-colors hover:text-signal"
+                >
+                  <FaLinkedin size={15} aria-hidden="true" />
+                  linkedin
+                </a>
+              </div>
             </div>
           </div>
 
