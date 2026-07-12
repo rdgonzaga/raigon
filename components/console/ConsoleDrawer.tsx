@@ -239,7 +239,7 @@ export function ConsoleDrawer() {
             <button
               onClick={markSeen}
               aria-label="Dismiss"
-              className="text-ash-dim transition-colors hover:text-paper"
+              className="-m-2 p-2 text-ash-dim transition-colors hover:text-paper"
             >
               ×
             </button>
@@ -291,7 +291,7 @@ export function ConsoleDrawer() {
             animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
             transition={reduceMotion ? undefined : { type: "spring", stiffness: 380, damping: 32 }}
-            className="fixed bottom-6 right-6 z-50 flex h-[28rem] w-[calc(100vw-3rem)] max-w-md flex-col overflow-hidden rounded-md border border-line-strong bg-panel/95 shadow-2xl shadow-black/50 backdrop-blur-md max-h-[70vh]"
+            className="fixed inset-x-0 bottom-0 z-50 flex h-[75dvh] w-full flex-col overflow-hidden rounded-t-md border-t border-line-strong bg-panel/95 shadow-2xl shadow-black/50 backdrop-blur-md sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[28rem] sm:max-h-[70dvh] sm:w-[calc(100vw-3rem)] sm:max-w-md sm:rounded-md sm:border"
           >
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <div className="flex items-center gap-2 font-mono text-xs text-ash">
@@ -301,7 +301,7 @@ export function ConsoleDrawer() {
               <button
                 onClick={close}
                 aria-label="Close console"
-                className="text-ash-dim transition-colors hover:text-paper"
+                className="-m-2 p-2 text-ash-dim transition-colors hover:text-paper"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path
@@ -346,7 +346,7 @@ export function ConsoleDrawer() {
                   autoComplete="off"
                   spellCheck={false}
                   placeholder="type 'help'"
-                  className="console-input no-focus-ring console-glow flex-1 bg-transparent text-live placeholder:text-ash-dim"
+                  className="console-input no-focus-ring console-glow flex-1 bg-transparent text-base text-live placeholder:text-ash-dim sm:text-[0.8125rem]"
                 />
               </form>
             </div>

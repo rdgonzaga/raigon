@@ -111,7 +111,7 @@ export async function GithubActivitySection() {
                 </div>
 
                 {streaks && (
-                  <div className="flex flex-col items-end gap-2 text-right">
+                  <div className="flex flex-col items-start gap-2 text-left sm:items-end sm:text-right">
                     <p className="console-glow font-mono text-sm text-live">
                       &gt; current streak: {streaks.current} {streaks.current === 1 ? "day" : "days"}
                       <span className="caret-blink text-signal">_</span>
