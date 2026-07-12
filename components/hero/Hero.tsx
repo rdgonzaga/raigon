@@ -77,7 +77,7 @@ export function Hero() {
           initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
           animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ delay: whoamiDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-6"
+          className="mt-3 sm:mt-5"
         >
           <TextGlow>
             <WhoAmI />

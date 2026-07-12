@@ -11,7 +11,7 @@ const LINE = "#262932";
 const LINE_STRONG = "#383c47";
 const PAPER = "#edeef2";
 const ASH_DIM = "#767b85";
-const SIGNAL = "#39ff6a";
+const SIGNAL = "#4cec7a";
 const LIVE = "#5fd98a";
 
 const GLOW = `0 0 6px ${SIGNAL}88`;
