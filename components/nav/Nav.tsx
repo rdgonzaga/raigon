@@ -149,7 +149,7 @@ export function Nav() {
 
         <ul
           ref={containerRef}
-          className="relative hidden items-center gap-8 md:flex"
+          className="relative hidden items-center gap-6 lg:flex"
           onMouseLeave={() => setHoverIndex(null)}
         >
           {navLinks.map((link, i) => (
@@ -181,7 +181,7 @@ export function Nav() {
             onClick={() => setMobileOpen((o) => !o)}
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            className="text-ash-dim transition-colors hover:text-paper md:hidden"
+            className="text-ash-dim transition-colors hover:text-paper lg:hidden"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -199,7 +199,7 @@ export function Nav() {
             animate={reduceMotion ? undefined : { opacity: 1, height: "auto" }}
             exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-b border-line bg-panel md:hidden"
+            className="overflow-hidden border-b border-line bg-panel lg:hidden"
           >
             <ul className="flex flex-col px-4 sm:px-6">
               {navLinks.map((link, i) => (

@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WindowFrame } from "@/components/ui/WindowFrame";
+import { Reveal } from "@/components/ui/Reveal";
 import { computeStreaks, getGithubActivity, type GithubActivityWeek } from "@/lib/github";
 
 const LEVEL_CLASS: Record<0 | 1 | 2 | 3 | 4, string> = {
@@ -52,8 +53,11 @@ export async function GithubActivitySection() {
         trailing={activity ? `${activity.totalContributions.toLocaleString()} commits` : undefined}
       />
 
-      <div className="mt-8">
-        <WindowFrame tabs={[{ key: "activity", label: "github_activity.log" }]}>
+      <Reveal className="mt-8">
+        <WindowFrame
+          tabs={[{ key: "activity", label: "github_activity.log" }]}
+          contentClassName="p-6 sm:p-8"
+        >
           {activity ? (
             <>
               <div className="relative">
@@ -129,7 +133,7 @@ export async function GithubActivitySection() {
             </p>
           )}
         </WindowFrame>
-      </div>
+      </Reveal>
     </Section>
   );
 }

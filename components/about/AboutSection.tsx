@@ -11,7 +11,7 @@ export function AboutSection() {
 
   return (
     <Section id="about">
-      <SectionHeading eyebrow="About" title="README.md" />
+      <SectionHeading eyebrow="About" title="cat README.md" />
 
       <motion.div
         variants={container}
@@ -28,7 +28,7 @@ export function AboutSection() {
             <p className="text-trace"># whoami</p>
             <p className="mt-3 leading-relaxed text-ash">
               I am a Computer Science student at DLSU majoring in Network and Information
-              Security. I focus on the intersection of backend engineering, DevSecOps, and
+              Security. I focus on cybersecurity and the intersection of backend engineering, DevSecOps, and
               automation, designing systems where reliable full-stack architecture meets
               proactive security.
             </p>
@@ -66,7 +66,7 @@ export function AboutSection() {
           <motion.div variants={item} className="mt-8">
             <p className="text-trace">## interests</p>
             <p className="mt-3 leading-relaxed text-ash">
-              Outside of software engineering, I spend my time running, playing badminton,
+              Outside of software engineering and cybersecurity, I spend my time running, playing badminton,
               reading books, studying German, and listening to music.
             </p>
           </motion.div>

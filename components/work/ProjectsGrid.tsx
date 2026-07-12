@@ -16,9 +16,9 @@ export function ProjectsGrid() {
   return (
     <Section id="work">
       <SectionHeading
-        eyebrow="Projects"
-        title="What I've built"
-        trailing={`${String(projects.length).padStart(2, "0")} shipped`}
+        eyebrow="Featured Projects"
+        title="ls ./projects"
+        trailing={`${String(projects.length).padStart(2, "0")} featured projects`}
       />
 
       <motion.div
