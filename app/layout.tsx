@@ -3,6 +3,7 @@ import { JetBrains_Mono, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { SiteBackground } from "@/components/background/SiteBackground";
+import { site } from "@/lib/content";
 
 const THEME_INIT_SCRIPT = `
   try {
@@ -24,8 +25,7 @@ const manrope = Manrope({
 });
 
 const TITLE = "Rainer Gonzaga | Portfolio";
-const DESCRIPTION =
-  "Bridging network security, machine learning, and scalable backend architecture.";
+const DESCRIPTION = site.tagline;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.raigon.dev"),

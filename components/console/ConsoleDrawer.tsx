@@ -65,7 +65,7 @@ const COMMANDS: Record<string, Command> = {
 };
 
 const BANNER_TITLE = "raigon";
-const BANNER_SUBTITLE = "network / ml / backend";
+const BANNER_SUBTITLE = "backend / security / ml";
 const BANNER_WIDTH = BANNER_SUBTITLE.length + 2;
 const BANNER_TITLE_PREFIX = `- ${BANNER_TITLE} `;
 
@@ -257,7 +257,9 @@ export function ConsoleDrawer() {
             className="fixed bottom-20 right-6 z-50 flex items-center gap-2 rounded-md border border-line-strong bg-panel px-3 py-2 font-mono text-xs text-ash shadow-lg shadow-black/40"
           >
             try <span className="text-signal">~/console</span>
-            <span className="text-ash-dim">· press `</span>
+            <span className="text-ash-dim">
+              · press <span className="text-base leading-none text-ash">`</span>
+            </span>
             <button
               onClick={markSeen}
               aria-label="Dismiss"
@@ -296,9 +298,6 @@ export function ConsoleDrawer() {
             )}
             <StatusDot />
             ~/console
-            <span aria-hidden="true" className="text-ash-dim">
-              press `
-            </span>
           </motion.button>
         )}
       </AnimatePresence>
