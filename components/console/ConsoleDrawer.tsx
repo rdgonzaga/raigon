@@ -31,7 +31,8 @@ const COMMANDS: Record<string, Command> = {
   skills: {
     description: "technical competencies",
     run: () =>
-      skillGroups.flatMap((group) => [
+      skillGroups.flatMap((group, i) => [
+        ...(i > 0 ? [""] : []),
         { heading: group.label.toLowerCase() } as OutputContent,
         ...group.items.map((item) => `  ${item}`),
       ]),
@@ -39,9 +40,10 @@ const COMMANDS: Record<string, Command> = {
   projects: {
     description: "things I've shipped",
     run: () =>
-      projects.flatMap((project) => [
+      projects.flatMap((project, i) => [
+        ...(i > 0 ? [""] : []),
         { label: project.name, value: project.type } as OutputContent,
-        `  ${project.description}`,
+        `  ${project.description.split(". ")[0]}.`,
       ]),
   },
   contact: {
@@ -62,10 +64,20 @@ const COMMANDS: Record<string, Command> = {
   },
 };
 
+const BANNER_TITLE = "raigon";
+const BANNER_SUBTITLE = "network / ml / backend";
+const BANNER_WIDTH = BANNER_SUBTITLE.length + 2;
+const BANNER_TITLE_PREFIX = `- ${BANNER_TITLE} `;
+
 const BANNER: HistoryEntry[] = [
-  { type: "output", content: "┌─ raigon ──────────────────┐" },
-  { type: "output", content: "│ network · ml · backend    │" },
-  { type: "output", content: "└────────────────────────────┘" },
+  {
+    type: "output",
+    content: `+${BANNER_TITLE_PREFIX}${"-".repeat(
+      Math.max(BANNER_WIDTH - BANNER_TITLE_PREFIX.length, 0)
+    )}+`,
+  },
+  { type: "output", content: `| ${BANNER_SUBTITLE} |` },
+  { type: "output", content: `+${"-".repeat(BANNER_WIDTH)}+` },
   { type: "output", content: "type 'help' to see what's available." },
 ];
 
@@ -85,12 +97,16 @@ function HistoryLine({ entry }: { entry: HistoryEntry }) {
     return <div className="console-glow whitespace-pre-wrap text-live">{content}</div>;
   }
   if ("heading" in content) {
-    return <div className="console-glow mt-1 text-live/80">{content.heading}:</div>;
+    return (
+      <div className="console-glow font-semibold uppercase tracking-wider text-live">
+        {content.heading}:
+      </div>
+    );
   }
   return (
     <div className="console-glow flex gap-2">
       <span className="w-24 shrink-0 text-live/70">{content.label}</span>
-      <span className="whitespace-pre-wrap text-live">{content.value}</span>
+      <span className="whitespace-pre-wrap text-live/90">{content.value}</span>
     </div>
   );
 }
@@ -105,6 +121,7 @@ export function ConsoleDrawer() {
   const [pulse, setPulse] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasShownDock, setHasShownDock] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const dockButtonRef = useRef<HTMLButtonElement>(null);
@@ -171,8 +188,12 @@ export function ConsoleDrawer() {
     const inputLine: HistoryEntry = { type: "input", content: raw };
     const command = COMMANDS[commandName];
     const outputLines: HistoryEntry[] = command
-      ? command.run().map((line) => ({ type: "output", content: line }))
+      ? [
+          { type: "output", content: "" },
+          ...command.run().map((line) => ({ type: "output", content: line }) as HistoryEntry),
+        ]
       : [
+          { type: "output", content: "" },
           {
             type: "error",
             content: `command not found: ${commandName}. type 'help' for a list.`,
@@ -239,7 +260,12 @@ export function ConsoleDrawer() {
             initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
-            transition={{ delay: reduceMotion ? 0 : 1.8, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{
+              delay: hasShownDock || reduceMotion ? 0 : 1.8,
+              duration: 0.5,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            onAnimationComplete={() => setHasShownDock(true)}
             className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2.5 font-mono text-xs text-ash shadow-lg shadow-black/40 transition-colors hover:border-signal/50 hover:text-paper"
           >
             {pulse && (
@@ -293,14 +319,21 @@ export function ConsoleDrawer() {
               className="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-4 py-3 font-mono text-[0.8125rem] leading-relaxed"
             >
               {history.map((entry, i) => (
-                <HistoryLine key={i} entry={entry} />
+                <motion.div
+                  key={i}
+                  initial={reduceMotion ? undefined : { opacity: 0, y: 3 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.12 }}
+                >
+                  <HistoryLine entry={entry} />
+                </motion.div>
               ))}
               <div ref={bottomRef} />
             </div>
 
-            <div className="border-t border-line px-4 pt-3">
-              <p className="font-mono text-[0.6875rem] text-live">
-                ┌──({site.name.split(" ")[0].toLowerCase()}㉿{site.handle})-[~]
+            <div className="border-t border-line px-4 pt-3 font-mono text-[0.8125rem]">
+              <p className="text-live">
+                ┌──(guest㉿{site.handle})-[~]
               </p>
               <form onSubmit={handleSubmit} className="flex items-center gap-2 pb-3">
                 <span className="text-live">└─$</span>
@@ -313,7 +346,7 @@ export function ConsoleDrawer() {
                   autoComplete="off"
                   spellCheck={false}
                   placeholder="type 'help'"
-                  className="console-glow flex-1 bg-transparent font-mono text-sm text-live outline-none placeholder:text-ash-dim"
+                  className="console-input no-focus-ring console-glow flex-1 bg-transparent text-live placeholder:text-ash-dim"
                 />
               </form>
             </div>
