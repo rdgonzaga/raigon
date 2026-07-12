@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { site } from "@/lib/content";
 import { WindowFrame } from "@/components/ui/WindowFrame";
 
@@ -50,8 +51,6 @@ export function ContactForm() {
       contentClassName="p-6 sm:p-8"
     >
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Honeypot: hidden from sighted users, but visible to naive bots that
-            fill every field. If it's checked on submit, we silently bail. */}
         <input
           type="checkbox"
           name="botcheck"
@@ -112,13 +111,15 @@ export function ContactForm() {
         </div>
 
         <div className="flex flex-wrap items-center gap-4 font-mono text-sm">
-          <button
+          <motion.button
             type="submit"
             disabled={disabled}
-            className="rounded-[3px] border border-signal/50 px-4 py-2 text-signal transition-colors hover:bg-signal/10 disabled:cursor-not-allowed disabled:opacity-40"
+            whileTap={disabled ? undefined : { scale: 0.94 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            className="rounded-[3px] border border-signal/50 px-4 py-2 text-signal transition-[background-color,box-shadow] active:bg-signal/20 active:shadow-[0_0_14px_color-mix(in_srgb,var(--color-signal)_50%,transparent)] hover:bg-signal/10 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {status === "sending" ? "sending…" : "send message"}
-          </button>
+          </motion.button>
 
           {status === "sent" && <span className="text-live">&gt; message sent</span>}
           {status === "error" && (
