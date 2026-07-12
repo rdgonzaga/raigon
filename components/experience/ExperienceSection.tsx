@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WindowFrame } from "@/components/ui/WindowFrame";
 import { useRevealVariants } from "@/lib/motion";
 import { workExperience, education } from "@/lib/content";
+import { renderBullet } from "@/lib/renderBullet";
 
 type Tab = "work" | "education";
 
@@ -14,18 +15,6 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "work", label: "work.log" },
   { key: "education", label: "education.log" },
 ];
-
-function renderBullet(text: string) {
-  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-    part.startsWith("**") && part.endsWith("**") ? (
-      <strong key={i} className="font-semibold text-paper">
-        {part.slice(2, -2)}
-      </strong>
-    ) : (
-      <span key={i}>{part}</span>
-    )
-  );
-}
 
 export function ExperienceSection() {
   const { container, item } = useRevealVariants();
@@ -38,7 +27,7 @@ export function ExperienceSection() {
       <SectionHeading
         eyebrow="Experience"
         title="git log --author=rainer"
-        trailing={`${entries.length} entries`}
+        trailing={`${String(entries.length).padStart(2, "0")} entries`}
       />
 
       <WindowFrame
