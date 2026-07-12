@@ -17,6 +17,7 @@ export function Footer() {
             <SectionHeading
               eyebrow="Contact"
               title="Open to backend-heavy full-stack, cybersecurity, and applied ML roles."
+              speed={14}
             />
 
             <div className="mt-6 flex flex-wrap gap-2">

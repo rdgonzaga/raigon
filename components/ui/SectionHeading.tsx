@@ -4,9 +4,10 @@ type SectionHeadingProps = {
   eyebrow: string;
   title: string;
   trailing?: React.ReactNode;
+  speed?: number;
 };
 
-export function SectionHeading({ eyebrow, title, trailing }: SectionHeadingProps) {
+export function SectionHeading({ eyebrow, title, trailing, speed = 30 }: SectionHeadingProps) {
   return (
     <div className="flex items-end justify-between gap-4 border-b border-line pb-4">
       <div>
@@ -14,7 +15,7 @@ export function SectionHeading({ eyebrow, title, trailing }: SectionHeadingProps
           {eyebrow}
         </p>
         <h2 className="mt-2 block font-mono text-2xl font-semibold tracking-tight text-paper sm:text-3xl">
-          <DecryptedText text={title} speed={30} sequential animateOn="view" />
+          <DecryptedText text={title} speed={speed} sequential animateOn="view" />
         </h2>
       </div>
       {trailing ? (
