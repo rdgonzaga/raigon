@@ -9,9 +9,6 @@ type ProjectCardProps = {
   className?: string;
 };
 
-// lucide-react 1.x dropped brand/logo icons (Github included) in favor of
-// generic UI icons only — inlined here rather than pulling in a whole
-// second icon package for one mark.
 function GithubIcon({ size = 16 }: { size?: number }) {
   return (
     <svg

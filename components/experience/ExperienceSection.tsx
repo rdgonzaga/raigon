@@ -14,9 +14,6 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "education", label: "education.log" },
 ];
 
-// Bullets use a light `**bold**` markdown convention to call out keywords —
-// parsed here rather than at the data layer so `lib/content.ts` stays plain
-// strings.
 function renderBullet(text: string) {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
     part.startsWith("**") && part.endsWith("**") ? (

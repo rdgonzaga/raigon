@@ -14,11 +14,6 @@ type WindowFrameProps = {
   contentClassName?: string;
 };
 
-// Decorative browser/terminal window chrome shared by every bordered panel
-// (project cards, about/experience/skills/contact boxes). A single tab
-// renders as a static label; 2+ tabs become a real switcher (see
-// ExperienceSection's work/education toggle). The X is chrome only — no
-// close behavior — matching ConsoleDrawer's header glyph.
 export function WindowFrame({
   tabs,
   activeTab,
