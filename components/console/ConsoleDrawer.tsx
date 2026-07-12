@@ -58,7 +58,7 @@ const COMMANDS: Record<string, Command> = {
   },
   clear: {
     description: "clear the screen",
-    run: () => [], // handled as a special case in handleSubmit
+    run: () => [],
   },
 };
 
@@ -118,12 +118,6 @@ export function ConsoleDrawer() {
     setShowNudge(false);
   };
 
-  // Idle nudge: pulse the dock after 5s of no interaction; show a
-  // dismissible callout too, but only if this visitor hasn't seen it before.
-  // Cancelled entirely once the visitor opens the console at all (hasInteracted),
-  // so it can't resurrect after they close a console they've already used —
-  // and localStorage is read fresh inside the timeout, not captured at mount,
-  // so a markSeen() that happens while the timer is pending is respected.
   useEffect(() => {
     if (typeof window === "undefined" || hasInteracted) return;
     const timer = setTimeout(() => {
@@ -139,18 +133,14 @@ export function ConsoleDrawer() {
     dockButtonRef.current?.focus({ preventScroll: true });
   };
 
-  // Focus the input whenever the drawer opens — preventScroll so a drawer
-  // opened deep in the page doesn't yank the viewport back to the top.
   useEffect(() => {
     if (open) inputRef.current?.focus({ preventScroll: true });
   }, [open]);
 
-  // Keep the log scrolled to the latest line.
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ block: "end" });
   }, [history]);
 
-  // Click outside closes the drawer without blocking interaction with the page.
   useEffect(() => {
     if (!open) return;
     const handleClickOutside = (event: MouseEvent) => {

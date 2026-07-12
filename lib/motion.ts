@@ -2,8 +2,6 @@
 
 import { useReducedMotion } from "framer-motion";
 
-/** Shared scroll-reveal variants: fade + rise, staggered across children,
- *  collapsing to an instant opacity-only reveal under reduced motion. */
 export function useRevealVariants() {
   const reduceMotion = useReducedMotion();
 

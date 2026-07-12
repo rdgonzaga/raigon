@@ -331,6 +331,7 @@ export default function DecryptedText({
 
   useEffect(() => {
     if (animateOn === "click") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       encryptInstantly();
     } else {
       setDisplayText(text);
@@ -338,7 +339,6 @@ export default function DecryptedText({
     }
     setRevealedIndices(new Set());
     setDirection("forward");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animateOn, text, encryptInstantly]);
 
   const animateProps =
@@ -353,7 +353,6 @@ export default function DecryptedText({
           }
         : {};
 
-  // Nothing to scramble — always render the plain, fully-revealed text.
   if (prefersReducedMotion) {
     return (
       <motion.span className={`inline-block whitespace-pre-wrap ${parentClassName}`} {...props}>

@@ -51,10 +51,6 @@ const MagneticLink = forwardRef<HTMLAnchorElement, MagneticLinkProps>(
   }
 );
 
-// Tracks which nav-linked section is centered in the viewport, using a thin
-// detection band (rootMargin) around the vertical middle so a section only
-// becomes "active" once it's actually the one in focus, not just barely
-// visible at the very top or bottom edge.
 function useActiveSection(): number | null {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -126,7 +122,6 @@ export function Nav() {
     menuButtonRef.current?.focus({ preventScroll: true });
   };
 
-  // Click outside the open panel (and not on the toggle button itself) closes it.
   useEffect(() => {
     if (!mobileOpen) return;
     const handleClickOutside = (event: MouseEvent) => {

@@ -7,9 +7,6 @@ type SpotlightBorderProps = {
   className?: string;
 };
 
-// Pointer-tracked ring of light along a box's edge (see `.spotlight-border`
-// in globals.css). Extracted so every bordered panel — project cards,
-// skill groups, experience/about panels — can share one implementation.
 export function SpotlightBorder({ children, className = "" }: SpotlightBorderProps) {
   const ref = useRef<HTMLDivElement>(null);
 
