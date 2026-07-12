@@ -3,9 +3,9 @@ export const site = {
   handle: "raigon",
   tagline:
     "Bridging cybersecurity, backend engineering, and machine learning.",
-  focus: ["backend engineering", "devsecops", "machine learning & ai"],
+  focus: ["backend engineering", "cybersecurity", "machine learning & ai"],
   location: "Philippines",
-  study: "BS Computer Science (Network & Information Security) @ DLSU",
+  study: "compsci student, major in network & information security @ DLSU",
   status: "software QA & ML specialist @ DeckTradr",
   currentlyLearning:
     "offensive security · image recognition & OCR · supervised machine learning · German",
@@ -16,9 +16,11 @@ export const site = {
 
 export const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Projects", href: "#work" },
   { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#work" },
   { label: "Skills", href: "#skills" },
+  { label: "Certs", href: "#certifications" },
+  { label: "Activity", href: "#activity" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -31,6 +33,7 @@ export type Project = {
   featured?: boolean;
   inProgress?: boolean;
   github?: string;
+  ext?: string;
 };
 
 export const projects: Project[] = [
@@ -39,7 +42,7 @@ export const projects: Project[] = [
     name: "ArcherBytes",
     type: "Full-stack platform",
     description:
-      "Backend architecture and CMS for a knowledge-sharing platform serving 20,000+ DLSU students. REST APIs and PostgreSQL schemas built with Drizzle ORM power articles, comment threads, and reactions, with Google sign-in through Better Auth.",
+      "Built the scalable backend architecture for a university-wide knowledge-sharing platform. Designed to handle 20,000+ students with robust content APIs, scalable schemas, and secure authentication.",
     stack: ["Next.js", "TypeScript", "Better Auth", "Drizzle ORM", "PostgreSQL", "Docker"],
     featured: true,
     github: "https://github.com/dlsu-lscs/archerbytes",
@@ -49,7 +52,7 @@ export const projects: Project[] = [
     name: "ReSole",
     type: "Mobile / AI marketplace",
     description:
-      "An AI-powered peer-to-peer marketplace that predicts fair prices for shoe listings and nudges owners to donate to charity after 30 days unsold. Built with React Native (Expo), backed by a TensorFlow-trained LLM — YOLOv8 Nano for shoe detection, Gemini 2.5 Flash and EfficientNet Lite for condition grading.",
+      "AI-powered peer-to-peer marketplace for footwear. Integrates computer vision and multimodal LLMs for automated condition grading and real-time price prediction.",
     stack: [
       "React Native (Expo)",
       "Next.js",
@@ -60,7 +63,6 @@ export const projects: Project[] = [
       "TensorFlow Lite",
       "YOLOv8 Nano",
       "Gemini 2.5 Flash",
-      "EfficientNet Lite",
     ],
     inProgress: true,
     github: "https://github.com/rdgonzaga/resole",
@@ -70,17 +72,18 @@ export const projects: Project[] = [
     name: "Vibe-Coded Website Fuzzer",
     type: "Security tooling",
     description:
-      "A hybrid security scanner and fuzzer for auditing \"vibe-coded\" apps — code shipped fast via LLMs like ChatGPT or Claude that runs fine but skips real security controls. It scans for hardcoded secrets, missing auth checks, and weak JWT validation, then fuzzes endpoints for IDOR issues, missing rate limits, and leaked stack traces.",
+      "Hybrid security scanner designed to audit LLM-generated web applications. Automates the detection of exposed secrets, missing auth controls, and endpoint vulnerabilities.",
     stack: ["Python"],
     inProgress: true,
     github: "https://github.com/rdgonzaga/vibe-coded-website-fuzzer",
+    ext: "py",
   },
   {
     slug: "animonotes",
     name: "AnimoNotes",
     type: "Study notes platform",
     description:
-      "A study-resource hub for CCS students at DLSU, built so classmates could actually find and share notes instead of digging through group chats. Next.js and TypeScript up front, Prisma over PostgreSQL in back, with Better Auth locking access to verified students only.",
+      "Centralized academic resource hub for computer science students. Replaces fragmented group chats with a secure, searchable database of verified study materials.",
     stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Better Auth"],
     github: "https://github.com/rdgonzaga/animonotes",
   },
@@ -187,9 +190,9 @@ export const workExperience: ExperienceEntry[] = [
     date: "Apr 2026 — Jul 2026",
     location: "Apeldoorn, Gelderland, Netherlands · Remote",
     bullets: [
-      "Redesigned the **Shopify storefront**, driving a **55.97% increase** in sales",
-      "Built **custom API integrations** to speed up backend and page loads",
-      "Ran **Google Ads campaigns** with tracking tuned for **ROAS**",
+      "Engineered a custom **JS Web Pixel** to bypass Shopify's sandbox for accurate conversion tracking",
+      "Established **backend API linkages** connecting Shopify with Google Ads and Analytics",
+      "Optimized data pipelines and checkout conversions, driving a **55.97% increase** in total sales",
     ],
   },
   {
@@ -200,7 +203,7 @@ export const workExperience: ExperienceEntry[] = [
       "Architected backend for **ArcherBytes**, serving **20,000+ DLSU students** on **Next.js** + **PostgreSQL**",
       "Designed schemas with **Drizzle ORM** for content, reactions, and community features",
       "Built secure auth via **Better Auth** + **Google Auth** for school-exclusive access",
-      "**Rank 2**, R&D committee, A.Y. 2025–2026",
+      "**Rank 2 Engineer**, Research & Development committee, A.Y. 2025–2026",
     ],
   },
 ];
@@ -217,5 +220,26 @@ export const education: ExperienceEntry[] = [
     role: "STEM Strand",
     date: "Jul 2024",
     bullets: ["**Graduated with Honors**", "GWA: 94.95 · Manila, Philippines"],
+  },
+];
+
+export type Certification = {
+  name: string;
+  issuer: string;
+  reference: string;
+  bullets: string[];
+  image: string;
+};
+
+export const certifications: Certification[] = [
+  {
+    name: "Certified DLSU OffSec Vulnerability Analyst",
+    issuer: "DLSU — NSSECU02",
+    reference: "Class Ref. S04",
+    bullets: [
+      "Placed among the **highest scores** in the NSSECU02 (Advanced & Offensive Security) hands-on VAPT class examination",
+      "Recognized for competency in **vulnerability analysis**",
+    ],
+    image: "/certs/certified_offsec_dlsu.png",
   },
 ];
