@@ -3,11 +3,12 @@ export const site = {
   handle: "raigon",
   tagline:
     "Bridging cybersecurity, backend engineering, and machine learning.",
-  focus: ["ethical hacking / cybersec", "machine learning / ai", "full-stack dev / backend-heavy"],
+  focus: ["backend engineering", "devsecops", "machine learning & ai"],
   location: "Philippines",
-  study: "BS Computer Science, Major in Network and Information Security · DLSU · 2nd year",
+  study: "BS Computer Science (Network & Information Security) @ DLSU",
+  status: "active software QA & ML specialist @ DeckTradr",
   currentlyLearning:
-    "German · offensive security · image recognition & OCR · supervised machine learning",
+    "offensive security · image recognition & OCR · supervised machine learning · German",
   email: "rainerdgonzaga@gmail.com",
   github: "https://github.com/rdgonzaga",
   linkedin: "https://www.linkedin.com/in/rdgonzaga/",
