@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 
@@ -35,7 +36,7 @@ export function ThemeToggle() {
       document.documentElement.style.setProperty("--theme-toggle-x", `${x}px`);
       document.documentElement.style.setProperty("--theme-toggle-y", `${y}px`);
       document.documentElement.style.setProperty("--theme-toggle-r", `${radius}px`);
-      document.startViewTransition(applyTheme);
+      document.startViewTransition(() => flushSync(applyTheme));
     } else {
       applyTheme();
     }
