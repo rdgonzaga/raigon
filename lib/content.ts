@@ -240,6 +240,6 @@ export const certifications: Certification[] = [
       "Placed among the **highest scores** in the NSSECU02 (Advanced & Offensive Security) hands-on class examination",
       "Recognized for competency in **vulnerability analysis**",
     ],
-    image: "/certs/certified_offsec_dlsu.png",
+    image: "/certs/certified_offsec_dlsu.webp",
   },
 ];
