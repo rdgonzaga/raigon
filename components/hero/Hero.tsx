@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import DecryptedText from "@/components/ui/DecryptedText";
 import { HandshakeSequence, HANDSHAKE_TOTAL_MS } from "./HandshakeSequence";
 import { WhoAmI } from "./WhoAmI";
 import { TerminalButton } from "@/components/ui/TerminalButton";
+import { useLowMotion } from "@/lib/effects";
 
 function TextGlow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -24,13 +25,13 @@ function TextGlow({ children, className = "" }: { children: React.ReactNode; cla
 }
 
 function ScrollCue() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useLowMotion();
   return (
     <motion.div
       aria-hidden="true"
       className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
-      animate={reduceMotion ? undefined : { y: [0, 8, 0] }}
-      transition={reduceMotion ? undefined : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      animate={reduceMotion ? { y: 0 } : { y: [0, 8, 0] }}
+      transition={{ duration: reduceMotion ? 0 : 2, repeat: reduceMotion ? 0 : Infinity, ease: "easeInOut" }}
     >
       <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-ash-dim">
         scroll
@@ -41,7 +42,7 @@ function ScrollCue() {
 }
 
 export function Hero() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useLowMotion();
   const handshakeS = HANDSHAKE_TOTAL_MS / 1000;
   const whoamiDelay = handshakeS + 0.4;
   const buttonDelay = whoamiDelay + 0.35;
@@ -74,9 +75,13 @@ export function Hero() {
         </h1>
 
         <motion.div
-          initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
-          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ delay: whoamiDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: reduceMotion ? 0 : whoamiDelay,
+            duration: reduceMotion ? 0 : 0.6,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           className="mt-3 sm:mt-5"
         >
           <TextGlow>
@@ -85,9 +90,13 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
-          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ delay: buttonDelay, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: reduceMotion ? 0 : buttonDelay,
+            duration: reduceMotion ? 0 : 0.6,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           className="mt-8"
         >
           <TerminalButton href="/Gonzaga_Resume.pdf">./view-resume.pdf</TerminalButton>

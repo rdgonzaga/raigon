@@ -1,11 +1,13 @@
 "use client";
 
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { navLinks, site } from "@/lib/content";
 import DecryptedText from "@/components/ui/DecryptedText";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { SystemControls } from "@/components/nav/SystemControls";
+import { PerformanceNudge } from "@/components/nav/PerformanceNudge";
+import { useLowMotion } from "@/lib/effects";
 
 type MagneticLinkProps = {
   href: string;
@@ -99,7 +101,7 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useLowMotion();
 
   const activeIndex = useActiveSection();
   const displayIndex = hoverIndex ?? activeIndex;
@@ -149,7 +151,7 @@ export function Nav() {
 
         <ul
           ref={containerRef}
-          className="relative hidden items-center gap-8 md:flex"
+          className="relative hidden items-center gap-6 lg:flex"
           onMouseLeave={() => setHoverIndex(null)}
         >
           {navLinks.map((link, i) => (
@@ -173,15 +175,16 @@ export function Nav() {
           />
         </ul>
 
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
+        <div className="flex items-center gap-2 sm:gap-3">
+          <SystemControls />
+          <PerformanceNudge />
           <button
             ref={menuButtonRef}
             type="button"
             onClick={() => setMobileOpen((o) => !o)}
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            className="text-ash-dim transition-colors hover:text-paper md:hidden"
+            className="text-ash-dim transition-colors hover:text-paper lg:hidden"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -195,11 +198,11 @@ export function Nav() {
             onKeyDown={(event) => {
               if (event.key === "Escape") closeMobile();
             }}
-            initial={reduceMotion ? undefined : { opacity: 0, height: 0 }}
-            animate={reduceMotion ? undefined : { opacity: 1, height: "auto" }}
-            exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-b border-line bg-panel md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden border-b border-line bg-panel lg:hidden"
           >
             <ul className="flex flex-col px-4 sm:px-6">
               {navLinks.map((link, i) => (

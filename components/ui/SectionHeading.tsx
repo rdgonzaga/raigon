@@ -11,7 +11,7 @@ export function SectionHeading({ eyebrow, title, trailing, speed = 30 }: Section
   return (
     <div className="flex items-end justify-between gap-4 border-b border-line pb-4">
       <div>
-        <p className="font-mono text-sm uppercase tracking-[0.2em] text-signal">
+        <p className="font-mono text-sm uppercase tracking-[0.2em] text-signal [[data-theme=light]_&]:font-bold">
           {eyebrow}
         </p>
         <h2 className="mt-2 block font-mono text-2xl font-semibold tracking-tight text-paper sm:text-3xl">

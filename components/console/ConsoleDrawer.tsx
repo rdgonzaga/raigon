@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { site, skillGroups, projects } from "@/lib/content";
+import { useLowMotion } from "@/lib/effects";
 
 type OutputContent = string | { label: string; value: string } | { heading: string };
 type HistoryEntry =
@@ -65,7 +66,7 @@ const COMMANDS: Record<string, Command> = {
 };
 
 const BANNER_TITLE = "raigon";
-const BANNER_SUBTITLE = "network / ml / backend";
+const BANNER_SUBTITLE = "backend / security / ml";
 const BANNER_WIDTH = BANNER_SUBTITLE.length + 2;
 const BANNER_TITLE_PREFIX = `- ${BANNER_TITLE} `;
 
@@ -79,6 +80,7 @@ const BANNER: HistoryEntry[] = [
   { type: "output", content: `| ${BANNER_SUBTITLE} |` },
   { type: "output", content: `+${"-".repeat(BANNER_WIDTH)}+` },
   { type: "output", content: "type 'help' to see what's available." },
+  { type: "output", content: "press ` to close this console." },
 ];
 
 function HistoryLine({ entry }: { entry: HistoryEntry }) {
@@ -112,7 +114,7 @@ function HistoryLine({ entry }: { entry: HistoryEntry }) {
 }
 
 export function ConsoleDrawer() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useLowMotion();
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>(BANNER);
   const [input, setInput] = useState("");
@@ -169,6 +171,26 @@ export function ConsoleDrawer() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "`") return;
+      const target = event.target as HTMLElement | null;
+      const isTyping =
+        target !== inputRef.current &&
+        (target?.tagName === "INPUT" ||
+          target?.tagName === "TEXTAREA" ||
+          target?.isContentEditable);
+      if (isTyping) return;
+
+      event.preventDefault();
+      setHasInteracted(true);
+      markSeen();
+      setOpen((o) => !o);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -230,12 +252,16 @@ export function ConsoleDrawer() {
       <AnimatePresence>
         {showNudge && !open && (
           <motion.div
-            initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="fixed bottom-20 right-6 z-50 flex items-center gap-2 rounded-md border border-line-strong bg-panel px-3 py-2 font-mono text-xs text-ash shadow-lg shadow-black/40"
           >
             try <span className="text-signal">~/console</span>
+            <span className="text-ash-dim">
+              · press <span className="text-base leading-none text-ash">`</span>
+            </span>
             <button
               onClick={markSeen}
               aria-label="Dismiss"
@@ -257,15 +283,16 @@ export function ConsoleDrawer() {
               setHasInteracted(true);
               markSeen();
             }}
-            initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
             transition={{
               delay: hasShownDock || reduceMotion ? 0 : 1.8,
-              duration: 0.5,
+              duration: reduceMotion ? 0 : 0.5,
               ease: [0.16, 1, 0.3, 1],
             }}
             onAnimationComplete={() => setHasShownDock(true)}
+            aria-label="Open console (press ` to toggle)"
             className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full border border-line-strong bg-panel px-4 py-2.5 font-mono text-xs text-ash shadow-lg shadow-black/40 transition-colors hover:border-signal/50 hover:text-paper"
           >
             {pulse && (
@@ -287,10 +314,12 @@ export function ConsoleDrawer() {
             onKeyDown={(event) => {
               if (event.key === "Escape") close();
             }}
-            initial={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
-            transition={reduceMotion ? undefined : { type: "spring", stiffness: 380, damping: 32 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={
+              reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }
+            }
             className="fixed inset-x-0 bottom-0 z-50 flex h-[75dvh] w-full flex-col overflow-hidden rounded-t-md border-t border-line-strong bg-panel/95 shadow-2xl shadow-black/50 backdrop-blur-md sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[28rem] sm:max-h-[70dvh] sm:w-[calc(100vw-3rem)] sm:max-w-md sm:rounded-md sm:border"
           >
             <div className="flex items-center justify-between border-b border-line px-4 py-3">

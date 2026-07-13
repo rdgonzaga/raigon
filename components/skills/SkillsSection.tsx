@@ -9,21 +9,19 @@ import { useRevealVariants } from "@/lib/motion";
 import { skillGroups } from "@/lib/content";
 
 function toFileName(label: string) {
-  return `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}.json`;
+  return `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}.txt`;
 }
 
 export function SkillsSection() {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
 
   return (
     <Section id="skills">
-      <SectionHeading eyebrow="Skills" title="The stack I build and secure with" />
+      <SectionHeading eyebrow="Skills" title="cat skills.txt" />
 
       <motion.div
         variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: false, margin: "-80px" }}
+        {...reveal}
         className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         {skillGroups.map((group) => (
@@ -32,9 +30,7 @@ export function SkillsSection() {
               tabs={[{ key: group.label, label: toFileName(group.label) }]}
               className="transition-colors hover:border-line-strong"
             >
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-trace">
-                {group.label}
-              </p>
+              <p className="font-mono text-sm text-trace"># {group.label.toLowerCase()}</p>
               <div className="mt-5 flex flex-wrap gap-2.5">
                 {group.items.map((skill) => (
                   <Chip key={skill}>{skill}</Chip>

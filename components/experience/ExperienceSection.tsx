@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WindowFrame } from "@/components/ui/WindowFrame";
 import { useRevealVariants } from "@/lib/motion";
 import { workExperience, education } from "@/lib/content";
+import { renderBullet } from "@/lib/renderBullet";
 
 type Tab = "work" | "education";
 
@@ -15,20 +16,8 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "education", label: "education.log" },
 ];
 
-function renderBullet(text: string) {
-  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-    part.startsWith("**") && part.endsWith("**") ? (
-      <strong key={i} className="font-semibold text-paper">
-        {part.slice(2, -2)}
-      </strong>
-    ) : (
-      <span key={i}>{part}</span>
-    )
-  );
-}
-
 export function ExperienceSection() {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
   const [tab, setTab] = useState<Tab>("work");
 
   const entries = tab === "work" ? workExperience : education;
@@ -38,7 +27,7 @@ export function ExperienceSection() {
       <SectionHeading
         eyebrow="Experience"
         title="git log --author=rainer"
-        trailing={`${entries.length} entries`}
+        trailing={`${String(entries.length).padStart(2, "0")} entries`}
       />
 
       <WindowFrame
@@ -48,14 +37,7 @@ export function ExperienceSection() {
         className="mt-8"
         contentClassName="p-6 sm:p-8"
       >
-        <motion.ol
-          key={tab}
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: false, margin: "-80px" }}
-          className="divide-y divide-line"
-        >
+        <motion.ol key={tab} variants={container} {...reveal} className="divide-y divide-line">
           {entries.map((entry) => (
             <motion.li
               key={`${entry.org}-${entry.role}`}

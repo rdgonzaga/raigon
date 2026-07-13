@@ -3,13 +3,17 @@ import { JetBrains_Mono, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { SiteBackground } from "@/components/background/SiteBackground";
+import { EffectsProvider } from "@/lib/effects";
+import { site } from "@/lib/content";
 
-const THEME_INIT_SCRIPT = `
+const INIT_SCRIPT = `
   try {
-    var stored = localStorage.getItem("theme");
-    var isMobile = window.matchMedia("(max-width: 639px)").matches;
-    var theme = stored || (isMobile || window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-    if (theme === "light") document.documentElement.setAttribute("data-theme", "light");
+    if (localStorage.getItem("theme") === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+    if (localStorage.getItem("effects") === "off") {
+      document.documentElement.setAttribute("data-effects", "off");
+    }
   } catch (e) {}
 `;
 
@@ -24,8 +28,7 @@ const manrope = Manrope({
 });
 
 const TITLE = "Rainer Gonzaga | Portfolio";
-const DESCRIPTION =
-  "Bridging network security, machine learning, and scalable backend architecture.";
+const DESCRIPTION = site.tagline;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.raigon.dev"),
@@ -62,16 +65,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${jetbrainsMono.variable} ${manrope.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col bg-void text-paper font-sans">
         <Script
           id="theme-init"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
+          dangerouslySetInnerHTML={{ __html: INIT_SCRIPT }}
         />
-        <SiteBackground />
-        {children}
+        <EffectsProvider>
+          <SiteBackground />
+          {children}
+        </EffectsProvider>
       </body>
     </html>
   );

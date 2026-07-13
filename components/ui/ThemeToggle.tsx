@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { flushSync } from "react-dom";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
+import { circleViewTransition } from "@/lib/viewTransition";
+
+const useIsomorphicLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 export function ThemeToggle() {
   const [isDark, setIsDark] = useState(true);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+  useIsomorphicLayoutEffect(() => {
     setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
   }, []);
 
@@ -25,40 +27,22 @@ export function ThemeToggle() {
       localStorage.setItem("theme", next);
     };
 
-    if (typeof document.startViewTransition === "function") {
-      const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
-      const x = left + width / 2;
-      const y = top + height / 2;
-      const radius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
-      );
-      document.documentElement.style.setProperty("--theme-toggle-x", `${x}px`);
-      document.documentElement.style.setProperty("--theme-toggle-y", `${y}px`);
-      document.documentElement.style.setProperty("--theme-toggle-r", `${radius}px`);
-      document.startViewTransition(() => flushSync(applyTheme));
-    } else {
-      applyTheme();
-    }
+    circleViewTransition(event, applyTheme);
   };
 
   return (
     <motion.button
       type="button"
       onClick={toggle}
+      suppressHydrationWarning
       aria-label="Toggle color theme"
       aria-pressed={!isDark}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.94 }}
       transition={{ type: "spring", stiffness: 500, damping: 30 }}
-      className="relative flex h-7 w-14 shrink-0 items-center rounded-full border border-line-strong bg-inset px-1 transition-colors hover:border-signal active:border-signal"
+      className="flex items-center gap-1 px-2 py-1.5 text-ash-dim transition-colors hover:bg-signal/5 hover:text-paper sm:gap-1.5 sm:px-2.5"
     >
-      <motion.span
-        className="flex h-5 w-5 items-center justify-center rounded-full bg-signal text-void"
-        animate={{ x: isDark ? 0 : 26 }}
-        transition={{ type: "spring", stiffness: 500, damping: 32 }}
-      >
-        {isDark ? <Moon size={11} /> : <Sun size={11} />}
-      </motion.span>
+      {isDark ? <Moon size={12} /> : <Sun size={12} />}
+      <span>{isDark ? "dark" : "light"}</span>
     </motion.button>
   );
 }
