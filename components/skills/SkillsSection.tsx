@@ -13,7 +13,7 @@ function toFileName(label: string) {
 }
 
 export function SkillsSection() {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
 
   return (
     <Section id="skills">
@@ -21,9 +21,7 @@ export function SkillsSection() {
 
       <motion.div
         variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: false, margin: "-80px" }}
+        {...reveal}
         className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         {skillGroups.map((group) => (

@@ -10,7 +10,7 @@ import { projects, site } from "@/lib/content";
 import { ProjectCard } from "./ProjectCard";
 
 export function ProjectsGrid() {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
   const featured = projects.find((p) => p.featured) ?? projects[0];
   const rest = projects.filter((p) => p !== featured);
 
@@ -24,9 +24,7 @@ export function ProjectsGrid() {
 
       <motion.div
         variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: false, margin: "-80px" }}
+        {...reveal}
         className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3"
       >
         <motion.div variants={item} className="md:col-span-3">

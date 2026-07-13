@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { site, skillGroups, projects } from "@/lib/content";
+import { useLowMotion } from "@/lib/effects";
 
 type OutputContent = string | { label: string; value: string } | { heading: string };
 type HistoryEntry =
@@ -113,7 +114,7 @@ function HistoryLine({ entry }: { entry: HistoryEntry }) {
 }
 
 export function ConsoleDrawer() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useLowMotion();
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>(BANNER);
   const [input, setInput] = useState("");
@@ -251,9 +252,10 @@ export function ConsoleDrawer() {
       <AnimatePresence>
         {showNudge && !open && (
           <motion.div
-            initial={reduceMotion ? undefined : { opacity: 0, y: 8 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
             className="fixed bottom-20 right-6 z-50 flex items-center gap-2 rounded-md border border-line-strong bg-panel px-3 py-2 font-mono text-xs text-ash shadow-lg shadow-black/40"
           >
             try <span className="text-signal">~/console</span>
@@ -281,12 +283,12 @@ export function ConsoleDrawer() {
               setHasInteracted(true);
               markSeen();
             }}
-            initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
             transition={{
               delay: hasShownDock || reduceMotion ? 0 : 1.8,
-              duration: 0.5,
+              duration: reduceMotion ? 0 : 0.5,
               ease: [0.16, 1, 0.3, 1],
             }}
             onAnimationComplete={() => setHasShownDock(true)}
@@ -312,10 +314,12 @@ export function ConsoleDrawer() {
             onKeyDown={(event) => {
               if (event.key === "Escape") close();
             }}
-            initial={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
-            transition={reduceMotion ? undefined : { type: "spring", stiffness: 380, damping: 32 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={
+              reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }
+            }
             className="fixed inset-x-0 bottom-0 z-50 flex h-[75dvh] w-full flex-col overflow-hidden rounded-t-md border-t border-line-strong bg-panel/95 shadow-2xl shadow-black/50 backdrop-blur-md sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[28rem] sm:max-h-[70dvh] sm:w-[calc(100vw-3rem)] sm:max-w-md sm:rounded-md sm:border"
           >
             <div className="flex items-center justify-between border-b border-line px-4 py-3">

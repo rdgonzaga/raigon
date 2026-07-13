@@ -3,12 +3,16 @@ import { JetBrains_Mono, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { SiteBackground } from "@/components/background/SiteBackground";
+import { EffectsProvider } from "@/lib/effects";
 import { site } from "@/lib/content";
 
-const THEME_INIT_SCRIPT = `
+const INIT_SCRIPT = `
   try {
     if (localStorage.getItem("theme") === "light") {
       document.documentElement.setAttribute("data-theme", "light");
+    }
+    if (localStorage.getItem("effects") === "off") {
+      document.documentElement.setAttribute("data-effects", "off");
     }
   } catch (e) {}
 `;
@@ -61,16 +65,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${jetbrainsMono.variable} ${manrope.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col bg-void text-paper font-sans">
         <Script
           id="theme-init"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
+          dangerouslySetInnerHTML={{ __html: INIT_SCRIPT }}
         />
-        <SiteBackground />
-        {children}
+        <EffectsProvider>
+          <SiteBackground />
+          {children}
+        </EffectsProvider>
       </body>
     </html>
   );

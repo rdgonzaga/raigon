@@ -10,7 +10,7 @@ import { certifications } from "@/lib/content";
 import { renderBullet } from "@/lib/renderBullet";
 
 export function CertificationsSection() {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
 
   return (
     <Section id="certifications">
@@ -25,13 +25,7 @@ export function CertificationsSection() {
         className="mt-8"
         contentClassName="p-6 sm:p-8"
       >
-        <motion.ol
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: false, margin: "-80px" }}
-          className="divide-y divide-line"
-        >
+        <motion.ol variants={container} {...reveal} className="divide-y divide-line">
           {certifications.map((cert) => (
             <motion.li key={cert.name} variants={item} className="py-6 first:pt-0 last:pb-0">
               <p className="font-mono text-xs lowercase text-ash-dim">{cert.reference}</p>

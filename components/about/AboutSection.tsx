@@ -7,19 +7,13 @@ import { WindowFrame } from "@/components/ui/WindowFrame";
 import { useRevealVariants } from "@/lib/motion";
 
 export function AboutSection() {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
 
   return (
     <Section id="about">
       <SectionHeading eyebrow="About" title="cat README.md" />
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: false, margin: "-80px" }}
-        className="mt-8"
-      >
+      <motion.div variants={container} {...reveal} className="mt-8">
         <WindowFrame
           tabs={[{ key: "about", label: "about.md" }]}
           contentClassName="p-6 font-mono text-sm sm:p-8"

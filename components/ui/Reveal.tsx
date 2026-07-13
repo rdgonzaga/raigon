@@ -9,16 +9,10 @@ type RevealProps = {
 };
 
 export function Reveal({ children, className = "" }: RevealProps) {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
 
   return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: false, margin: "-80px" }}
-      className={className}
-    >
+    <motion.div variants={container} {...reveal} className={className}>
       <motion.div variants={item}>{children}</motion.div>
     </motion.div>
   );
