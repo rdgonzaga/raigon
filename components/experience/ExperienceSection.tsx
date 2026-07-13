@@ -17,7 +17,7 @@ const TABS: { key: Tab; label: string }[] = [
 ];
 
 export function ExperienceSection() {
-  const { container, item } = useRevealVariants();
+  const { container, item, reveal } = useRevealVariants();
   const [tab, setTab] = useState<Tab>("work");
 
   const entries = tab === "work" ? workExperience : education;
@@ -37,14 +37,7 @@ export function ExperienceSection() {
         className="mt-8"
         contentClassName="p-6 sm:p-8"
       >
-        <motion.ol
-          key={tab}
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: false, margin: "-80px" }}
-          className="divide-y divide-line"
-        >
+        <motion.ol key={tab} variants={container} {...reveal} className="divide-y divide-line">
           {entries.map((entry) => (
             <motion.li
               key={`${entry.org}-${entry.role}`}
