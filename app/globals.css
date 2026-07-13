@@ -95,15 +95,15 @@
 }
 ::view-transition-new(root) {
   z-index: 2;
-  animation: theme-reveal 0.7s var(--ease-out-expo);
+  animation: view-reveal 0.7s var(--ease-out-expo);
 }
-@keyframes theme-reveal {
+@keyframes view-reveal {
   from {
-    clip-path: circle(0px at var(--theme-toggle-x, 50%) var(--theme-toggle-y, 50%));
+    clip-path: circle(0px at var(--view-transition-x, 50%) var(--view-transition-y, 50%));
   }
   to {
     clip-path: circle(
-      var(--theme-toggle-r, 150%) at var(--theme-toggle-x, 50%) var(--theme-toggle-y, 50%)
+      var(--view-transition-r, 150%) at var(--view-transition-x, 50%) var(--view-transition-y, 50%)
     );
   }
 }
@@ -126,6 +126,14 @@ body {
   body {
     transition: background-color 0.4s ease, color 0.4s ease;
   }
+}
+
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 ::selection {
