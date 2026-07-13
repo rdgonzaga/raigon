@@ -238,7 +238,7 @@ export default function FaultyTerminal({
   background = '#000000',
   mouseReact = true,
   mouseStrength = 0.2,
-  dpr = undefined,
+  dpr,
   pageLoadAnimation = true,
   brightness = 1,
   className,
