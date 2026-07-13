@@ -5,21 +5,35 @@ export const alt = `${site.name} — Portfolio`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const VOID = "#0a0a0d";
-const PANEL = "#131419";
-const LINE = "#262932";
-const LINE_STRONG = "#383c47";
-const PAPER = "#edeef2";
-const ASH_DIM = "#767b85";
-const SIGNAL = "#4cec7a";
-const LIVE = "#5fd98a";
+const VOID = "#f8f5ee";
+const PANEL = "#eeeae0";
+const LINE = "#c7bfa8";
+const LINE_STRONG = "#a99f84";
+const PAPER = "#2b271f";
+const ASH_DIM = "#8a8371";
+const SIGNAL = "#96650f";
+const LIVE = "#a8710f";
 
-const GLOW = `0 0 6px ${SIGNAL}88`;
+const PROMPT_LINE_1 = `┌──(guest@${site.handle})-[~]`;
+const PROMPT_LINE_2 = "└─$ whoami_";
+const GLYPHS = [
+  site.handle,
+  site.name,
+  "focus study status",
+  site.focus.join(" · "),
+  site.study,
+  site.status,
+  "whoami.sh",
+  "×",
+  PROMPT_LINE_1,
+  PROMPT_LINE_2,
+].join(" ");
+const FONT_TEXT = Array.from(new Set(`${GLYPHS}${GLYPHS.toUpperCase()}`)).join("");
 
 async function loadJetBrainsMono(weight: number): Promise<ArrayBuffer | null> {
   try {
     const css = await fetch(
-      `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@${weight}`,
+      `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@${weight}&text=${encodeURIComponent(FONT_TEXT)}`,
       { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.34" } }
     ).then((res) => res.text());
     const url = css.match(/src: url\(([^)]+)\)/)?.[1];
@@ -63,25 +77,82 @@ export default async function Image() {
           fontFamily: fonts ? "JetBrains Mono" : "monospace",
         }}
       >
+        {/* gradient bubbles, matching PageGlow's low-effects ambient background */}
         <div
           style={{
             position: "absolute",
             display: "flex",
-            width: 900,
-            height: 900,
-            left: 150,
-            top: -220,
-            borderRadius: 999,
-            background: `radial-gradient(circle, ${SIGNAL}22 0%, transparent 65%)`,
+            width: 620,
+            height: 520,
+            left: -150,
+            top: 60,
+            background: `radial-gradient(circle, ${SIGNAL}24 0%, transparent 70%)`,
           }}
         />
         <div
           style={{
             position: "absolute",
             display: "flex",
+            width: 620,
+            height: 520,
+            right: -150,
+            top: 220,
+            background: `radial-gradient(circle, ${SIGNAL}24 0%, transparent 70%)`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            width: 460,
+            height: 420,
+            left: 260,
+            bottom: -230,
+            background: `radial-gradient(circle, ${SIGNAL}1c 0%, transparent 70%)`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            width: 380,
+            height: 340,
+            right: 120,
+            bottom: -180,
+            background: `radial-gradient(circle, ${SIGNAL}20 0%, transparent 70%)`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            width: 320,
+            height: 300,
+            left: 60,
+            top: -160,
+            background: `radial-gradient(circle, ${SIGNAL}18 0%, transparent 70%)`,
+          }}
+        />
+        {/* top-center glow, matching SiteBackground's reduced-motion gradient stack */}
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            width: "60%",
+            height: "60%",
+            left: "20%",
+            top: -190,
+            background: `radial-gradient(circle, ${SIGNAL}1f 0%, transparent 70%)`,
+          }}
+        />
+        {/* scanline texture, matching SiteBackground's reduced-motion gradient stack */}
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
             width: "100%",
             height: "100%",
-            backgroundImage: `repeating-linear-gradient(0deg, ${SIGNAL}0d 0px, ${SIGNAL}0d 1px, transparent 1px, transparent 4px)`,
+            backgroundImage: `repeating-linear-gradient(0deg, ${SIGNAL}0d 0px, ${SIGNAL}0d 1px, transparent 1px, transparent 3px)`,
           }}
         />
 
@@ -107,7 +178,7 @@ export default async function Image() {
               borderBottom: `1px solid ${LINE}`,
             }}
           >
-            <div style={{ display: "flex", fontSize: 20, color: "#adb1ba" }}>whoami.sh</div>
+            <div style={{ display: "flex", fontSize: 20, fontWeight: 700, color: PAPER }}>whoami.sh</div>
             <div style={{ display: "flex", fontSize: 20, color: ASH_DIM }}>×</div>
           </div>
 
@@ -117,7 +188,7 @@ export default async function Image() {
               display: "flex",
               width: "100%",
               height: "100%",
-              backgroundImage: `repeating-linear-gradient(0deg, #00000000 0px, #00000000 2px, ${VOID}40 2px, ${VOID}40 4px)`,
+              backgroundImage: `repeating-linear-gradient(0deg, #00000000 0px, #00000000 2px, ${LINE_STRONG}30 2px, ${LINE_STRONG}30 4px)`,
             }}
           />
 
@@ -147,7 +218,6 @@ export default async function Image() {
                   letterSpacing: 5,
                   textTransform: "uppercase",
                   color: SIGNAL,
-                  textShadow: GLOW,
                 }}
               >
                 {site.handle}
@@ -176,8 +246,9 @@ export default async function Image() {
               </div>
             </div>
 
-            <div style={{ display: "flex", fontSize: 22, color: LIVE, textShadow: GLOW }}>
-              guest@{site.handle}:~$ whoami_
+            <div style={{ display: "flex", flexDirection: "column", fontSize: 22, color: LIVE }}>
+              <div style={{ display: "flex" }}>{PROMPT_LINE_1}</div>
+              <div style={{ display: "flex" }}>{PROMPT_LINE_2}</div>
             </div>
           </div>
         </div>
