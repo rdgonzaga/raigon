@@ -178,7 +178,7 @@ export const workExperience: ExperienceEntry[] = [
     date: "Apr 2026 — Present",
     location: "Phoenix, Arizona, United States · Remote",
     bullets: [
-      "Trained custom **ML models** for **OCR**, **Card Recognition** and AI grading, boosting scanner accuracy to **40%+**",
+      "Trained custom **ML models** for **OCR**, **Card Recognition** and AI grading, boosting scanner accuracy to **30%+**",
       "Conducted **QA testing** across iOS and web for a **TCG POS & inventory system**",
       "Shaped marketing content strategy around **TCG price trends**",
     ],
