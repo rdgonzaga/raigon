@@ -21,7 +21,7 @@ type EffectsContextValue = {
 const EffectsContext = createContext<EffectsContextValue | null>(null);
 
 export function EffectsProvider({ children }: { children: ReactNode }) {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     setEnabled(document.documentElement.getAttribute("data-effects") !== "off");
@@ -53,4 +53,9 @@ export function useLowMotion() {
   const osReduced = useReducedMotion();
   const { enabled } = useEffects();
   return osReduced || !enabled;
+}
+
+/** OS-level reduced-motion signal only — unaffected by the site's own effects toggle. */
+export function usePrefersReducedMotion() {
+  return useReducedMotion() ?? false;
 }

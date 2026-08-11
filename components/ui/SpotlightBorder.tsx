@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useLowMotion } from "@/lib/effects";
+import { usePrefersReducedMotion } from "@/lib/effects";
 
 type SpotlightBorderProps = {
   children: React.ReactNode;
@@ -59,7 +59,7 @@ function StaticCard({ children, className = "" }: SpotlightBorderProps) {
 }
 
 export function SpotlightBorder({ children, className = "" }: SpotlightBorderProps) {
-  const reduceMotion = useLowMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const [skipMotion, setSkipMotion] = useState(false);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import type { Transition, Variants } from "framer-motion";
-import { useLowMotion } from "./effects";
+import { usePrefersReducedMotion } from "./effects";
 
 const REVEAL_CONTAINER: Variants = {
   hidden: {},
@@ -28,7 +28,7 @@ const REVEAL_PROPS_STATIC = {
 };
 
 export function useRevealVariants() {
-  const reduceMotion = useLowMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   return {
     container: REVEAL_CONTAINER,
