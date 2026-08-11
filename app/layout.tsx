@@ -14,7 +14,7 @@ const INIT_SCRIPT = `
     if (storedTheme === "light" || (!storedTheme && !prefersDark)) {
       document.documentElement.setAttribute("data-theme", "light");
     }
-    if (localStorage.getItem("effects") === "off") {
+    if (localStorage.getItem("effects") !== "on") {
       document.documentElement.setAttribute("data-effects", "off");
     }
   } catch (e) {}

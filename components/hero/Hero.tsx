@@ -6,7 +6,7 @@ import DecryptedText from "@/components/ui/DecryptedText";
 import { HandshakeSequence, HANDSHAKE_TOTAL_MS } from "./HandshakeSequence";
 import { WhoAmI } from "./WhoAmI";
 import { TerminalButton } from "@/components/ui/TerminalButton";
-import { useLowMotion } from "@/lib/effects";
+import { usePrefersReducedMotion } from "@/lib/effects";
 
 function TextGlow({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -25,7 +25,7 @@ function TextGlow({ children, className = "" }: { children: React.ReactNode; cla
 }
 
 function ScrollCue() {
-  const reduceMotion = useLowMotion();
+  const reduceMotion = usePrefersReducedMotion();
   return (
     <motion.div
       aria-hidden="true"
@@ -42,7 +42,7 @@ function ScrollCue() {
 }
 
 export function Hero() {
-  const reduceMotion = useLowMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const handshakeS = HANDSHAKE_TOTAL_MS / 1000;
   const whoamiDelay = handshakeS + 0.4;
   const buttonDelay = whoamiDelay + 0.35;

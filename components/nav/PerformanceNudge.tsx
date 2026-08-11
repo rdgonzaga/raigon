@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffects, useLowMotion } from "@/lib/effects";
+import { useEffects, usePrefersReducedMotion } from "@/lib/effects";
 import { useJankWatch } from "@/lib/useJankWatch";
 
 const SEEN_KEY = "raigon-fx-nudge-seen";
@@ -10,7 +10,7 @@ const AUTO_DISMISS_MS = 9000;
 
 export function PerformanceNudge() {
   const { enabled, toggle } = useEffects();
-  const reduceMotion = useLowMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const jankDetected = useJankWatch(enabled && !reduceMotion);
   const [seen] = useState(() =>
     typeof window === "undefined" ? true : window.localStorage.getItem(SEEN_KEY) === "1"
