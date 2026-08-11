@@ -6,7 +6,7 @@ export const site = {
   focus: ["backend engineering", "cybersecurity", "machine learning & ai"],
   location: "Philippines",
   study: "compsci student, major in network & information security @ DLSU",
-  status: "software QA & ML specialist @ DeckTradr",
+  status: "software developer / cybersecurity specialist",
   currentlyLearning:
     "offensive security · image recognition & OCR · supervised machine learning · German",
   email: "rainerdgonzaga@gmail.com",
@@ -64,17 +64,15 @@ export const projects: Project[] = [
       "YOLOv8 Nano",
       "Gemini 2.5 Flash",
     ],
-    inProgress: true,
     github: "https://github.com/rdgonzaga/resole",
   },
   {
     slug: "vibe-coded-website-fuzzer",
-    name: "Vibe-Coded Website Fuzzer",
+    name: "PromptPatrol",
     type: "Security tooling",
     description:
-      "Hybrid security scanner designed to audit LLM-generated web applications. Automates the detection of exposed secrets, missing auth controls, and endpoint vulnerabilities.",
+      "Hybrid SAST + DAST scanner that audits LLM-generated ('vibe-coded') web apps for the architectural blind spots AI codegen tends to leave behind. Statically greps for hardcoded secrets, unauthenticated routes, and weak JWT config, then dynamically fires live requests to catch IDOR, rate-limiting gaps, and verbose error leaks — scoring every finding with a built-in CVSS v3.1 engine.",
     stack: ["Python"],
-    inProgress: true,
     github: "https://github.com/rdgonzaga/vibe-coded-website-fuzzer",
     ext: "py",
   },
@@ -175,7 +173,7 @@ export const workExperience: ExperienceEntry[] = [
     org: "DeckTradr",
     role: "Software QA & Machine Learning Specialist",
     type: "Part-time",
-    date: "Apr 2026 — Present",
+    date: "Apr 2026 — Aug 2026",
     location: "Phoenix, Arizona, United States · Remote",
     bullets: [
       "Trained custom **ML models** for **OCR**, **Card Recognition** and AI grading, boosting scanner accuracy to **30%+**",
@@ -241,5 +239,35 @@ export const certifications: Certification[] = [
       "Recognized for competency in **vulnerability analysis**",
     ],
     image: "/certs/certified_offsec_dlsu.webp",
+  },
+  {
+    name: "Junior VAPT Practitioner",
+    issuer: "NSSECU02",
+    reference: "Certificate of Competency",
+    bullets: [
+      "Demonstrated foundational competency in **Vulnerability Assessment and Penetration Testing (VAPT)** — recon, enumeration, vulnerability validation, controlled exploitation, and privilege escalation",
+      "Certified in **CVSS v3.1 risk assessment**, technical reporting, and presentation of security findings",
+    ],
+    image: "/certs/junior_vapt_practitioner.webp",
+  },
+  {
+    name: "VAPT Best Presenter",
+    issuer: "NSSECU02",
+    reference: "Certificate of Appreciation · PromptPatrol (S04 - Group 9)",
+    bullets: [
+      "Recognized for **outstanding presentation, professionalism, and technical depth** communicating VAPT assessment findings",
+      "Awarded at the **VAPT final presentation** for NSSECU02, Aug 2026",
+    ],
+    image: "/certs/vapt_best_presenter.webp",
+  },
+  {
+    name: "CTF Competition 2026 — Champion",
+    issuer: "DLSU Department of Computer Technology",
+    reference: "Certificate of Achievement · Team PromptPatrol",
+    bullets: [
+      "**Champion**, Capture The Flag (CTF) Challenge, for outstanding **teamwork and problem-solving** under NSSECU02 (Advanced & Offensive Security)",
+      "Held at Gokongwei Hall, De La Salle University – Manila, Jul 2026",
+    ],
+    image: "/certs/ctf_champion_2026.webp",
   },
 ];
