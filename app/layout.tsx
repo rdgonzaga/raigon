@@ -3,12 +3,15 @@ import { JetBrains_Mono, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { SiteBackground } from "@/components/background/SiteBackground";
+import { LagNudge } from "@/components/background/LagNudge";
 import { EffectsProvider } from "@/lib/effects";
 import { site } from "@/lib/content";
 
 const INIT_SCRIPT = `
   try {
-    if (localStorage.getItem("theme") === "light") {
+    var storedTheme = localStorage.getItem("theme");
+    var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (storedTheme === "light" || (!storedTheme && !prefersDark)) {
       document.documentElement.setAttribute("data-theme", "light");
     }
     if (localStorage.getItem("effects") === "off") {
@@ -76,6 +79,7 @@ export default function RootLayout({
         />
         <EffectsProvider>
           <SiteBackground />
+          <LagNudge />
           {children}
         </EffectsProvider>
       </body>
