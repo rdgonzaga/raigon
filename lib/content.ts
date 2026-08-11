@@ -176,9 +176,10 @@ export const workExperience: ExperienceEntry[] = [
     date: "Apr 2026 — Aug 2026",
     location: "Phoenix, Arizona, United States · Remote",
     bullets: [
-      "Trained custom **ML models** for **OCR**, **Card Recognition** and AI grading, boosting scanner accuracy to **30%+**",
-      "Conducted **QA testing** across iOS and web for a **TCG POS & inventory system**",
-      "Shaped marketing content strategy around **TCG price trends**",
+      "Annotated datasets and trained custom **ML models** for **OCR**, image recognition, and **AI card grading**, boosting scanner accuracy **30%+**",
+      "Conducted **QA testing** across iOS and web for a **TCG POS & inventory system**, streamlining the support funnel and platform reliability",
+      "Automated marketing workflows with **Claude** for AI-driven content generation and **TCG price-trend analysis**",
+      "Designed marketing-facing frontend interfaces in **React** and **TypeScript** for campaign and promotional content",
     ],
   },
   {
@@ -189,8 +190,9 @@ export const workExperience: ExperienceEntry[] = [
     location: "Apeldoorn, Gelderland, Netherlands · Remote",
     bullets: [
       "Engineered a custom **JS Web Pixel** to bypass Shopify's sandbox for accurate conversion tracking",
-      "Established **backend API linkages** connecting Shopify with Google Ads and Analytics",
-      "Optimized data pipelines and checkout conversions, driving a **55.97% increase** in total sales",
+      "Established **backend API linkages** connecting Shopify with **Google Merchant Center**, Ads, and Analytics",
+      "Performed end-to-end simulated checkout **QA testing** to debug and optimize tracking pipelines",
+      "Synthesized multi-platform data to optimize checkout conversions, driving a **55.97% increase** in total sales",
     ],
   },
   {
