@@ -173,7 +173,7 @@ export const workExperience: ExperienceEntry[] = [
     org: "DeckTradr",
     role: "Software QA & Machine Learning Specialist",
     type: "Part-time",
-    date: "Apr 2026 — Aug 2026",
+    date: "Apr 2026 — Sept 2026",
     location: "Phoenix, Arizona, United States · Remote",
     bullets: [
       "Annotated datasets and trained custom **ML models** for **OCR**, image recognition, and **AI card grading**, boosting scanner accuracy **30%+**",
