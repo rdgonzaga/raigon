@@ -171,7 +171,7 @@ export type ExperienceEntry = {
 export const workExperience: ExperienceEntry[] = [
   {
     org: "DeckTradr",
-    role: "Software QA & Machine Learning Specialist",
+    role: "AI & Brand Design Engineer",
     type: "Part-time",
     date: "Apr 2026 — Sept 2026",
     location: "Phoenix, Arizona, United States · Remote",
