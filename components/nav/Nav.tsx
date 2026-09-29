@@ -7,7 +7,7 @@ import { navLinks, site } from "@/lib/content";
 import DecryptedText from "@/components/ui/DecryptedText";
 import { SystemControls } from "@/components/nav/SystemControls";
 import { PerformanceNudge } from "@/components/nav/PerformanceNudge";
-import { useLowMotion } from "@/lib/effects";
+import { usePrefersReducedMotion } from "@/lib/effects";
 
 type MagneticLinkProps = {
   href: string;
@@ -101,7 +101,7 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useLowMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   const activeIndex = useActiveSection();
   const displayIndex = hoverIndex ?? activeIndex;

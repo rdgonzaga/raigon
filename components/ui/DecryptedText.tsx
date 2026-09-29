@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
-import { useLowMotion } from "@/lib/effects";
+import { usePrefersReducedMotion } from "@/lib/effects";
 
 interface DecryptedTextProps extends HTMLMotionProps<"span"> {
   text: string;
@@ -37,7 +37,7 @@ export default function DecryptedText({
   clickMode = "once",
   ...props
 }: DecryptedTextProps) {
-  const prefersReducedMotion = useLowMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const [displayText, setDisplayText] = useState<string>(text);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);

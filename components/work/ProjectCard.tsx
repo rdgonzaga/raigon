@@ -42,7 +42,7 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
               onClick={(e) => e.stopPropagation()}
               className="flex shrink-0 items-center text-ash-dim transition-all hover:scale-110 hover:text-signal"
             >
-              <GithubIcon size={16} />
+              <GithubIcon size={22} />
             </a>
           )}
         </div>

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { site, skillGroups, projects } from "@/lib/content";
-import { useLowMotion } from "@/lib/effects";
+import { usePrefersReducedMotion } from "@/lib/effects";
 
 type OutputContent = string | { label: string; value: string } | { heading: string };
 type HistoryEntry =
@@ -114,7 +114,7 @@ function HistoryLine({ entry }: { entry: HistoryEntry }) {
 }
 
 export function ConsoleDrawer() {
-  const reduceMotion = useLowMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>(BANNER);
   const [input, setInput] = useState("");

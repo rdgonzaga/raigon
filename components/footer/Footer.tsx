@@ -3,10 +3,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { site } from "@/lib/content";
 import { ContactForm } from "./ContactForm";
 import { TerminalButton } from "@/components/ui/TerminalButton";
-import { Chip } from "@/components/ui/Chip";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-
-const ENGAGEMENT_TYPES = ["Internship", "Part-time", "Freelance"];
 
 export function Footer() {
   return (
@@ -16,15 +13,9 @@ export function Footer() {
           <div>
             <SectionHeading
               eyebrow="Contact"
-              title="Open to backend-heavy full-stack, cybersecurity, and applied ML roles."
+              title="Get in touch with me."
               speed={14}
             />
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {ENGAGEMENT_TYPES.map((type) => (
-                <Chip key={type}>{type}</Chip>
-              ))}
-            </div>
 
             <TerminalButton href="/Gonzaga_Resume.pdf" className="mt-6">
               ./view-resume.pdf
