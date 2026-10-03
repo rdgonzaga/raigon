@@ -13,7 +13,7 @@ const INIT_SCRIPT = `
     if (storedTheme === "light" || (!storedTheme && !prefersDark)) {
       document.documentElement.setAttribute("data-theme", "light");
     }
-    if (localStorage.getItem("effects") !== "on") {
+    if (localStorage.getItem("effects") === "off") {
       document.documentElement.setAttribute("data-effects", "off");
     }
   } catch (e) {}
