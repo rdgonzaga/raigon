@@ -142,7 +142,7 @@ export function Nav() {
   }, [mobileOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-void/80 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-void/95">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <a href="#top" className="font-mono text-sm tracking-tight text-paper">
           <span className="text-signal">rai@</span>
