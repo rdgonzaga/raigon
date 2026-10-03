@@ -3,21 +3,19 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffects, usePrefersReducedMotion } from "@/lib/effects";
-import { useJankWatch } from "@/lib/useJankWatch";
 
 const SEEN_KEY = "raigon-fx-nudge-seen";
 const AUTO_DISMISS_MS = 9000;
 
 export function PerformanceNudge() {
-  const { enabled, toggle } = useEffects();
+  const { enabled, toggle, struggling } = useEffects();
   const reduceMotion = usePrefersReducedMotion();
-  const jankDetected = useJankWatch(enabled && !reduceMotion);
   const [seen] = useState(() =>
     typeof window === "undefined" ? true : window.localStorage.getItem(SEEN_KEY) === "1"
   );
   const [dismissed, setDismissed] = useState(false);
 
-  const visible = jankDetected && enabled && !seen && !dismissed;
+  const visible = struggling && enabled && !seen && !dismissed;
 
   const dismiss = () => {
     window.localStorage.setItem(SEEN_KEY, "1");

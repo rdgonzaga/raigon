@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
@@ -16,12 +17,16 @@ const useIsomorphicLayoutEffect =
 type EffectsContextValue = {
   enabled: boolean;
   toggle: () => void;
+  struggling: boolean;
+  reportStruggling: () => void;
 };
 
 const EffectsContext = createContext<EffectsContextValue | null>(null);
 
 export function EffectsProvider({ children }: { children: ReactNode }) {
   const [enabled, setEnabled] = useState(false);
+  const [struggling, setStruggling] = useState(false);
+  const reportStruggling = useCallback(() => setStruggling(true), []);
 
   useIsomorphicLayoutEffect(() => {
     setEnabled(document.documentElement.getAttribute("data-effects") !== "off");
@@ -40,7 +45,7 @@ export function EffectsProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  return <EffectsContext.Provider value={{ enabled, toggle }}>{children}</EffectsContext.Provider>;
+  return <EffectsContext.Provider value={{ enabled, toggle, struggling, reportStruggling }}>{children}</EffectsContext.Provider>;
 }
 
 export function useEffects() {

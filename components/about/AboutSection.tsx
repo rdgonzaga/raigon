@@ -26,11 +26,6 @@ export function AboutSection() {
               automation, designing systems where reliable full-stack architecture meets
               proactive security.
             </p>
-            <p className="mt-3 leading-relaxed text-ash">
-              Currently, I balance my studies with my role as a Software QA &amp; Machine
-              Learning Specialist at DeckTradr, where I train custom ML models for image
-              recognition and conduct rigorous QA across platform builds.
-            </p>
           </motion.div>
 
           <motion.div variants={item} className="mt-8">

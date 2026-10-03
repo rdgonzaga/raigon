@@ -60,7 +60,11 @@ export function Hero() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[38%] -z-10 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal opacity-[0.07] blur-[140px]"
+        className="pointer-events-none absolute left-1/2 top-[38%] -z-10 h-[60rem] w-[60rem] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background:
+            "radial-gradient(closest-side, color-mix(in srgb, var(--color-signal) 7%, transparent) 0%, color-mix(in srgb, var(--color-signal) 4%, transparent) 45%, transparent 100%)",
+        }}
       />
 
       <div className="mx-auto w-full max-w-6xl">
