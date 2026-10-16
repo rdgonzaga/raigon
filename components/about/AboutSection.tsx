@@ -26,6 +26,10 @@ export function AboutSection() {
               automation, designing systems where reliable full-stack architecture meets
               proactive security.
             </p>
+            <p className="mt-3 leading-relaxed text-ash">
+              Currently, I balance my studies with my role as a Shared Tech Intern at ING Hubs
+              Philippines.
+            </p>
           </motion.div>
 
           <motion.div variants={item} className="mt-8">
