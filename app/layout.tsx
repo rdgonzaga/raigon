@@ -29,8 +29,22 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
-const TITLE = "Rainer Gonzaga | Portfolio";
-const DESCRIPTION = site.tagline;
+const TITLE = `${site.name} | ${site.role} @ ING Hubs PH`;
+const DESCRIPTION = `CS student at DLSU majoring in network & information security, and ${site.role} at ${site.employer}. Backend engineering, cybersecurity, and machine learning.`;
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: "https://www.raigon.dev",
+  email: `mailto:${site.email}`,
+  jobTitle: site.role,
+  worksFor: { "@type": "Organization", name: site.employer },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "De La Salle University" },
+  address: { "@type": "PostalAddress", addressCountry: "PH" },
+  knowsAbout: site.focus,
+  sameAs: [site.github, site.linkedin],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.raigon.dev"),
@@ -75,6 +89,10 @@ export default function RootLayout({
           id="theme-init"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: INIT_SCRIPT }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c") }}
         />
         <EffectsProvider>
           <SiteBackground />
