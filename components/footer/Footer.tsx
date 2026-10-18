@@ -17,7 +17,7 @@ export function Footer() {
               speed={14}
             />
 
-            <TerminalButton href="/Gonzaga_Resume.pdf" className="mt-6">
+            <TerminalButton href="/cv" className="mt-6">
               ./view-resume.pdf
             </TerminalButton>
 

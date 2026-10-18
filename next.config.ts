@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
-  async redirects() {
-    return [{ source: "/cv", destination: "/Gonzaga_Resume.pdf", permanent: false }];
+  async rewrites() {
+    return [{ source: "/cv", destination: "/cv.pdf" }];
   },
 };
 
