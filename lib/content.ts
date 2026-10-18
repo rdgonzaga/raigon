@@ -1,12 +1,17 @@
+const role = "Shared Tech Intern";
+const employer = "ING Hubs Philippines";
+
 export const site = {
   name: "Rainer Gonzaga",
+  role,
+  employer,
   handle: "raigon",
   tagline:
     "Bridging backend engineering, cybersecurity, and machine learning.",
   focus: ["backend engineering", "cybersecurity", "machine learning & ai"],
   location: "Philippines",
   study: "compsci student, major in network & information security @ DLSU",
-  status: "software developer / cybersecurity specialist",
+  status: `${role.toLowerCase()} @ ${employer}`,
   currentlyLearning:
     "offensive security · image recognition & OCR · supervised machine learning · German",
   email: "rainerdgonzaga@gmail.com",
@@ -114,11 +119,8 @@ export const skillGroups: SkillGroup[] = [
       "React",
       "Next.js",
       "Tailwind CSS",
-      "Styled Components",
       "HTML5/CSS",
       "Vite",
-      "ESLint",
-      "Prettier",
     ],
   },
   {
@@ -133,7 +135,6 @@ export const skillGroups: SkillGroup[] = [
       "NestJS",
       "FastAPI",
       "PostgreSQL",
-      "MySQL",
       "Prisma",
       "Drizzle",
       "REST",
@@ -152,9 +153,7 @@ export const skillGroups: SkillGroup[] = [
       "pandas",
       "scikit-learn",
       "Anthropic",
-      "Antigravity",
       "Claude Code",
-      "OpenCode",
     ],
   },
 ];
@@ -169,6 +168,14 @@ export type ExperienceEntry = {
 };
 
 export const workExperience: ExperienceEntry[] = [
+  {
+    org: "ING Hubs Philippines",
+    role: "Shared Tech Intern",
+    type: "Internship",
+    date: "Oct 2026 — Present",
+    location: "Makati, National Capital Region, Philippines · Hybrid",
+    bullets: [],
+  },
   {
     org: "DeckTradr",
     role: "AI & Brand Design Engineer",
