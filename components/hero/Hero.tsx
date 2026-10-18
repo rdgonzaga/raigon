@@ -103,7 +103,7 @@ export function Hero() {
           }}
           className="mt-8"
         >
-          <TerminalButton href="/Gonzaga_Resume.pdf">./view-resume.pdf</TerminalButton>
+          <TerminalButton href="/cv">./view-resume.pdf</TerminalButton>
         </motion.div>
       </div>
 
