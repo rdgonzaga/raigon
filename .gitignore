@@ -47,3 +47,6 @@ AGENTS.md
 
 # local planning scratch (specs/plans) — not meant to be pushed
 docs/superpowers/
+
+.vercel
+.env*
