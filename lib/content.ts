@@ -205,7 +205,7 @@ export const workExperience: ExperienceEntry[] = [
   {
     org: "La Salle Computer Society",
     role: "Associate Backend Engineer",
-    date: "Oct 2024 — Aug 2026",
+    date: "Sep 2025 — Aug 2026",
     bullets: [
       "Architected backend for **ArcherBytes**, serving **20,000+ DLSU students** on **Next.js** + **PostgreSQL**",
       "Designed schemas with **Drizzle ORM** for content, reactions, and community features",
