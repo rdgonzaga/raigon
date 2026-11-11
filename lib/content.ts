@@ -1,4 +1,4 @@
-const role = "Shared Tech Intern";
+const role = "Java Engineer Intern";
 const employer = "ING Hubs Philippines";
 
 export const site = {
@@ -73,7 +73,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vibe-coded-website-fuzzer",
-    name: "PromptPatrol",
+    name: "VibeCheck",
     type: "Security tooling",
     description:
       "Hybrid SAST + DAST scanner that audits LLM-generated ('vibe-coded') web apps for the architectural blind spots AI codegen tends to leave behind. Statically greps for hardcoded secrets, unauthenticated routes, and weak JWT config, then dynamically fires live requests to catch IDOR, rate-limiting gaps, and verbose error leaks — scoring every finding with a built-in CVSS v3.1 engine.",
@@ -170,7 +170,7 @@ export type ExperienceEntry = {
 export const workExperience: ExperienceEntry[] = [
   {
     org: "ING Hubs Philippines",
-    role: "Shared Tech Intern",
+    role: "Java Engineer Intern",
     type: "Internship",
     date: "Oct 2026 — Present",
     location: "Makati, National Capital Region, Philippines · Hybrid",
@@ -219,7 +219,7 @@ export const education: ExperienceEntry[] = [
   {
     org: "De La Salle University",
     role: "BS Computer Science, Major in Network and Information Security",
-    date: "Expected Sep 2028",
+    date: "Expected Aug 2028",
     bullets: ["Manila, Philippines"],
   },
   {
