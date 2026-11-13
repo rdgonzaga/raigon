@@ -91,16 +91,16 @@ export const projects: Project[] = [
       "YOLOv8 Nano",
       "Gemini 2.5 Flash",
     ],
-    github: "https://github.com/rdgonzaga/resole",
+    github: "https://github.com/resole-ph/resole",
   },
   {
-    slug: "vibe-coded-website-fuzzer",
+    slug: "vibecheck",
     name: "VibeCheck",
     type: "Security tooling",
     description:
       "Hybrid SAST + DAST scanner that audits LLM-generated ('vibe-coded') web apps for the architectural blind spots AI codegen tends to leave behind. Statically greps for hardcoded secrets, unauthenticated routes, and weak JWT config, then dynamically fires live requests to catch IDOR, rate-limiting gaps, and verbose error leaks — scoring every finding with a built-in CVSS v3.1 engine.",
     stack: ["Python"],
-    github: "https://github.com/rdgonzaga/vibe-coded-website-fuzzer",
+    github: "https://github.com/rdgonzaga/vibecheck",
     ext: "py",
   },
   {
