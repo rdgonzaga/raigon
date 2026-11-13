@@ -1,4 +1,4 @@
-const role = "Shared Tech Intern";
+const role = "Java Engineer Intern";
 const employer = "ING Hubs Philippines";
 
 export const site = {
@@ -38,6 +38,7 @@ export type Project = {
   featured?: boolean;
   inProgress?: boolean;
   github?: string;
+  live?: string;
   ext?: string;
 };
 
@@ -51,6 +52,27 @@ export const projects: Project[] = [
     stack: ["Next.js", "TypeScript", "Better Auth", "Drizzle ORM", "PostgreSQL", "Docker"],
     featured: true,
     github: "https://github.com/dlsu-lscs/archerbytes",
+  },
+  {
+    slug: "f1-prediction",
+    name: "Parc Fermé",
+    type: "ML / race predictions",
+    description:
+      "Predicts every F1 race once qualifying ends: finishing order plus each driver's odds to win, podium, score points or retire. Backtested across 48 races and published as a static site that rebuilds itself every race weekend.",
+    stack: ["Python", "XGBoost", "scikit-learn", "pandas", "FastF1", "Jinja2", "GitHub Actions"],
+    github: "https://github.com/rdgonzaga/f1-prediction",
+    live: "https://f1.raigon.dev",
+    ext: "py",
+  },
+  {
+    slug: "wordwork",
+    name: "wordwork",
+    type: "Offline-first PWA",
+    description:
+      "Daily language study app with spaced-repetition flashcards, a der/die/das drill, a study log with streaks and a one-sentence journal. Works offline from IndexedDB and syncs across devices through Supabase.",
+    stack: ["React", "TypeScript", "Vite", "Dexie", "Supabase", "PWA"],
+    github: "https://github.com/rdgonzaga/wordwork",
+    live: "https://wordwork.raigon.dev",
   },
   {
     slug: "resole",
@@ -69,16 +91,16 @@ export const projects: Project[] = [
       "YOLOv8 Nano",
       "Gemini 2.5 Flash",
     ],
-    github: "https://github.com/rdgonzaga/resole",
+    github: "https://github.com/resole-ph/resole",
   },
   {
-    slug: "vibe-coded-website-fuzzer",
-    name: "PromptPatrol",
+    slug: "vibecheck",
+    name: "VibeCheck",
     type: "Security tooling",
     description:
       "Hybrid SAST + DAST scanner that audits LLM-generated ('vibe-coded') web apps for the architectural blind spots AI codegen tends to leave behind. Statically greps for hardcoded secrets, unauthenticated routes, and weak JWT config, then dynamically fires live requests to catch IDOR, rate-limiting gaps, and verbose error leaks — scoring every finding with a built-in CVSS v3.1 engine.",
     stack: ["Python"],
-    github: "https://github.com/rdgonzaga/vibe-coded-website-fuzzer",
+    github: "https://github.com/rdgonzaga/vibecheck",
     ext: "py",
   },
   {
@@ -170,7 +192,7 @@ export type ExperienceEntry = {
 export const workExperience: ExperienceEntry[] = [
   {
     org: "ING Hubs Philippines",
-    role: "Shared Tech Intern",
+    role: "Java Engineer Intern",
     type: "Internship",
     date: "Oct 2026 — Present",
     location: "Makati, National Capital Region, Philippines · Hybrid",
@@ -205,7 +227,7 @@ export const workExperience: ExperienceEntry[] = [
   {
     org: "La Salle Computer Society",
     role: "Associate Backend Engineer",
-    date: "Oct 2024 — Aug 2026",
+    date: "Sep 2025 — Aug 2026",
     bullets: [
       "Architected backend for **ArcherBytes**, serving **20,000+ DLSU students** on **Next.js** + **PostgreSQL**",
       "Designed schemas with **Drizzle ORM** for content, reactions, and community features",
@@ -219,7 +241,7 @@ export const education: ExperienceEntry[] = [
   {
     org: "De La Salle University",
     role: "BS Computer Science, Major in Network and Information Security",
-    date: "Expected Sep 2028",
+    date: "Expected Aug 2028",
     bullets: ["Manila, Philippines"],
   },
   {

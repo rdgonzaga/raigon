@@ -27,7 +27,7 @@ export function AboutSection() {
               proactive security.
             </p>
             <p className="mt-3 leading-relaxed text-ash">
-              Currently, I balance my studies with my role as a Shared Tech Intern at ING Hubs
+              Currently, I balance my studies with my role as a Java Engineer Intern at ING Hubs
               Philippines.
             </p>
           </motion.div>
