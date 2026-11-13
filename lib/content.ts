@@ -38,6 +38,7 @@ export type Project = {
   featured?: boolean;
   inProgress?: boolean;
   github?: string;
+  live?: string;
   ext?: string;
 };
 
@@ -51,6 +52,27 @@ export const projects: Project[] = [
     stack: ["Next.js", "TypeScript", "Better Auth", "Drizzle ORM", "PostgreSQL", "Docker"],
     featured: true,
     github: "https://github.com/dlsu-lscs/archerbytes",
+  },
+  {
+    slug: "f1-prediction",
+    name: "Parc Fermé",
+    type: "ML / race predictions",
+    description:
+      "Predicts every F1 race once qualifying ends: finishing order plus each driver's odds to win, podium, score points or retire. Backtested across 48 races and published as a static site that rebuilds itself every race weekend.",
+    stack: ["Python", "XGBoost", "scikit-learn", "pandas", "FastF1", "Jinja2", "GitHub Actions"],
+    github: "https://github.com/rdgonzaga/f1-prediction",
+    live: "https://f1.raigon.dev",
+    ext: "py",
+  },
+  {
+    slug: "wordwork",
+    name: "wordwork",
+    type: "Offline-first PWA",
+    description:
+      "Daily language study app with spaced-repetition flashcards, a der/die/das drill, a study log with streaks and a one-sentence journal. Works offline from IndexedDB and syncs across devices through Supabase.",
+    stack: ["React", "TypeScript", "Vite", "Dexie", "Supabase", "PWA"],
+    github: "https://github.com/rdgonzaga/wordwork",
+    live: "https://wordwork.raigon.dev",
   },
   {
     slug: "resole",

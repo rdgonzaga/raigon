@@ -33,18 +33,32 @@ export function ProjectCard({ project, className = "" }: ProjectCardProps) {
       <div>
         <div className="flex items-center justify-between gap-3">
           <h3 className="font-mono text-lg font-semibold text-paper">{project.name}</h3>
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.name} on GitHub`}
-              onClick={(e) => e.stopPropagation()}
-              className="flex shrink-0 items-center text-ash-dim transition-all hover:scale-110 hover:text-signal"
-            >
-              <GithubIcon size={22} />
-            </a>
-          )}
+          <div className="flex shrink-0 items-center gap-3">
+            {project.live && (
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${project.name} live demo`}
+                onClick={(e) => e.stopPropagation()}
+                className="font-mono text-xs text-ash-dim transition-colors hover:text-signal"
+              >
+                {project.live.replace("https://", "")} ↗
+              </a>
+            )}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${project.name} on GitHub`}
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center text-ash-dim transition-all hover:scale-110 hover:text-signal"
+              >
+                <GithubIcon size={22} />
+              </a>
+            )}
+          </div>
         </div>
         <div className="mt-1 flex flex-wrap items-center gap-2">
           <p className="font-mono text-xs uppercase tracking-wider text-trace">
