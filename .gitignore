@@ -50,3 +50,6 @@ docs/superpowers/
 
 .vercel
 .env*
+
+# playwright mcp logs
+.playwright-mcp/
