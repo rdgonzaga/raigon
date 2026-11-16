@@ -3,7 +3,7 @@
 My portfolio at [raigon.dev](https://www.raigon.dev). A CV sheet in frosted glass floats over a 3D lake you walk along as you scroll.
 
 <p align="center">
-<img src=".github/readme.jpg" alt="raigon.dev hero over the lake scene at sunset" width="85%"/>
+<img src=".github/readme.gif" alt="Scrolling raigon.dev: the lake scene, CV sheet and morning/sunset toggle" width="85%"/>
 </p>
 
 ## Features
