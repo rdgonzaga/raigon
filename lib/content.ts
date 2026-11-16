@@ -42,7 +42,7 @@ export const projects: Project[] = [
     name: "Parc Fermé",
     type: "ML / race predictions",
     description:
-      "XGBoost model that sets each driver's win, podium, points and DNF odds once qualifying is done, published every race weekend. Since going live it has called 78% of podium finishers, against 56% from the starting grid.",
+      "XGBoost model that sets each driver's win, podium, points and DNF odds once qualifying is done, published every race weekend.",
     stack: ["Python", "XGBoost", "scikit-learn", "pandas", "FastF1", "Jinja2", "GitHub Actions"],
     github: "https://github.com/rdgonzaga/f1-prediction",
     live: "https://f1.raigon.dev",

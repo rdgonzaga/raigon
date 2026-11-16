@@ -1,5 +1,5 @@
 import type { Project } from "@/lib/content";
-import { raceLine, type LatestRace } from "@/lib/parcferme";
+import { liveRecord, podiumLine, raceLine, type LatestRace } from "@/lib/parcferme";
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
@@ -8,7 +8,10 @@ export function ProjectCard({ project, latest }: { project: Project; latest?: La
     <article className="rg-glass rg-card">
       <h3>{project.name}</h3>
       <p className="rg-org">{project.type}</p>
-      <p className="rg-desc">{project.description}</p>
+      <p className="rg-desc">
+        {project.description}
+        {latest !== undefined && ` ${podiumLine(liveRecord(latest))}`}
+      </p>
       {project.role && <p className="rg-mine">{project.role}</p>}
       {latest && (
         <p className="rg-live">

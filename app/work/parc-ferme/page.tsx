@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { TimeToggle } from "@/components/scene/TimeToggle";
+import { latestRace, liveRecord } from "@/lib/parcferme";
 
 export const metadata: Metadata = {
   title: "Parc Fermé case study | Rainer Gonzaga",
@@ -11,14 +12,6 @@ export const metadata: Metadata = {
 };
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
-
-// live predictions only, made before each race and scored after (scorecard.csv)
-const LIVE_RACES = 6;
-const RESULTS = [
-  { label: "Podium finishers called", model: 78, grid: 56, unit: "%" },
-  { label: "Finishing order (Spearman)", model: 0.78, grid: 0.63, unit: "" },
-  { label: "Race winner called", model: 67, grid: 83, unit: "%" },
-];
 
 function Bars({ model, grid, unit }: { model: number; grid: number; unit: string }) {
   const max = unit === "%" ? 100 : 1;
@@ -36,7 +29,15 @@ function Bars({ model, grid, unit }: { model: number; grid: number; unit: string
   );
 }
 
-export default function ParcFerme() {
+export default async function ParcFerme() {
+  const live = liveRecord(await latestRace());
+  const results = [
+    { label: "Podium finishers called", ...live.podium, unit: "%" },
+    { label: "Finishing order (Spearman)", ...live.spearman, unit: "" },
+    { label: "Race winner called", ...live.winner, unit: "%" },
+  ];
+  const podiums = live.podium.model > live.podium.grid ? "It calls podiums better than the grid" : "It doesn't call podiums better than the grid yet";
+  const winners = live.winner.model < live.winner.grid ? "but picks the winner less often" : "and picks the winner at least as often";
   return (
     <div className="rg rg-doc">
       <div className="rg-scene is-still" aria-hidden />
@@ -90,16 +91,16 @@ export default function ParcFerme() {
 
           <section className="rg-glass rg-panel">
           <h2>How it has done live</h2>
-          <p>Predictions made after qualifying and scored after each race, from Baku 2026 on ({LIVE_RACES} races so far).</p>
-          {RESULTS.map((r) => (
+          <p>Predictions made after qualifying and scored after each race, from the {live.since} GP on ({live.races} races so far).</p>
+          {results.map((r) => (
             <div key={r.label} className="rg-result">
               <h3>{r.label}</h3>
               <Bars model={r.model} grid={r.grid} unit={r.unit} />
             </div>
           ))}
           <p>
-            It calls podiums better than the grid but picks the winner less often, and Polymarket&apos;s pre-race odds still score better on the
-            winner. Six races is a small sample, so the next step is a rerun on the full data set to prune features.
+            {podiums} {winners}, and Polymarket&apos;s pre-race odds still score better on the winner. {live.races} races is a small sample, so
+            the next step is a rerun on the full data set to prune features.
           </p>
           </section>
         </article>
