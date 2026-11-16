@@ -211,7 +211,7 @@ body { background: var(--rg-base); }
     }
   }
 }
-@keyframes rg-hero-out { to { opacity: 0; transform: translateY(-14vh) scale(0.94); filter: blur(10px); } }
+@keyframes rg-hero-out { to { opacity: 0; transform: translateY(-14vh) scale(0.94); } }
 @keyframes rg-in { from { opacity: 0; transform: translateY(48px); } }
 @keyframes rg-out { to { opacity: 0; transform: translateY(-24px); } }
 
@@ -243,6 +243,7 @@ body { background: var(--rg-base); }
 @media (max-width: 1139px) {
   .rg-secnav { top: auto; right: auto; bottom: 12px; left: 50%; flex-direction: row; border-radius: 999px; max-width: calc(100vw - 24px); overflow-x: auto; scrollbar-width: none; transform: translate(-50%, 12px); }
   .rg-secnav.is-shown { transform: translate(-50%, 0); }
+  .rg:has(.rg-secnav.is-shown) .rg-credit { opacity: 0; pointer-events: none; }
 }
 .rg-bare .rg-secnav { opacity: 0; pointer-events: none; }
 .rg-toggle { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; color: var(--rg-ink); border-radius: 50%; cursor: pointer; box-shadow: none; }

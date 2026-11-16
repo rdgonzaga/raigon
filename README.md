@@ -1,31 +1,26 @@
 # raigon
 
-My personal website portfolio, built with Next.js, TypeScript, Tailwind CSS, and Framer Motion. Dark mode leans into a phosphor-green CRT terminal look; light mode swaps that for a warm amber-on-paper "ledger" palette. An animated ASCII field runs behind the page and scrambles under the cursor, and an interactive console drawer lets visitors run real commands (`whoami`, `skills`, `projects`, `contact`).
+My portfolio at [raigon.dev](https://www.raigon.dev). A CV sheet in frosted glass floats over a 3D lake you walk along as you scroll.
 
 <p align="center">
-<img src=".github/readme.gif" alt="raigon portfolio walkthrough" width="70%"/>
+<img src=".github/readme.jpg" alt="raigon.dev hero over the lake scene at sunset" width="85%"/>
 </p>
-
 
 ## Features
 
-- **Terminal-themed UI** - CRT green/amber palettes, scanline chrome, decrypt-style text reveals, and a boot-up handshake sequence on load
-- **Interactive console drawer** - press `` ` `` to open a real shell with `help`, `whoami`, `skills`, `projects`, `contact`, `sudo`, and command history (↑/↓), lazy-loaded so it doesn't cost anything until opened
-- **Manual effects toggle** - visitors can turn off the animated background and motion for low-end devices; a jank-watcher nudges people to do this automatically if the page is visibly struggling
-- **Reduced-motion ambient background** - a static scanline/glow treatment stands in for the ASCII background whenever effects are off or `prefers-reduced-motion` is set, so the site still feels alive without the per-frame cost
-- **Light/dark theme toggle**, remembered across visits
-- **Live GitHub activity heatmap**, pulled from the GitHub GraphQL API
-- **Scroll progress indicator** in the nav
-- **Contact form** wired to Web3Forms, no backend required
-- **Dynamically generated Open Graph image** matching the site's own terminal aesthetic for link previews
+- **Lake scene** in three.js: the camera walks the path as you scroll, with sunset and morning lighting
+- **Low-end fallback**: weak GPUs, software renderers and reduced motion get a still image instead of the live scene
+- **Hide the page** to look at the lake
+- **Parc Fermé case study** at `/work/parc-ferme`, with a live line pulled from [f1.raigon.dev](https://f1.raigon.dev)
+- **Contact form** through Web3Forms
+- **Security headers**: CSP, HSTS, frame and permissions policies, plus `/.well-known/security.txt`
+- **Generated Open Graph images** for the home page and the case study
 
 ## Stack
 
-- Next.js (App Router) + TypeScript
-- Tailwind CSS v4
-- Framer Motion
-- Canvas 2D, for the ASCII background (no WebGL)
+- Next.js 16 (App Router), React 19, TypeScript
+- three.js
+- Vitest, ESLint, GitHub Actions CI
+- Vercel, with Web Analytics
 
-## Deployment
-
-Deployed on [Vercel](https://vercel.com) at [raigon.dev](https://www.raigon.dev).
+Scene engine by [André Elias](https://www.andreelias.dev/en).
