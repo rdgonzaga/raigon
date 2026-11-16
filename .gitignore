@@ -53,3 +53,5 @@ docs/superpowers/
 
 # playwright mcp logs
 .playwright-mcp/
+
+graphify-out/
