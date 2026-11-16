@@ -1,0 +1,310 @@
+:root {
+  /* one glass recipe for every surface; fills sit inside it */
+  --rg-glass-a: 0.46;
+  --rg-glass-hover: 0.6;
+  --rg-fill-a: 0.32;
+  --rg-blur: blur(22px) saturate(1.5);
+  --rg-overlay: #fffaf0;
+  --rg-overlay-dim: 0.85;
+  --rg-paper: 27 24 20;
+  --rg-ink: #f1eadc;
+  --rg-muted: #b9b09c;
+  --rg-line: rgba(241, 234, 218, 0.2);
+  --rg-accent: #e9b660;
+  --rg-still: url("/scene/sunset.webp");
+  --rg-base: #4a3550;
+}
+:root[data-theme="light"] {
+  /* denser than sunset: pale glass over dark foliage drops muted text below AA */
+  --rg-glass-a: 0.64;
+  --rg-glass-hover: 0.76;
+  --rg-paper: 251 248 241;
+  --rg-ink: #1d1b17;
+  --rg-muted: #4a443a;
+  --rg-line: rgba(29, 27, 23, 0.16);
+  --rg-accent: #e4a92a;
+  --rg-still: url("/scene/morning.webp");
+  --rg-base: #6f93a8;
+}
+
+body { background: var(--rg-base); }
+
+/* selected text takes the accent, like the job bullets */
+::selection { background: var(--rg-accent); color: #1d1b17; }
+:root[data-theme="light"] ::selection { color: #fffaf0; }
+
+.rg {
+  color: var(--rg-ink);
+  font-family: var(--font-familjen), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: clip;
+}
+.rg a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 3px; }
+.rg a:hover { text-decoration-color: var(--rg-accent); }
+/* plain text links: the accent underline draws in over the faint one */
+.rg a:not([class]) {
+  text-decoration: none; padding-bottom: 1px;
+  background: linear-gradient(var(--rg-accent), var(--rg-accent)) 0 100% / 0% 1.5px no-repeat,
+    linear-gradient(color-mix(in srgb, currentColor 35%, transparent), color-mix(in srgb, currentColor 35%, transparent)) 0 100% / 100% 1px no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rg a:not([class]):hover { background-size: 100% 1.5px, 100% 1px; }
+
+/* scene */
+.rg-scene { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: var(--rg-base); }
+.rg-scene::before {
+  content: ""; position: absolute; inset: 0;
+  background: var(--rg-still) center / cover no-repeat;
+  filter: blur(9px) saturate(1.08); transform: scale(1.06);
+  transition: filter 1.4s ease, transform 1.4s ease;
+}
+.rg-scene.is-live::before, .rg-scene.is-still::before { filter: none; transform: none; }
+.rg-scene canvas { position: relative; display: block; width: 100%; height: 100%; opacity: 0; transition: opacity 1.1s ease; }
+.rg-scene.is-live canvas { opacity: 1; }
+
+/* loader: until the lake is drawn the page waits behind the blurred still, scroll locked */
+.rg-load { position: fixed; inset: 0; z-index: 4; display: grid; place-content: center; justify-items: center; gap: 14px; pointer-events: none; transition: opacity 0.8s ease 0.2s; }
+.rg-scene.is-live .rg-load, .rg-scene.is-still .rg-load { opacity: 0; }
+.rg-load-label {
+  font-size: 14px; font-weight: 500; letter-spacing: 0.01em;
+  color: var(--rg-overlay); opacity: var(--rg-overlay-dim); text-shadow: 0 1px 3px rgba(8, 22, 16, 0.5);
+}
+.rg-load-track { width: min(220px, 50vw); height: 2px; border-radius: 2px; overflow: hidden; background: rgb(255 250 240 / 0.25); }
+.rg-load-bar { display: block; height: 100%; background: rgb(255 250 240 / 0.9); transform-origin: left; transition: transform 0.5s ease; }
+.rg-booting, .rg-booting body { overflow: hidden; }
+.rg-booting .rg main, .rg-booting .rg-bar, .rg-booting .rg-credit { opacity: 0; pointer-events: none; }
+.rg-bar { transition: opacity 0.8s ease; }
+.rg-booting .rg-hero > * { translate: 0 14px; }
+.rg-hero > * { transition: translate 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.rg-shot .rg main, .rg-shot .rg-bar, .rg-shot .rg-secnav, .rg-shot .rg-credit, .rg-shot .rg-load, .rg-shot nextjs-portal { display: none; }
+.rg-load-label span { font-variant-numeric: tabular-nums; margin-left: 6px; opacity: 0.7; }
+
+/* frosted glass */
+.rg-glass {
+  background: rgb(var(--rg-paper) / var(--rg-glass-a));
+  -webkit-backdrop-filter: var(--rg-blur);
+  backdrop-filter: var(--rg-blur);
+  border: 1px solid rgb(255 255 255 / 0.28);
+  box-shadow: 0 30px 80px -30px rgba(10, 20, 14, 0.55), 0 2px 6px rgba(10, 20, 14, 0.12), inset 0 1px 0 rgb(255 255 255 / 0.35);
+}
+:root:not([data-theme="light"]) .rg-glass { border-color: rgb(255 255 255 / 0.14); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgb(255 255 255 / 0.12); }
+
+.rg main { position: relative; z-index: 1; padding: 0 16px 22vh; }
+
+.rg-hero {
+  min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+  padding: clamp(72px, 13vh, 150px) clamp(8px, 5vw, 84px) 5vh;
+  color: #fffaf0;
+  text-shadow: 0 2px 26px rgba(8, 22, 16, 0.5), 0 1px 3px rgba(8, 22, 16, 0.45);
+}
+.rg-eyebrow { font-size: clamp(15px, 1.4vw, 20px); font-weight: 500; margin: 0 0 10px; opacity: var(--rg-overlay-dim); }
+.rg-hero h1 { font-size: clamp(60px, 10.5vw, 168px); line-height: 0.86; letter-spacing: -0.045em; font-weight: 700; margin: 0 0 22px; }
+.rg-lead { font-size: clamp(17px, 1.55vw, 22px); max-width: 34ch; margin: 0 0 22px; font-weight: 500; }
+.rg-hero nav { display: flex; gap: 8px 22px; flex-wrap: wrap; font-size: clamp(15px, 1.2vw, 18px); font-weight: 600; }
+.rg a.rg-cue { align-self: center; margin-top: auto; padding-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; transition: opacity 0.5s ease, transform 0.5s ease; }
+.rg a.rg-cue.is-gone { opacity: 0; transform: translateY(10px); pointer-events: none; }
+.rg-cue-track { position: relative; width: 1.5px; height: 54px; overflow: hidden; background: rgb(255 250 240 / 0.25); border-radius: 2px; }
+.rg-cue-track span { position: absolute; inset: 0; background: #fffaf0; transform: translateY(-100%); animation: rg-drip 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes rg-drip { 0% { transform: translateY(-100%); } 55% { transform: translateY(0); } 100% { transform: translateY(100%); } }
+.rg-cue-label { font-size: 13px; font-weight: 500; opacity: var(--rg-overlay-dim); }
+@media (min-width: 900px) {
+  .rg-hero { padding-top: clamp(96px, 17vh, 210px); }
+  .rg-hero h1 { font-size: clamp(60px, 7.4vw, 132px); line-height: 0.95; }
+  .rg-hero h1 br { display: none; }
+  .rg-lead { max-width: none; }
+}
+
+/* CV: one glass panel per section, the lake showing between them */
+.rg main > section { position: relative; max-width: 880px; margin: 0 auto clamp(120px, 34vh, 380px); scroll-margin-top: 68px; }
+.rg main > section:last-child { margin-bottom: 0; }
+.rg-panel { border-radius: 24px; padding: 48px 56px 44px; }
+.rg main h2 { font-size: clamp(34px, 4.6vw, 56px); line-height: 1; font-weight: 700; letter-spacing: -0.04em; margin: 0 0 30px; }
+.rg-panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.rg a.rg-dl { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 12px 22px; border-radius: 999px; background: var(--rg-accent); color: #1d1b17; font-weight: 700; font-size: 15px; text-decoration: none; transition: background 0.2s ease, color 0.2s ease; }
+.rg a.rg-dl:hover { background: var(--rg-ink); color: rgb(var(--rg-paper)); }
+.rg a.rg-dl svg { width: 17px; height: 17px; }
+
+.rg-row { display: grid; grid-template-columns: 1fr auto; gap: 0 24px; padding: 20px 0; border-top: 1px solid var(--rg-line); }
+.rg-row:first-child, h2 + .rg-row { border-top: 0; padding-top: 0; }
+.rg-row h3 { font-size: 19px; font-weight: 650; letter-spacing: -0.015em; margin: 0; padding-left: 18px; position: relative; }
+/* the same accent dot as the job bullets */
+.rg-row h3::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 7px; height: 7px; border-radius: 50%; background: var(--rg-accent); }
+.rg-row .rg-org { padding-left: 18px; }
+.rg-when { font-size: 14px; color: var(--rg-accent); text-align: right; font-variant-numeric: tabular-nums; }
+.rg-org { grid-column: 1 / -1; margin: 2px 0 0; font-size: 15px; color: var(--rg-muted); }
+.rg-row ul { grid-column: 1 / -1; margin: 10px 0 0; padding-left: 18px; font-size: 15px; display: grid; gap: 5px; max-width: 68ch; }
+.rg-row li::marker { color: var(--rg-muted); }
+
+/* experience: one glass card per job */
+.rg-tabrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.rg main .rg-tabrow .rg-tab { margin-bottom: 0; }
+.rg-jobs { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.rg-job { display: grid; grid-template-columns: minmax(200px, 0.8fr) 1.6fr; gap: 28px 44px; border-radius: 24px; padding: 38px 44px; }
+.rg-job h3 { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.05; font-weight: 700; letter-spacing: -0.03em; margin: 4px 0 0; }
+.rg-job .rg-when { text-align: left; margin: 0; }
+.rg-job .rg-role { margin: 8px 0 0; font-size: clamp(17px, 1.6vw, 20px); font-weight: 600; line-height: 1.25; color: var(--rg-ink); }
+.rg-job .rg-org { margin-top: 2px; font-size: 14px; }
+/* the current job's dates stand out a touch more */
+.rg-job .rg-when.is-now { font-weight: 650; }
+.rg-stat { margin: 26px 0 0; display: grid; gap: 4px; }
+.rg-stat b { font-size: clamp(40px, 5vw, 64px); line-height: 0.9; font-weight: 700; letter-spacing: -0.045em; color: var(--rg-accent); }
+.rg-stat span { font-size: 14px; color: var(--rg-muted); max-width: 22ch; }
+.rg-job > ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; align-content: center; font-size: 16px; }
+.rg-job > ul li { padding-left: 18px; position: relative; }
+.rg-job > ul li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 7px; border-radius: 50%; background: var(--rg-accent); }
+
+/* projects: the heading sits on its own glass tab above the cards */
+.rg main .rg-tab { display: inline-block; border-radius: 18px; padding: 14px 26px; margin-bottom: 16px; }
+.rg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.rg-grid > :first-child { grid-column: 1 / -1; } /* 5 cards: the featured one spans the row */
+.rg-card { border-radius: 20px; padding: 26px 28px 24px; display: flex; flex-direction: column; }
+/* every tile reacts the same on hover: a small lift, a shadow, a slow light sweep */
+.rg-panel, .rg-job, .rg-card { position: relative; overflow: hidden; transition: background 0.25s ease, translate 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease; }
+.rg-panel:hover, .rg-job:hover, .rg-card:hover { background: rgb(var(--rg-paper) / var(--rg-glass-hover)); translate: 0 -4px; box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.35); }
+.rg-panel::after, .rg-job::after, .rg-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; translate: -110% 0;
+  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.09) 50%, transparent 70%);
+}
+.rg-panel:hover::after, .rg-job:hover::after, .rg-card:hover::after { translate: 110% 0; transition: translate 2.4s cubic-bezier(0.4, 0, 0.2, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .rg-panel:hover, .rg-job:hover, .rg-card:hover { translate: none; }
+  .rg-panel::after, .rg-job::after, .rg-card::after { display: none; }
+}
+.rg-card h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.025em; margin: 0; }
+.rg-card .rg-org { font-size: 14px; color: var(--rg-accent); }
+.rg-desc { margin: 12px 0 16px; font-size: 15px; }
+.rg-mine { margin: -6px 0 16px; font-size: 14.5px; font-weight: 600; }
+.rg-live { margin: -6px 0 16px; font-size: 14.5px; font-weight: 600; }
+.rg-stack { margin: auto 0 0; font-size: 13.5px; color: var(--rg-muted); }
+.rg-card-links { position: relative; display: flex; gap: 18px; margin: 12px 0 0; font-size: 14.5px; font-weight: 600; }
+.rg-card-links:empty { display: none; }
+
+/* skills: one area at a time */
+.rg-skills { display: grid; margin: 0; }
+.rg-skills > div { display: grid; grid-template-columns: 130px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--rg-line); }
+.rg-skills > div:first-child { border-top: 0; padding-top: 0; }
+.rg-skills dt { font-size: 14px; font-weight: 600; color: var(--rg-accent); }
+.rg-skills dd { margin: 0; font-size: 17px; font-weight: 500; line-height: 1.5; }
+
+.rg-about { margin: 0; max-width: 62ch; font-size: clamp(17px, 1.5vw, 19px); line-height: 1.65; }
+
+.rg-intro { margin: -14px 0 22px; color: var(--rg-muted); }
+.rg .rg-intro a { color: var(--rg-accent); }
+/* gold text washes out on the pale morning glass: there labels go muted and gold stays a fill (dots, pills) */
+:root[data-theme="light"] :is(.rg-when, .rg-skills dt, .rg-card .rg-org) { color: var(--rg-muted); }
+:root[data-theme="light"] .rg-job .rg-when.is-now { color: var(--rg-ink); }
+:root[data-theme="light"] :is(.rg-stat b, .rg .rg-intro a) { color: var(--rg-ink); }
+
+/* scroll choreography where scroll-driven animation exists; elsewhere everything sits still */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rg-hero > * { animation: rg-hero-out linear both; animation-timeline: scroll(root); animation-range: 0 85vh; }
+    .rg-hero > .rg-eyebrow { animation-range: 0 55vh; }
+    .rg-hero > .rg-lead, .rg-hero > nav { animation-range: 0 70vh; }
+
+    .rg-panel, .rg-tab, .rg-job, .rg-card {
+      transform-origin: 50% 100%;
+      animation: rg-in linear both, rg-out linear both;
+      animation-timeline: view(), view();
+      animation-range: entry 0% entry 100%, exit 0% exit 100%;
+    }
+  }
+}
+@keyframes rg-hero-out { to { opacity: 0; transform: translateY(-14vh) scale(0.94); filter: blur(10px); } }
+@keyframes rg-in { from { opacity: 0; transform: translateY(48px); } }
+@keyframes rg-out { to { opacity: 0; transform: translateY(-24px); } }
+
+/* contact form */
+.rg-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+.rg-form label { display: grid; gap: 5px; font-size: 13px; font-weight: 600; color: var(--rg-muted); }
+.rg-form-wide { grid-column: 1 / -1; }
+.rg-form input, .rg-form textarea {
+  font: inherit; font-size: 15px; font-weight: 400; color: var(--rg-ink);
+  background: rgb(var(--rg-paper) / var(--rg-fill-a)); border: 1px solid var(--rg-line); border-radius: 12px; padding: 9px 12px; resize: vertical;
+}
+.rg-form input:focus-visible, .rg-form textarea:focus-visible { outline: 2px solid var(--rg-accent); outline-offset: 1px; }
+.rg-form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; font-size: 14px; color: var(--rg-muted); }
+.rg-form button { font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; border: 0; border-radius: 999px; padding: 9px 18px; background: var(--rg-ink); color: rgb(var(--rg-paper)); }
+.rg-form button:hover:not(:disabled) { background: var(--rg-accent); }
+.rg-form :disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* controls and credit */
+.rg-bar { position: fixed; z-index: 3; top: 14px; right: 14px; display: flex; gap: 6px; }
+/* section menu: a rail on the right edge, hidden over the hero */
+.rg-secnav { position: fixed; z-index: 3; top: 50%; right: 14px; display: flex; flex-direction: column; align-items: stretch; gap: 2px; padding: 5px; border-radius: 18px; box-shadow: none;
+  opacity: 0; transform: translate(12px, -50%); pointer-events: none; transition: opacity 0.35s ease, transform 0.35s ease; }
+.rg-secnav.is-shown { opacity: 1; transform: translate(0, -50%); pointer-events: auto; }
+.rg .rg-secnav a { background-image: none; font-size: 12.5px; font-weight: 500; text-decoration: none; text-align: right; color: var(--rg-muted); padding: 5px 11px; border-radius: 999px; white-space: nowrap; transition: color 0.2s, background-color 0.2s; }
+.rg .rg-secnav a:hover { color: var(--rg-ink); }
+.rg .rg-secnav a[aria-current] { color: var(--rg-ink); background: rgb(var(--rg-paper) / 0.55); }
+.rg .rg-secnav a:focus-visible { outline: 2px solid var(--rg-accent); outline-offset: 1px; }
+/* too narrow for a rail beside the 880px sheet: a pill at the bottom instead */
+@media (max-width: 1139px) {
+  .rg-secnav { top: auto; right: auto; bottom: 12px; left: 50%; flex-direction: row; border-radius: 999px; max-width: calc(100vw - 24px); overflow-x: auto; scrollbar-width: none; transform: translate(-50%, 12px); }
+  .rg-secnav.is-shown { transform: translate(-50%, 0); }
+}
+.rg-bare .rg-secnav { opacity: 0; pointer-events: none; }
+.rg-toggle { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; color: var(--rg-ink); border-radius: 50%; cursor: pointer; box-shadow: none; }
+/* view the lake: the page fades out but keeps its height, so scrolling still walks the camera */
+.rg main, .rg-credit { transition: opacity 0.8s ease; }
+.rg-bare .rg main { opacity: 0; pointer-events: none; }
+.rg-toggle:hover { background: rgb(var(--rg-paper) / var(--rg-glass-hover)); }
+.rg-credit { position: fixed; z-index: 2; right: 10px; bottom: 6px; margin: 0; font-size: 10.5px; color: var(--rg-overlay); opacity: 0.6; text-shadow: 0 1px 3px rgba(8, 22, 16, 0.6); }
+.rg .rg-credit a { text-decoration: none; }
+.rg-credit:hover { opacity: 0.95; }
+
+@media (max-width: 720px) {
+  .rg-panel { padding: 30px 22px 28px; border-radius: 20px; }
+  .rg main > section { margin-bottom: clamp(100px, 26vh, 240px); }
+  .rg-grid { grid-template-columns: 1fr; }
+  .rg-job { grid-template-columns: 1fr; gap: 20px; padding: 26px 22px; }
+  .rg-stat { margin-top: 16px; }
+  .rg-job > ul { gap: 10px; font-size: 15px; }
+  .rg-skills > div { grid-template-columns: 1fr; gap: 4px; }
+  .rg-skills dd { font-size: 16px; }
+  .rg-row { grid-template-columns: 1fr; }
+  .rg-when { text-align: left; }
+  .rg-row .rg-when { padding-left: 18px; }
+  .rg-form { grid-template-columns: 1fr; }
+  .rg-bar { transition: opacity 0.3s ease, transform 0.3s ease; }
+  .rg-reading .rg-bar { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rg-cue-track span { animation: none; transform: none; }
+  .rg-scene canvas, .rg-scene::before { transition: none; }
+  .rg-scene::before { filter: none; transform: none; }
+  .rg-load { display: none; }
+}
+.rg strong { color: inherit; font-weight: 650; }
+
+/* case study: one glass panel per section, the lake showing between them like the home page */
+.rg-doc main { padding: clamp(72px, 12vh, 120px) 16px 16vh; }
+.rg-case { max-width: 780px; margin: 0 auto; display: grid; gap: clamp(56px, 14vh, 140px); }
+.rg-case > * { margin: 0; }
+.rg-case h1 { font-size: clamp(44px, 6.4vw, 80px); line-height: 0.95; font-weight: 700; letter-spacing: -0.045em; margin: 0 0 20px; }
+.rg main .rg-case h2 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.05; letter-spacing: -0.035em; margin: 0 0 20px; }
+.rg-case p, .rg-case li { font-size: 16.5px; line-height: 1.7; max-width: 64ch; }
+.rg-case p { margin: 0 0 14px; }
+.rg-case p:last-child { margin-bottom: 0; }
+.rg-case ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.rg-case li { padding-left: 18px; position: relative; }
+.rg-case li::before { content: ""; position: absolute; left: 0; top: 0.68em; width: 7px; height: 7px; border-radius: 50%; background: var(--rg-accent); }
+.rg-case-lead { font-size: clamp(18px, 1.7vw, 21px) !important; font-weight: 500; line-height: 1.55 !important; margin: 0 0 28px !important; }
+.rg-case-links { display: flex; align-items: center; gap: 22px; font-weight: 600; }
+.rg-back { margin: 0 0 28px !important; font-size: 14px !important; }
+.rg-result { margin: 26px 0 0; }
+.rg-result + p { margin-top: 28px; }
+.rg-result h3 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
+.rg-bars { display: grid; gap: 8px; }
+.rg-barrow { display: grid; grid-template-columns: 110px 1fr 48px; align-items: center; gap: 14px; font-size: 14px; color: var(--rg-muted); }
+.rg-barrow b { color: var(--rg-ink); text-align: right; font-variant-numeric: tabular-nums; }
+.rg-bartrack { height: 10px; border-radius: 999px; background: var(--rg-line); overflow: hidden; }
+.rg-bartrack span { display: block; height: 100%; border-radius: inherit; background: var(--rg-muted); }
+.rg-bartrack span.is-model { background: var(--rg-accent); }
+@media (max-width: 720px) { .rg-barrow { grid-template-columns: 90px 1fr 44px; } }
+.rg main .rg-404 { max-width: 420px; margin: 24vh auto 0; padding: 32px 34px 30px; }
+.rg main .rg-404 h1 { font-size: clamp(30px, 3.4vw, 40px); line-height: 1; font-weight: 700; letter-spacing: -0.04em; margin: 0 0 10px; }
+.rg-404 p { margin: 0 0 22px; color: var(--rg-muted); }
+.rg-404 p:last-child { margin: 0; }

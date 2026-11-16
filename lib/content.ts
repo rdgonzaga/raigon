@@ -6,28 +6,18 @@ export const site = {
   role,
   employer,
   handle: "raigon",
-  tagline:
-    "Bridging backend engineering, cybersecurity, and machine learning.",
-  focus: ["backend engineering", "cybersecurity", "machine learning & ai"],
+  tagline: "Full-stack and AI engineer, trained in cybersecurity.",
+  about: [
+    "Network and information security started as my major at DLSU and turned into the thing I explore for fun: how systems get attacked, and how to defend them.",
+    "I carry that into what I build, from Java services at ING to ML models and full-stack apps.",
+    "Off the keyboard I play badminton, lift, study German, and follow F1 and MotoGP closely enough that I built a model to predict the races.",
+  ],
+  focus: ["full-stack development", "machine learning & ai", "cybersecurity"],
   location: "Philippines",
-  study: "compsci student, major in network & information security @ DLSU",
-  status: `${role.toLowerCase()} @ ${employer}`,
-  currentlyLearning:
-    "offensive security · image recognition & OCR · supervised machine learning · German",
   email: "rainerdgonzaga@gmail.com",
   github: "https://github.com/rdgonzaga",
   linkedin: "https://www.linkedin.com/in/rdgonzaga/",
 };
-
-export const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#work" },
-  { label: "Skills", href: "#skills" },
-  { label: "Certs", href: "#certifications" },
-  { label: "Activity", href: "#activity" },
-  { label: "Contact", href: "#contact" },
-];
 
 export type Project = {
   slug: string;
@@ -37,6 +27,10 @@ export type Project = {
   stack: string[];
   featured?: boolean;
   inProgress?: boolean;
+  /** what I did, for team projects */
+  role?: string;
+  /** a write-up page on this site */
+  caseStudy?: string;
   github?: string;
   live?: string;
   ext?: string;
@@ -44,72 +38,56 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "archerbytes",
-    name: "ArcherBytes",
-    type: "Full-stack platform",
-    description:
-      "Built the backend architecture for a university-wide knowledge-sharing platform. Designed to handle 20,000+ students with robust content APIs, scalable schemas, and secure authentication.",
-    stack: ["Next.js", "TypeScript", "Better Auth", "Drizzle ORM", "PostgreSQL", "Docker"],
-    featured: true,
-    github: "https://github.com/dlsu-lscs/archerbytes",
-  },
-  {
     slug: "f1-prediction",
     name: "Parc Fermé",
     type: "ML / race predictions",
     description:
-      "Predicts every F1 race once qualifying ends: finishing order plus each driver's odds to win, podium, score points or retire. Backtested across 48 races and published as a static site that rebuilds itself every race weekend.",
+      "XGBoost model that sets each driver's win, podium, points and DNF odds once qualifying is done, published every race weekend. Since going live it has called 78% of podium finishers, against 56% from the starting grid.",
     stack: ["Python", "XGBoost", "scikit-learn", "pandas", "FastF1", "Jinja2", "GitHub Actions"],
     github: "https://github.com/rdgonzaga/f1-prediction",
     live: "https://f1.raigon.dev",
+    caseStudy: "/work/parc-ferme",
     ext: "py",
-  },
-  {
-    slug: "wordwork",
-    name: "wordwork",
-    type: "Offline-first PWA",
-    description:
-      "Daily language study app with spaced-repetition flashcards, a der/die/das drill, a study log with streaks and a one-sentence journal. Works offline from IndexedDB and syncs across devices through Supabase.",
-    stack: ["React", "TypeScript", "Vite", "Dexie", "Supabase", "PWA"],
-    github: "https://github.com/rdgonzaga/wordwork",
-    live: "https://wordwork.raigon.dev",
-  },
-  {
-    slug: "resole",
-    name: "ReSole",
-    type: "Mobile / AI marketplace",
-    description:
-      "AI-powered peer-to-peer marketplace for footwear. Integrates computer vision and multimodal LLMs for automated condition grading and real-time price prediction.",
-    stack: [
-      "React Native (Expo)",
-      "Next.js",
-      "PostgreSQL",
-      "Supabase",
-      "Better Auth",
-      "Drizzle",
-      "TensorFlow Lite",
-      "YOLOv8 Nano",
-      "Gemini 2.5 Flash",
-    ],
-    github: "https://github.com/resole-ph/resole",
+    featured: true,
   },
   {
     slug: "vibecheck",
     name: "VibeCheck",
     type: "Security tooling",
     description:
-      "Hybrid SAST + DAST scanner that audits LLM-generated ('vibe-coded') web apps for the architectural blind spots AI codegen tends to leave behind. Statically greps for hardcoded secrets, unauthenticated routes, and weak JWT config, then dynamically fires live requests to catch IDOR, rate-limiting gaps, and verbose error leaks — scoring every finding with a built-in CVSS v3.1 engine.",
-    stack: ["Python"],
+      "Hybrid SAST + DAST scanner for AI-generated web apps. Flags hardcoded secrets, unauthenticated routes and weak JWT config, then fuzzes the running app for IDOR, missing rate limits and leaky errors.",
+    stack: ["Python", "requests", "PyJWT", "Rich"],
     github: "https://github.com/rdgonzaga/vibecheck",
     ext: "py",
   },
   {
+    slug: "resole",
+    name: "ReSole",
+    type: "Mobile / marketplace",
+    description:
+      "Marketplace for buying, selling, swapping and donating used sneakers in the Philippines. Gemini checks each listing's condition photos and matches it to known models by embedding search before it goes live.",
+    stack: ["React Native (Expo)", "Next.js", "PostgreSQL", "Supabase", "Drizzle", "Gemini"],
+    role: "One of three developers: I built the Gemini photo pipeline, the six-angle upload, and the schema and migrations.",
+    github: "https://github.com/resole-ph/resole",
+  },
+  {
+    slug: "wordwork",
+    name: "wordwork",
+    type: "Offline-first PWA",
+    description:
+      "Daily language study app for German, Italian and Japanese: spaced-repetition flashcards, a der/die/das drill, a study log with streaks and a one-sentence journal. Works offline from IndexedDB and syncs through Supabase.",
+    stack: ["React", "TypeScript", "Vite", "Dexie", "Supabase", "PWA"],
+    github: "https://github.com/rdgonzaga/wordwork",
+    live: "https://wordwork.raigon.dev",
+  },
+  {
     slug: "animonotes",
     name: "AnimoNotes",
-    type: "Study notes platform",
+    type: "Student forum",
     description:
-      "Centralized academic resource hub for computer science students. Replaces fragmented group chats with a secure, searchable database of verified study materials.",
-    stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Better Auth"],
+      "Note-sharing forum for DLSU students: rich-text posts with votes and bookmarks, threaded comments, polls, messages and reporting tools.",
+    stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Better Auth", "Tiptap"],
+    role: "Led the team and built most of the app.",
     github: "https://github.com/rdgonzaga/animonotes",
   },
 ];
@@ -120,119 +98,79 @@ export type SkillGroup = {
 };
 
 export const skillGroups: SkillGroup[] = [
-  {
-    label: "Security",
-    items: [
-      "Kali Linux",
-      "Networking",
-      "Python Automation",
-      "Wireshark",
-      "Nessus",
-      "Nmap",
-      "Burp Suite",
-      "Metasploit",
-    ],
-  },
-  {
-    label: "Frontend",
-    items: [
-      "JavaScript",
-      "TypeScript",
-      "React",
-      "Next.js",
-      "Tailwind CSS",
-      "HTML5/CSS",
-      "Vite",
-    ],
-  },
-  {
-    label: "Backend",
-    items: [
-      "Node.js",
-      "Python",
-      "Java",
-      "C",
-      "PHP",
-      "Express.js",
-      "NestJS",
-      "FastAPI",
-      "PostgreSQL",
-      "Prisma",
-      "Drizzle",
-      "REST",
-      "JWT",
-    ],
-  },
-  {
-    label: "DevOps / Cloud",
-    items: ["GitHub Actions", "GitLab CI", "Docker"],
-  },
-  {
-    label: "AI & Machine Learning",
-    items: [
-      "TensorFlow",
-      "NumPy",
-      "pandas",
-      "scikit-learn",
-      "Anthropic",
-      "Claude Code",
-    ],
-  },
+  { label: "Backend", items: ["Java", "Spring Boot", "Python", "Node.js", "PostgreSQL", "SQL", "REST APIs", "FastAPI"] },
+  { label: "Payments", items: ["Real-Time Payments", "ISO 20022", "SEPA Credit Transfer", "SEPA Direct Debit"] },
+  { label: "Security", items: ["Burp Suite", "Metasploit", "Nmap", "Nessus", "Wireshark", "Kali Linux"] },
+  { label: "ML and data", items: ["pandas", "scikit-learn", "XGBoost", "TensorFlow", "NumPy", "Jupyter"] },
+  { label: "Frontend", items: ["TypeScript", "React", "Next.js", "React Native", "Tailwind CSS"] },
+  { label: "Tooling", items: ["Git", "GitHub Actions", "Docker", "Azure DevOps", "Claude Code"] },
 ];
 
 export type ExperienceEntry = {
   org: string;
   role: string;
   type?: string;
+  /** company website, linked from the org name */
+  url?: string;
   date: string;
   location?: string;
+  /** the one number that sums the role up, shown large on the site */
+  highlight?: { value: string; label: string };
   bullets: string[];
 };
 
 export const workExperience: ExperienceEntry[] = [
   {
     org: "ING Hubs Philippines",
+    url: "https://inghubsphilippines.com/",
     role: "Java Engineer Intern",
     type: "Internship",
     date: "Oct 2026 — Present",
     location: "Makati, National Capital Region, Philippines · Hybrid",
-    bullets: [],
+    bullets: [
+      "Run daily **SQL** and **Jupyter** reconciliation reports over **hundreds of GBs** of transaction and balance data, flagging discrepancies for the finance team",
+      "Ship features, endpoints, and bug fixes in **Java (Spring Boot)** and **SQL** services alongside senior engineers",
+    ],
   },
   {
     org: "DeckTradr",
+    url: "https://decktradr.com/",
     role: "AI & Brand Design Engineer",
     type: "Part-time",
     date: "Apr 2026 — Sept 2026",
     location: "Phoenix, Arizona, United States · Remote",
+    highlight: { value: "30%+", label: "better card scanner accuracy" },
     bullets: [
       "Annotated datasets and trained custom **ML models** for **OCR**, image recognition, and **AI card grading**, boosting scanner accuracy **30%+**",
-      "Conducted **QA testing** across iOS and web for a **TCG POS & inventory system**, streamlining the support funnel and platform reliability",
-      "Automated marketing workflows with **Claude** for AI-driven content generation and **TCG price-trend analysis**",
-      "Designed marketing-facing frontend interfaces in **React** and **TypeScript** for campaign and promotional content",
+      "Conducted **QA testing** across iOS and web builds for a **TCG point-of-sale and inventory system**",
+      "Automated marketing workflows with **Claude** for AI-generated content and **TCG price-trend analysis**",
     ],
   },
   {
     org: "Yergoods",
+    url: "https://yerkoo.com/",
     role: "Full Stack Shopify Developer",
     type: "Freelance",
     date: "Apr 2026 — Jul 2026",
     location: "Apeldoorn, Gelderland, Netherlands · Remote",
+    highlight: { value: "+56%", label: "total sales after the tracking rebuild" },
     bullets: [
-      "Engineered a custom **JS Web Pixel** to bypass Shopify's sandbox for accurate conversion tracking",
-      "Established **backend API linkages** connecting Shopify with **Google Merchant Center**, Ads, and Analytics",
-      "Performed end-to-end simulated checkout **QA testing** to debug and optimize tracking pipelines",
-      "Synthesized multi-platform data to optimize checkout conversions, driving a **55.97% increase** in total sales",
+      "Analyzed multi-platform data to optimize checkout conversions, contributing to a **56% increase in total sales**",
+      "Engineered a custom **JavaScript Web Pixel** within Shopify's sandbox for accurate purchase and conversion tracking",
+      "Integrated Shopify with **Google Merchant Center**, Google Ads, and Google Analytics",
     ],
   },
   {
     org: "La Salle Computer Society",
+    url: "https://dlsu-lscs.org/",
     role: "Associate Backend Engineer",
+    type: "Student organization",
     date: "Sep 2025 — Aug 2026",
+    highlight: { value: "20,000+", label: "DLSU students ArcherBytes is built for" },
     bullets: [
-      "Architected backend for **ArcherBytes**, serving **20,000+ DLSU students** on **Next.js** + **PostgreSQL**",
+      "Architected backend for **ArcherBytes**, built for **20,000+ DLSU students** on **Next.js** + **PostgreSQL**",
       "Designed schemas with **Drizzle ORM** for content, reactions, and community features",
-      "Built secure auth via **Better Auth** + **Google Auth** for school-exclusive access",
-      "**Rank 2 Engineer**, Research & Development committee, A.Y. 2025–2026",
+      "Implemented **Better Auth** with Google sign-in restricted to DLSU accounts",
     ],
   },
 ];
@@ -248,7 +186,7 @@ export const education: ExperienceEntry[] = [
     org: "Mapúa University — Senior High School",
     role: "STEM Strand",
     date: "Jul 2024",
-    bullets: ["**Graduated with Honors**", "GWA: 94.95 · Manila, Philippines"],
+    bullets: ["**Graduated with Honors**", "Manila, Philippines"],
   },
 ];
 
@@ -262,8 +200,18 @@ export type Certification = {
 
 export const certifications: Certification[] = [
   {
+    name: "CTF Competition 2026 — Champion",
+    issuer: "From my Advanced & Offensive Security class at De La Salle University",
+    reference: "Certificate of Achievement · Team PromptPatrol",
+    bullets: [
+      "**Champion**, Capture The Flag (CTF) Challenge, for outstanding **teamwork and problem-solving** under NSSECU02 (Advanced & Offensive Security)",
+      "Held at Gokongwei Hall, De La Salle University – Manila, Jul 2026",
+    ],
+    image: "/certs/ctf_champion_2026.webp",
+  },
+  {
     name: "Certified DLSU OffSec Vulnerability Analyst",
-    issuer: "NSSECU02",
+    issuer: "From my Advanced & Offensive Security class at De La Salle University",
     reference: "Class Ref. S04",
     bullets: [
       "Placed among the **highest scores** in the NSSECU02 (Advanced & Offensive Security) hands-on class examination",
@@ -273,7 +221,7 @@ export const certifications: Certification[] = [
   },
   {
     name: "Junior VAPT Practitioner",
-    issuer: "NSSECU02",
+    issuer: "From my Advanced & Offensive Security class at De La Salle University",
     reference: "Certificate of Competency",
     bullets: [
       "Demonstrated foundational competency in **Vulnerability Assessment and Penetration Testing (VAPT)** — recon, enumeration, vulnerability validation, controlled exploitation, and privilege escalation",
@@ -283,22 +231,12 @@ export const certifications: Certification[] = [
   },
   {
     name: "VAPT Best Presenter",
-    issuer: "NSSECU02",
+    issuer: "From my Advanced & Offensive Security class at De La Salle University",
     reference: "Certificate of Appreciation · PromptPatrol (S04 - Group 9)",
     bullets: [
       "Recognized for **outstanding presentation, professionalism, and technical depth** communicating VAPT assessment findings",
       "Awarded at the **VAPT final presentation** for NSSECU02, Aug 2026",
     ],
     image: "/certs/vapt_best_presenter.webp",
-  },
-  {
-    name: "CTF Competition 2026 — Champion",
-    issuer: "DLSU Department of Computer Technology",
-    reference: "Certificate of Achievement · Team PromptPatrol",
-    bullets: [
-      "**Champion**, Capture The Flag (CTF) Challenge, for outstanding **teamwork and problem-solving** under NSSECU02 (Advanced & Offensive Security)",
-      "Held at Gokongwei Hall, De La Salle University – Manila, Jul 2026",
-    ],
-    image: "/certs/ctf_champion_2026.webp",
   },
 ];

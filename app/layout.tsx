@@ -1,31 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Manrope } from "next/font/google";
-import Script from "next/script";
+import { Familjen_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
-import { SiteBackground } from "@/components/background/SiteBackground";
-import { EffectsProvider } from "@/lib/effects";
 import { site } from "@/lib/content";
 
 const INIT_SCRIPT = `
   try {
-    var storedTheme = localStorage.getItem("theme");
-    var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    if (storedTheme === "light" || (!storedTheme && !prefersDark)) {
+    // sunset (dark) for first-time visitors whatever their OS theme; morning only once chosen
+    if (localStorage.getItem("theme") === "light") {
       document.documentElement.setAttribute("data-theme", "light");
     }
-    if (localStorage.getItem("effects") === "off") {
-      document.documentElement.setAttribute("data-effects", "off");
+  } catch (e) {}
+  // a refresh starts at the top of the walk, not where the reader left off (a shared #section link still jumps there)
+  try {
+    history.scrollRestoration = "manual";
+    var nav = performance.getEntriesByType("navigation")[0];
+    if (nav && nav.type === "reload") {
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      scrollTo(0, 0);
+      // the browser can still restore the old spot once layout settles, so reset again after load
+      addEventListener("load", function () { requestAnimationFrame(function () { scrollTo(0, 0); }); });
     }
   } catch (e) {}
+  // the home page waits behind its loader until the lake is drawn (MeadowScene lifts it); after 5 s it shows anyway and the lake keeps loading behind
+  if (location.pathname === "/" && !/[?&]shot/.test(location.search) && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var d = document.documentElement;
+    d.classList.add("rg-booting");
+    setTimeout(function () { d.classList.remove("rg-booting"); }, 5000);
+  }
 `;
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
+const familjen = Familjen_Grotesk({
+  variable: "--font-familjen",
   subsets: ["latin"],
 });
 
@@ -68,8 +74,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8f5ee" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0d" },
+    { media: "(prefers-color-scheme: light)", color: "#6f93a8" },
+    { media: "(prefers-color-scheme: dark)", color: "#4a3550" },
   ],
 };
 
@@ -82,22 +88,18 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${jetbrainsMono.variable} ${manrope.variable} h-full scroll-smooth antialiased`}
+      className={`${familjen.variable} scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-void text-paper font-sans">
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: INIT_SCRIPT }}
-        />
+      <body>
+        {/* a plain inline script runs while the HTML parses, before anything below is painted;
+            next/script's beforeInteractive ran late enough for the hero to flash before the loader */}
+        <script dangerouslySetInnerHTML={{ __html: INIT_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c") }}
         />
-        <EffectsProvider>
-          <SiteBackground />
-          {children}
-        </EffectsProvider>
+        {children}
+        <Analytics />
       </body>
     </html>
   );
