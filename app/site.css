@@ -15,7 +15,6 @@
   --rg-base: #4a3550;
 }
 :root[data-theme="light"] {
-  /* denser than sunset: pale glass over dark foliage drops muted text below AA */
   --rg-glass-a: 0.64;
   --rg-glass-hover: 0.76;
   --rg-paper: 251 248 241;

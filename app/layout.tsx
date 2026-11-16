@@ -6,8 +6,9 @@ import { site } from "@/lib/content";
 
 const INIT_SCRIPT = `
   try {
-    // sunset (dark) for first-time visitors whatever their OS theme; morning only once chosen
-    if (localStorage.getItem("theme") === "light") {
+    // sunset unless morning was chosen; "theme" is v1's stale key
+    localStorage.removeItem("theme");
+    if (localStorage.getItem("rg-time") === "morning") {
       document.documentElement.setAttribute("data-theme", "light");
     }
   } catch (e) {}

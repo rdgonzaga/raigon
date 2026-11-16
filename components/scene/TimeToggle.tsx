@@ -18,7 +18,7 @@ export function TimeToggle() {
     if (light) document.documentElement.removeAttribute("data-theme");
     else document.documentElement.setAttribute("data-theme", "light");
     try {
-      localStorage.setItem("theme", light ? "dark" : "light");
+      localStorage.setItem("rg-time", light ? "sunset" : "morning");
     } catch {}
   };
 
