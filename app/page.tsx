@@ -32,7 +32,7 @@ export default async function Home() {
       </div>
       <ScrollFallback />
       <p className="rg-credit">
-        scene engine · <a href="https://www.andreelias.dev/en" {...ext}>André Elias</a>
+        scene · <a href="https://www.andreelias.dev/en" {...ext}>André Elias</a>
       </p>
 
       <main>

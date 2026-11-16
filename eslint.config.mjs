@@ -10,7 +10,7 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Third-party scene engine, kept as copied.
+    // Third-party scene, kept as copied.
     "lib/meadow/**",
   ]),
 ]);
